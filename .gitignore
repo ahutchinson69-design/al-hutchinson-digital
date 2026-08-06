@@ -30,8 +30,17 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
+# env files — never commit real secrets
 .env*
+# ...but DO commit the template, which holds only variable names.
+!.env.example
+
+# The full CV is marked CONFIDENTIAL. It is already kept out of `public/` so it
+# is never deployed — this keeps it out of git history too, which matters if
+# this repository is ever made public. The file stays on disk at assets/cv/;
+# it simply is not version-controlled. The one-page public résumé under
+# public/resume/ IS committed and IS meant to be downloadable.
+/assets/cv/
 
 # vercel
 .vercel

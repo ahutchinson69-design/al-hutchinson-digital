@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Practical AI Starter Guide — Al Hutchinson</title>
+<style>
+:root {
+  --navy: #0b1f3a;
+  --navy-2: #132a4d;
+  --gold: #f3dfa2;
+  --gold-deep: #97721a;
+  --ink: #16181d;
+  --muted: #565a66;
+  --line: #dcdcd4;
+  --line-soft: #ececE6;
+  --paper: #ffffff;
+  --tint: #faf7ee;
+}
+* { box-sizing: border-box; }
+@page { size: Letter; margin: 0; }
+html, body {
+  margin: 0; padding: 0; background: var(--paper); color: var(--ink);
+  font-family: -apple-system, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 9.6pt; line-height: 1.42;
+  -webkit-print-color-adjust: exact; print-color-adjust: exact;
+}
+.page { position: relative; width: 8.5in; height: 11in; overflow: hidden; page-break-after: always; }
+.page:last-child { page-break-after: auto; }
+.band { background: linear-gradient(135deg, var(--navy) 0%, var(--navy-2) 100%); color: #fff; padding: 0.32in 0.55in 0.26in; border-bottom: 3px solid var(--gold); }
+.band .eyebrow { font-size: 7.6pt; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); font-weight: 600; margin: 0 0 0.06in; }
+.band h1 { font-size: 20pt; margin: 0 0 0.08in; font-weight: 700; letter-spacing: -0.01em; }
+.band p.sub { margin: 0; font-size: 9.6pt; color: #dfe6f1; max-width: 6.6in; line-height: 1.4; }
+.content { padding: 0.24in 0.55in 0.05in; }
+.footer { position: absolute; bottom: 0; left: 0; right: 0; padding: 0.12in 0.55in 0.2in; border-top: 1px solid var(--line); display: flex; justify-content: space-between; font-size: 7.4pt; color: var(--muted); }
+.footer strong { color: var(--ink); }
+h2.section { font-size: 11.6pt; color: var(--navy); margin: 0.16in 0 0.08in; font-weight: 700; display: flex; align-items: center; gap: 0.08in; }
+h2.section .tag { display: inline-block; width: 0.16in; height: 0.16in; background: var(--gold); border-radius: 2px; }
+h3.sub { font-size: 9.6pt; color: var(--navy); font-weight: 700; margin: 0 0 0.05in; }
+p { margin: 0 0 0.08in; color: var(--ink); }
+.lede { color: var(--muted); font-size: 9.4pt; }
+.callout { border-left: 3px solid var(--gold-deep); background: var(--tint); padding: 0.12in 0.16in; border-radius: 0 4px 4px 0; margin: 0.1in 0; }
+.callout p { margin: 0; font-weight: 600; color: var(--navy); font-size: 9.6pt; }
+.steps { list-style: none; margin: 0; padding: 0; }
+.steps li { display: grid; grid-template-columns: 0.28in 1fr; gap: 0.12in; margin-bottom: 0.09in; align-items: start; }
+.steps .num { width: 0.24in; height: 0.24in; border-radius: 50%; background: var(--navy); color: var(--gold); font-weight: 700; font-size: 9pt; display: flex; align-items: center; justify-content: center; }
+.steps .body strong { color: var(--navy); }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.2in; }
+.grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.16in; }
+.box { border: 1px solid var(--line); border-radius: 6px; padding: 0.13in 0.15in; }
+.box.good { border-top: 3px solid var(--navy); }
+.box.caution { border-top: 3px solid var(--gold-deep); }
+.box h4 { margin: 0 0 0.07in; font-size: 9.4pt; color: var(--navy); text-transform: uppercase; letter-spacing: 0.03em; }
+.box ul { margin: 0; padding-left: 0.16in; }
+.box li { margin-bottom: 0.045in; }
+ul.check { list-style: none; margin: 0; padding: 0; }
+ul.check li { display: grid; grid-template-columns: 0.16in 1fr; gap: 0.08in; margin-bottom: 0.06in; align-items: baseline; }
+ul.check .box-mark { width: 0.11in; height: 0.11in; border: 1.3px solid var(--navy); border-radius: 2px; margin-top: 0.02in; }
+.code { background: #f4f2ea; border: 1px solid var(--line); border-left: 3px solid var(--navy); border-radius: 0 4px 4px 0; padding: 0.1in 0.13in; font-family: "SFMono-Regular", Menlo, Consolas, monospace; font-size: 8.4pt; color: var(--ink); line-height: 1.4; white-space: pre-wrap; }
+table.cmp { width: 100%; border-collapse: collapse; margin: 0.06in 0; }
+table.cmp th { text-align: left; font-size: 8pt; text-transform: uppercase; letter-spacing: 0.04em; color: var(--navy); border-bottom: 2px solid var(--navy); padding: 0.06in 0.1in; }
+table.cmp td { border-bottom: 1px solid var(--line-soft); padding: 0.08in 0.1in; vertical-align: top; font-size: 9pt; }
+</style>
+</head>
+<body>
+
+<div class="page">
+  <div class="band">
+    <p class="eyebrow">Teaching · Al Hutchinson, MSN, RN, AGPCNP-C</p>
+    <h1>Practical AI Starter Guide</h1>
+    <p class="sub">An orientation for healthcare professionals beginning to use AI tools at work — what they're reliably good for, where they fail, and what stays your responsibility no matter what.</p>
+  </div>
+
+  <div class="content">
+    <p class="lede">You don't need to become a technologist to use these tools well. You need a short list of questions you ask every time, and the discipline to check the answer before it goes anywhere. This page is that list.</p>
+
+    <h2 class="section"><span class="tag"></span>Three questions before you use an AI tool for anything</h2>
+    <ol class="steps">
+      <li><span class="num">1</span><span class="body"><strong>Is this data private, protected, or identifiable?</strong> If it involves a patient, a coworker, or anything confidential to your employer, it does not go into a public AI tool — full stop.</span></li>
+      <li><span class="num">2</span><span class="body"><strong>Can I verify the output before I use it?</strong> If you can't check it against something you already know or can look up, don't use it unverified.</span></li>
+      <li><span class="num">3</span><span class="body"><strong>Who is accountable if this is wrong?</strong> You are — regardless of what generated the draft. The tool doesn't sign its name to anything. You do.</span></li>
+    </ol>
+
+    <div class="callout">
+      <p>AI tools support professional judgment. They do not replace licensed clinical decision-making.</p>
+    </div>
+
+    <h2 class="section"><span class="tag"></span>What these tools are actually for</h2>
+    <table class="cmp">
+      <tr><th style="width:50%">Reliably useful for</th><th>Still requires you</th></tr>
+      <tr><td>First drafts of routine writing — emails, summaries, notes you'll edit</td><td>Any decision affecting patient care</td></tr>
+      <tr><td>Rephrasing something you wrote so it reads more clearly</td><td>Verifying facts, figures, dosages, or citations</td></tr>
+      <tr><td>Brainstorming — options, structures, phrasing you can pick from</td><td>Anything involving PHI or identifiable patient information</td></tr>
+      <tr><td>Building a checklist, template, or outline from scratch</td><td>Final accountability for anything submitted under your name</td></tr>
+      <tr><td>Explaining an unfamiliar term or concept in plain language</td><td>Judgment calls a licensed professional is trained to make</td></tr>
+    </table>
+
+    <h2 class="section"><span class="tag"></span>Getting started, in order</h2>
+    <div class="grid2">
+      <ol class="steps" style="margin:0;">
+        <li><span class="num">1</span><span class="body">Pick <strong>one</strong> recurring task — a report you write every week, an email format you reuse. Not everything at once.</span></li>
+        <li><span class="num">2</span><span class="body">Use a tool your workplace has approved for that purpose. If you're not sure one exists, ask before you assume.</span></li>
+        <li><span class="num">3</span><span class="body">Write your first request in plain language. Say exactly what you want and what to leave out.</span></li>
+      </ol>
+      <ol class="steps" style="margin:0; counter-reset: step 3;">
+        <li><span class="num">4</span><span class="body">Read the output slowly, the way you'd read a colleague's draft — not the way you skim a text message.</span></li>
+        <li><span class="num">5</span><span class="body">Edit it into your own voice before it goes anywhere. A draft is not a finished product.</span></li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span>Al Hutchinson · alhutchinsondigital.com</span>
+    <span><strong>Practical AI Starter Guide</strong> · Page 1 of 2</span>
+  </div>
+</div>
+
+<div class="page">
+  <div class="band" style="padding: 0.26in 0.55in 0.2in;">
+    <p class="eyebrow">Practical AI Starter Guide · Continued</p>
+    <h1 style="font-size:16pt;">Using it without creating a new problem</h1>
+  </div>
+
+  <div class="content">
+    <h2 class="section"><span class="tag"></span>Before you paste anything in</h2>
+    <ul class="check">
+      <li><span class="box-mark"></span><span>No patient names, medical record numbers, dates of birth, or any other identifier — real or partial.</span></li>
+      <li><span class="box-mark"></span><span>No employer-confidential material — internal policy, financials, or unreleased plans — without explicit approval.</span></li>
+      <li><span class="box-mark"></span><span>Nothing you would be uncomfortable seeing forwarded to someone outside your organization.</span></li>
+      <li><span class="box-mark"></span><span>If you're unsure whether something counts as protected information, treat it as if it does.</span></li>
+    </ul>
+
+    <h2 class="section"><span class="tag"></span>Reading AI output like a professional, not a customer</h2>
+    <div class="grid2">
+      <div class="box good">
+        <h4>Ask before you use it</h4>
+        <ul>
+          <li>Does this match what I actually know to be true?</li>
+          <li>Are there specific facts or numbers I need to check elsewhere?</li>
+          <li>Would I put my name on this exactly as written?</li>
+          <li>Have I edited it into my own voice, not just copied it?</li>
+        </ul>
+      </div>
+      <div class="box caution">
+        <h4>Common pitfalls</h4>
+        <ul>
+          <li>Fluent, confident-sounding answers that are still wrong</li>
+          <li>Treating a first draft as a finished product</li>
+          <li>Skipping the proofread because it "sounds right"</li>
+          <li>Assuming a tool remembers context it was never given</li>
+        </ul>
+      </div>
+    </div>
+
+    <h2 class="section"><span class="tag"></span>The short version</h2>
+    <div class="callout">
+      <p>If you wouldn't say it, sign it, or submit it without a second look — don't do that just because an AI produced it instead of you.</p>
+    </div>
+
+    <p class="lede" style="margin-top:0.18in;">This guide teaches tool use, not clinical decision-making. It is not medical advice and does not replace your professional judgment, your employer's policies, or your license.</p>
+  </div>
+
+  <div class="footer">
+    <span>Al Hutchinson · alhutchinsondigital.com</span>
+    <span><strong>Practical AI Starter Guide</strong> · Page 2 of 2</span>
+  </div>
+</div>
+
+</body>
+</html>

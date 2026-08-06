@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Résumé Workflow Worksheet — Al Hutchinson</title>
+<style>
+:root {
+  --navy: #0b1f3a; --navy-2: #132a4d; --gold: #f3dfa2; --gold-deep: #97721a;
+  --ink: #16181d; --muted: #565a66; --line: #dcdcd4; --line-soft: #ececE6;
+  --paper: #ffffff; --tint: #faf7ee;
+}
+* { box-sizing: border-box; }
+@page { size: Letter; margin: 0; }
+html, body {
+  margin: 0; padding: 0; background: var(--paper); color: var(--ink);
+  font-family: -apple-system, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 9.6pt; line-height: 1.42;
+  -webkit-print-color-adjust: exact; print-color-adjust: exact;
+}
+.page { position: relative; width: 8.5in; height: 11in; overflow: hidden; page-break-after: always; }
+.page:last-child { page-break-after: auto; }
+.band { background: linear-gradient(135deg, var(--navy) 0%, var(--navy-2) 100%); color: #fff; padding: 0.32in 0.55in 0.26in; border-bottom: 3px solid var(--gold); }
+.band .eyebrow { font-size: 7.6pt; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); font-weight: 600; margin: 0 0 0.06in; }
+.band h1 { font-size: 20pt; margin: 0 0 0.08in; font-weight: 700; letter-spacing: -0.01em; }
+.band p.sub { margin: 0; font-size: 9.6pt; color: #dfe6f1; max-width: 6.6in; line-height: 1.4; }
+.content { padding: 0.24in 0.55in 0.05in; }
+.footer { position: absolute; bottom: 0; left: 0; right: 0; padding: 0.12in 0.55in 0.2in; border-top: 1px solid var(--line); display: flex; justify-content: space-between; font-size: 7.4pt; color: var(--muted); }
+.footer strong { color: var(--ink); }
+h2.section { font-size: 11.6pt; color: var(--navy); margin: 0.16in 0 0.08in; font-weight: 700; display: flex; align-items: center; gap: 0.08in; }
+h2.section .tag { display: inline-block; width: 0.16in; height: 0.16in; background: var(--gold); border-radius: 2px; }
+h3.sub { font-size: 9.6pt; color: var(--navy); font-weight: 700; margin: 0 0 0.05in; }
+p { margin: 0 0 0.08in; color: var(--ink); }
+.lede { color: var(--muted); font-size: 9.4pt; }
+.callout { border-left: 3px solid var(--gold-deep); background: var(--tint); padding: 0.12in 0.16in; border-radius: 0 4px 4px 0; margin: 0.1in 0; }
+.callout p { margin: 0; font-weight: 600; color: var(--navy); font-size: 9.6pt; }
+.steps { list-style: none; margin: 0; padding: 0; }
+.steps li { display: grid; grid-template-columns: 0.28in 1fr; gap: 0.12in; margin-bottom: 0.09in; align-items: start; }
+.steps .num { width: 0.24in; height: 0.24in; border-radius: 50%; background: var(--navy); color: var(--gold); font-weight: 700; font-size: 9pt; display: flex; align-items: center; justify-content: center; }
+.steps .body strong { color: var(--navy); }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.2in; }
+.box { border: 1px solid var(--line); border-radius: 6px; padding: 0.13in 0.15in; }
+.box.good { border-top: 3px solid var(--navy); }
+.box.caution { border-top: 3px solid var(--gold-deep); }
+.box h4 { margin: 0 0 0.07in; font-size: 9.4pt; color: var(--navy); text-transform: uppercase; letter-spacing: 0.03em; }
+.box ul { margin: 0; padding-left: 0.16in; }
+.box li { margin-bottom: 0.045in; }
+ul.check { list-style: none; margin: 0; padding: 0; }
+ul.check li { display: grid; grid-template-columns: 0.16in 1fr; gap: 0.08in; margin-bottom: 0.06in; align-items: baseline; }
+ul.check .box-mark { width: 0.11in; height: 0.11in; border: 1.3px solid var(--navy); border-radius: 2px; margin-top: 0.02in; }
+.code { background: #f4f2ea; border: 1px solid var(--line); border-left: 3px solid var(--navy); border-radius: 0 4px 4px 0; padding: 0.1in 0.13in; font-family: "SFMono-Regular", Menlo, Consolas, monospace; font-size: 8.4pt; color: var(--ink); line-height: 1.4; white-space: pre-wrap; }
+table.cmp { width: 100%; border-collapse: collapse; margin: 0.06in 0; }
+table.cmp th { text-align: left; font-size: 8pt; text-transform: uppercase; letter-spacing: 0.04em; color: var(--navy); border-bottom: 2px solid var(--navy); padding: 0.06in 0.1in; }
+table.cmp td { border-bottom: 1px solid var(--line-soft); padding: 0.08in 0.1in; vertical-align: top; font-size: 9pt; }
+.ruled { border-bottom: 1px solid var(--line); height: 0.24in; }
+.ruled-block { border: 1px dashed var(--line); border-radius: 6px; padding: 0.1in 0.14in; }
+.ruled-block .label { font-size: 7.6pt; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); margin-bottom: 0.08in; }
+</style>
+</head>
+<body>
+
+<div class="page">
+  <div class="band">
+    <p class="eyebrow">Teaching · Al Hutchinson, MSN, RN, AGPCNP-C</p>
+    <h1>Résumé Workflow Worksheet</h1>
+    <p class="sub">Structured prompts for describing your clinical experience accurately and specifically — without inflating it. AI can help you find the words. It cannot verify your record.</p>
+  </div>
+
+  <div class="content">
+    <div class="callout">
+      <p>The rule: only put in language you can stand behind if someone asks you about it directly, in an interview, under questions.</p>
+    </div>
+
+    <h2 class="section"><span class="tag"></span>The workflow</h2>
+    <ol class="steps">
+      <li><span class="num">1</span><span class="body"><strong>List the raw facts first, no adjectives.</strong> For each role, write what you actually did, day to day, in plain language — before you touch a prompt.</span></li>
+      <li><span class="num">2</span><span class="body"><strong>Quantify only what you can back up.</strong> Caseload, census, years, certifications held, number of people trained. If you don't have a real number, use a range you know is true, or leave it out entirely.</span></li>
+      <li><span class="num">3</span><span class="body"><strong>Turn your plain-language notes into a prompt.</strong> Use the templates on this page — paste your own facts in, don't describe them from memory a second time.</span></li>
+      <li><span class="num">4</span><span class="body"><strong>Compare the draft against your list from step 1.</strong> Anything in the draft that isn't in your original list gets cut, not softened.</span></li>
+      <li><span class="num">5</span><span class="body"><strong>Read it aloud as if you were being interviewed.</strong> If a line doesn't sound like something you'd defend under a follow-up question, rewrite it.</span></li>
+    </ol>
+
+    <h2 class="section"><span class="tag"></span>Prompt templates</h2>
+    <h3 class="sub">A — Turn a task into a bullet</h3>
+    <div class="code">I need a resume bullet describing this responsibility: [describe the
+task in your own words]. Keep it to one line, use an action verb, and
+do not add outcomes or numbers I have not given you.</div>
+
+    <h3 class="sub">B — Tighten existing language</h3>
+    <div class="code">Rewrite this bullet to be more specific and concise, without
+changing any facts or adding claims I did not state: [paste your bullet]</div>
+
+    <h3 class="sub">C — Match a job posting honestly</h3>
+    <div class="code">Here is a job description: [paste]. Here is my actual experience:
+[describe it yourself]. Tell me which of my real experience is most
+relevant to highlight. Do not suggest adding experience I don't have.</div>
+  </div>
+
+  <div class="footer">
+    <span>Al Hutchinson · alhutchinsondigital.com</span>
+    <span><strong>Résumé Workflow Worksheet</strong> · Page 1 of 2</span>
+  </div>
+</div>
+
+<div class="page">
+  <div class="band" style="padding: 0.26in 0.55in 0.2in;">
+    <p class="eyebrow">Résumé Workflow Worksheet · Continued</p>
+    <h1 style="font-size:16pt;">Checking your draft, and space to work</h1>
+  </div>
+
+  <div class="content">
+    <h2 class="section"><span class="tag"></span>Specific beats impressive</h2>
+    <table class="cmp">
+      <tr><th style="width:50%">Vague — an AI default you should edit out</th><th>Specific — what you should end up with</th></tr>
+      <tr><td>"Responsible for patient care in a busy clinical setting."</td><td>"Managed direct care for a daily caseload across [your actual setting], coordinating with an interdisciplinary team."</td></tr>
+      <tr><td>"Highly skilled, results-driven healthcare professional."</td><td>[Delete. Let the specific facts make this case instead.]</td></tr>
+      <tr><td>"Improved patient outcomes through proactive intervention."</td><td>[Only keep an outcome claim if you can point to how it was actually measured.]</td></tr>
+    </table>
+    <p class="lede">A hiring manager in healthcare can tell the difference between a real number and a padded one. Specificity reads as credibility; adjectives read as filler.</p>
+
+    <h2 class="section"><span class="tag"></span>Before you submit — check for these AI habits</h2>
+    <ul class="check">
+      <li><span class="box-mark"></span><span>Outcome claims with no source ("reduced errors by X%") that you can't actually trace to a measurement.</span></li>
+      <li><span class="box-mark"></span><span>Adjectives doing the work nouns should do — "dedicated," "results-driven," "highly skilled."</span></li>
+      <li><span class="box-mark"></span><span>Numbers that sound suspiciously round, or that you added just to have a number.</span></li>
+      <li><span class="box-mark"></span><span>A responsibility listed that you'd actually have to explain differently if asked in person.</span></li>
+      <li><span class="box-mark"></span><span>Anything copied straight from the job posting rather than describing your own experience.</span></li>
+    </ul>
+
+    <h2 class="section"><span class="tag"></span>Your notes — raw facts, by role</h2>
+    <div class="grid2">
+      <div class="ruled-block">
+        <div class="label">Role 1</div>
+        <div class="ruled"></div><div class="ruled"></div><div class="ruled"></div>
+      </div>
+      <div class="ruled-block">
+        <div class="label">Role 2</div>
+        <div class="ruled"></div><div class="ruled"></div><div class="ruled"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span>Al Hutchinson · alhutchinsondigital.com</span>
+    <span><strong>Résumé Workflow Worksheet</strong> · Page 2 of 2</span>
+  </div>
+</div>
+
+</body>
+</html>

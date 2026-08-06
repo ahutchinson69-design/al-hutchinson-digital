@@ -1,0 +1,457 @@
+/* ==========================================================================
+   Al Hutchinson — portfolio intro
+   Dark charcoal fading into deep navy, metallic signature, ambient particles.
+
+   The signature is a keyed calligraphy image revealed by an animated
+   `clip-path`. script.js rewrites that clip each frame and positions the
+   glowing pen tip from a precomputed centre-line track.
+
+   Asset URLs here are root-absolute (/intro/...) rather than relative, because
+   the page is served at both /intro and /intro/index.html — relative paths
+   resolve against the site root at the first of those and 404.
+   ========================================================================== */
+
+:root {
+  --charcoal: #111111;
+  --navy: #0b1f3a;
+  --ink-light: #f4f6fb;
+  --ink-dim: #9fb0c9;
+  --gold: #e6d4a8;
+
+  --fade-duration: 900ms;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  height: 100%;
+  background: var(--charcoal);
+}
+
+body {
+  min-height: 100%;
+  font-family:
+    ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif;
+  color: var(--ink-light);
+  overflow-x: hidden;
+
+  background:
+    radial-gradient(
+      70% 55% at 24% 16%,
+      rgba(96, 134, 194, 0.15) 0%,
+      transparent 62%
+    ),
+    radial-gradient(
+      58% 48% at 70% 60%,
+      rgba(230, 212, 168, 0.08) 0%,
+      transparent 60%
+    ),
+    linear-gradient(168deg, var(--charcoal) 0%, #0d1a2c 48%, var(--navy) 100%);
+  background-attachment: fixed;
+}
+
+/* Vignette. Fixed so it never drifts out of alignment. */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+  background: radial-gradient(
+    118% 88% at 50% 45%,
+    transparent 42%,
+    rgba(0, 0, 0, 0.42) 82%,
+    rgba(0, 0, 0, 0.7) 100%
+  );
+}
+
+/* --------------------------------------------------------------------------
+   Accessibility helpers
+   -------------------------------------------------------------------------- */
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.skip-link {
+  position: fixed;
+  top: -100px;
+  left: 1rem;
+  z-index: 20;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0.75rem 1.25rem;
+  border-radius: 999px;
+  background: var(--gold);
+  color: #0b1220;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: top 160ms ease;
+}
+
+.skip-link:focus-visible {
+  top: 1rem;
+}
+
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* --------------------------------------------------------------------------
+   Particles
+   -------------------------------------------------------------------------- */
+
+#particles {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  filter: blur(0.4px);
+}
+
+/* --------------------------------------------------------------------------
+   Stage
+   -------------------------------------------------------------------------- */
+
+.stage {
+  position: relative;
+  z-index: 2;
+  min-height: 100svh;
+  display: grid;
+  grid-template-rows: 1fr auto auto auto 1fr;
+  justify-items: center;
+  align-content: center;
+  gap: clamp(1.5rem, 3.5vw, 2.75rem);
+  padding: clamp(2rem, 6vw, 4rem) clamp(1.25rem, 5vw, 3rem);
+  text-align: center;
+}
+
+/* --------------------------------------------------------------------------
+   Signature
+   -------------------------------------------------------------------------- */
+
+.signature {
+  grid-row: 2;
+  position: relative;
+  width: min(1112px, 88vw);
+  /* Locks the box to the artwork so the pen tip can be positioned in % */
+  aspect-ratio: 1112 / 304;
+  filter: drop-shadow(0 14px 40px rgba(0, 0, 0, 0.5));
+}
+
+.sig-ink,
+.sig-shine {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.sig-ink {
+  object-fit: contain;
+
+  /*
+    The reveal starts fully closed. script.js rewrites `clip-path` outright
+    each frame — percentages there map straight onto this element's own box,
+    which makes the leading edge exactly predictable, unlike a gradient mask
+    whose stops are measured along a rotated gradient line.
+
+    The edge is hard; the glowing pen tip rides on top of it and is what sells
+    the stroke, exactly as a write-on brush does in After Effects.
+  */
+  clip-path: polygon(-8% -10%, -8% -10%, -8% 110%, -8% 110%);
+}
+
+/* No script: show the finished signature rather than nothing at all. */
+.no-js .sig-ink {
+  clip-path: none;
+}
+
+/*
+  One-shot shimmer. Clipped to the ink's own alpha so the highlight only
+  travels along the letterforms, never across the empty background.
+*/
+.sig-shine {
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(
+    99deg,
+    transparent 38%,
+    rgba(255, 255, 255, 0.9) 50%,
+    transparent 62%
+  );
+  background-size: 260% 100%;
+  background-position: -80% 0;
+
+  -webkit-mask-image: url("/intro/media/signature-ink.png");
+  mask-image: url("/intro/media/signature-ink.png");
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  mix-blend-mode: screen;
+}
+
+.sig-shine.is-sweeping {
+  animation: shine 1150ms cubic-bezier(0.4, 0, 0.2, 1) 1 both;
+}
+
+/*
+  Fades the layer in and back out around the sweep, so nothing of the
+  highlight is left sitting over the ink once it has passed.
+*/
+@keyframes shine {
+  0% {
+    opacity: 0;
+    background-position: -80% 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    background-position: 180% 0;
+  }
+}
+
+/* The glowing pen tip that rides the leading edge of the reveal. */
+.sig-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 12px;
+  height: 12px;
+  margin: -6px 0 0 -6px;
+  border-radius: 50%;
+  background: #fffaf0;
+  box-shadow:
+    0 0 6px 2px rgba(255, 250, 240, 0.9),
+    0 0 18px 6px rgba(243, 223, 162, 0.55),
+    0 0 40px 14px rgba(243, 223, 162, 0.22);
+  opacity: 0;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+/* --------------------------------------------------------------------------
+   Disciplines line
+   -------------------------------------------------------------------------- */
+
+.disciplines {
+  grid-row: 3;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.35rem 0.9rem;
+  max-width: 46rem;
+  font-size: clamp(0.72rem, 1.5vw, 0.92rem);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+
+  opacity: 0;
+  transform: translateY(12px);
+  transition:
+    opacity var(--fade-duration) cubic-bezier(0.22, 1, 0.36, 1),
+    transform var(--fade-duration) cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.disciplines .dot {
+  color: rgba(230, 212, 168, 0.55);
+}
+
+/* --------------------------------------------------------------------------
+   Call to action
+   -------------------------------------------------------------------------- */
+
+.cta {
+  grid-row: 4;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 0 2.25rem;
+
+  border: 1px solid rgba(230, 212, 168, 0.38);
+  border-radius: 999px;
+  background: rgba(230, 212, 168, 0.05);
+
+  color: #f3ead6;
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+
+  opacity: 0;
+  transform: translateY(12px);
+  transition:
+    opacity var(--fade-duration) cubic-bezier(0.22, 1, 0.36, 1),
+    transform var(--fade-duration) cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 300ms ease,
+    border-color 300ms ease,
+    box-shadow 300ms ease;
+}
+
+.cta:hover,
+.cta:focus-visible {
+  background: rgba(230, 212, 168, 0.12);
+  border-color: rgba(230, 212, 168, 0.7);
+  box-shadow: 0 0 34px -8px rgba(230, 212, 168, 0.5);
+}
+
+/* --------------------------------------------------------------------------
+   Scroll hint
+   -------------------------------------------------------------------------- */
+
+.scroll-hint {
+  grid-row: 5;
+  align-self: end;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.7rem;
+  font-size: 0.62rem;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: rgba(159, 176, 201, 0.65);
+
+  opacity: 0;
+  transition: opacity var(--fade-duration) ease;
+}
+
+.scroll-line {
+  width: 1px;
+  height: 46px;
+  background: linear-gradient(
+    to bottom,
+    rgba(230, 212, 168, 0.65),
+    transparent
+  );
+  transform-origin: top;
+  animation: drift 2.4s ease-in-out infinite;
+}
+
+@keyframes drift {
+  0%,
+  100% {
+    transform: scaleY(0.45);
+    opacity: 0.35;
+  }
+  50% {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+}
+
+.is-visible {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
+/* --------------------------------------------------------------------------
+   Leaving the intro — a short cinematic dissolve before navigation
+   -------------------------------------------------------------------------- */
+
+.stage,
+#particles {
+  transition:
+    opacity 620ms ease,
+    transform 620ms cubic-bezier(0.4, 0, 0.2, 1),
+    filter 620ms ease;
+}
+
+body.is-leaving .stage {
+  opacity: 0;
+  transform: translateY(-38px) scale(0.985);
+  filter: blur(3px);
+}
+
+body.is-leaving #particles {
+  opacity: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Responsive
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 640px) {
+  .stage {
+    gap: 1.75rem;
+  }
+
+  .signature {
+    width: 92vw;
+  }
+
+  .disciplines {
+    letter-spacing: 0.16em;
+    line-height: 1.9;
+  }
+
+  .scroll-hint {
+    display: none;
+  }
+}
+
+@media (max-height: 540px) {
+  .scroll-hint {
+    display: none;
+  }
+
+  .signature {
+    width: min(760px, 76vw);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Reduced motion
+   The signature is presented complete and static; nothing writes, drifts,
+   shimmers or dissolves. script.js performs the matching short-circuit.
+   -------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+
+  .scroll-line {
+    animation: none;
+    opacity: 0.6;
+  }
+
+  #particles {
+    display: none;
+  }
+
+  .sig-tip {
+    display: none;
+  }
+}

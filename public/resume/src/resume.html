@@ -1,0 +1,475 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Al Hutchinson — Résumé</title>
+    <style>
+      /* ==================================================================
+         Al Hutchinson — short public résumé (one page, US Letter)
+
+         Source of truth for every fact here is the full CV. This is a
+         condensed public version: no home address, no phone number, no DEA
+         registration, no licence numbers — nothing that does not belong on a
+         document anyone can download.
+
+         Re-render:
+           "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
+             --headless --disable-gpu --no-pdf-header-footer \
+             --print-to-pdf=../al-hutchinson-resume.pdf \
+             file:///abs/path/to/resume.html
+         ================================================================== */
+
+      @page {
+        size: letter;
+        margin: 0;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      :root {
+        --navy: #0b1f3a;
+        --gold: #9a7b25; /* darkened from the site gold for print contrast */
+        --ink: #16181d;
+        --muted: #55595f;
+        --rule: #d8dade;
+      }
+
+      html {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      body {
+        width: 8.5in;
+        /* Pin the sheet to exactly one page. Chrome's print layout
+           rounds differently from screen layout and was emitting a
+           blank second page; fixing the height removes the ambiguity.
+           Measured content height is 1054px against a 1056px page, so
+           `overflow: hidden` clips nothing — but re-measure if you add
+           to this document. */
+        height: 11in;
+        overflow: hidden;
+        padding: 0.44in 0.6in 0.18in;
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-size: 8.8pt;
+        line-height: 1.35;
+        color: var(--ink);
+        background: #fff;
+      }
+
+      /* ── Masthead ─────────────────────────────────────────────────── */
+
+      header {
+        border-bottom: 2.5px solid var(--navy);
+        padding-bottom: 7px;
+        margin-bottom: 10px;
+      }
+
+      h1 {
+        font-size: 19pt;
+        font-weight: 700;
+        letter-spacing: -0.4px;
+        color: var(--navy);
+        line-height: 1.1;
+      }
+
+      h1 .creds {
+        font-size: 11.5pt;
+        font-weight: 600;
+        color: var(--gold);
+        letter-spacing: 0;
+      }
+
+      .role {
+        margin-top: 3px;
+        font-size: 10.5pt;
+        font-weight: 600;
+        color: var(--ink);
+      }
+
+      .contact {
+        margin-top: 6px;
+        font-size: 8.6pt;
+        color: var(--muted);
+      }
+
+      .contact a {
+        color: var(--muted);
+        text-decoration: none;
+      }
+
+      .contact .sep {
+        color: var(--rule);
+        margin: 0 6px;
+      }
+
+      /* ── Sections ─────────────────────────────────────────────────── */
+
+      section {
+        margin-bottom: 6px;
+      }
+
+      h2 {
+        font-size: 8pt;
+        font-weight: 700;
+        letter-spacing: 1.3px;
+        text-transform: uppercase;
+        color: var(--gold);
+        padding-bottom: 3px;
+        margin-bottom: 6px;
+        border-bottom: 0.75px solid var(--rule);
+      }
+
+      .summary {
+        color: var(--muted);
+        line-height: 1.5;
+      }
+
+      /* ── Entries ──────────────────────────────────────────────────── */
+
+      .entry {
+        margin-bottom: 5px;
+      }
+
+      .entry:last-child {
+        margin-bottom: 0;
+      }
+
+      .entry-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        gap: 12px;
+      }
+
+      .entry-title {
+        font-weight: 700;
+        color: var(--navy);
+      }
+
+      .entry-org {
+        font-weight: 400;
+        color: var(--ink);
+      }
+
+      .entry-date {
+        flex: none;
+        font-size: 8.4pt;
+        color: var(--muted);
+        white-space: nowrap;
+      }
+
+      ul {
+        list-style: none;
+        margin-top: 2px;
+      }
+
+      li {
+        position: relative;
+        padding-left: 10px;
+        color: var(--muted);
+        margin-bottom: 1px;
+      }
+
+      li::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0.5em;
+        width: 3px;
+        height: 3px;
+        border-radius: 50%;
+        background: var(--gold);
+      }
+
+      /* ── Two-column tail ──────────────────────────────────────────── */
+
+      .cols {
+        display: flex;
+        gap: 26px;
+      }
+
+      .cols > * {
+        flex: 1;
+        min-width: 0;
+      }
+
+      .inline-list {
+        color: var(--muted);
+      }
+
+      .inline-list strong {
+        color: var(--ink);
+        font-weight: 600;
+      }
+
+      .edu-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        margin-bottom: 3px;
+      }
+
+      .edu-row .yr {
+        flex: none;
+        font-size: 8.4pt;
+        color: var(--muted);
+      }
+
+      footer {
+        margin-top: 7px;
+        padding-top: 5px;
+        border-top: 0.75px solid var(--rule);
+        font-size: 7.8pt;
+        color: var(--muted);
+        display: flex;
+        justify-content: space-between;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <h1>
+        Alonda “Al” Hutchinson<span class="creds">, MSN, RN, AGPCNP-C</span>
+      </h1>
+      <div class="role">
+        Adult-Gerontology Primary Care Nurse Practitioner · DNP Candidate
+      </div>
+      <div class="contact">
+        <a href="mailto:AlhutchinsonAPRN@outlook.com"
+          >AlhutchinsonAPRN@outlook.com</a
+        >
+        <span class="sep">|</span>
+        <a href="https://alhutchinsondigital.com">alhutchinsondigital.com</a>
+        <span class="sep">|</span>
+        <a href="https://www.linkedin.com/in/alhutchinsonnp"
+          >linkedin.com/in/alhutchinsonnp</a
+        >
+        <span class="sep">|</span> Texas
+      </div>
+    </header>
+
+    <section>
+      <h2>Profile</h2>
+      <p class="summary">
+        Board-certified Adult-Gerontology Primary Care Nurse Practitioner with
+        more than 35 years across military medicine, emergency medical services,
+        critical care transport, emergency nursing, long-term care and primary
+        care. Healthcare educator since 1988, having taught over 5,000
+        clinicians. Current work applies artificial intelligence to the
+        documentation, quality and workflow problems of skilled nursing —
+        practically, and with professional accountability kept intact.
+      </p>
+    </section>
+
+    <section>
+      <h2>Clinical Experience</h2>
+
+      <div class="entry">
+        <div class="entry-head">
+          <div>
+            <span class="entry-title">Primary Care Nurse Practitioner</span>,
+            <span class="entry-org">MedElite Healthcare Management</span>
+          </div>
+          <div class="entry-date">2023 – Present</div>
+        </div>
+        <ul>
+          <li>
+            Primary care for a daily census of 20–25 patients across skilled
+            nursing and long-term care facilities.
+          </li>
+          <li>
+            Manage complex chronic disease — diabetes, heart failure, COPD,
+            hypertension, cognitive decline — in a medically fragile geriatric
+            population.
+          </li>
+          <li>
+            Deliver wound, palliative, transitional and post-acute care aligned
+            with patient goals; lead interdisciplinary coordination with
+            facility nursing, physicians, therapists, pharmacists and families.
+          </li>
+          <li>
+            Conduct comprehensive assessments, medication reconciliation and
+            advance-care-planning conversations to reduce avoidable
+            hospitalisations.
+          </li>
+        </ul>
+      </div>
+
+      <div class="entry">
+        <div class="entry-head">
+          <div>
+            <span class="entry-title">Registered Nurse</span>,
+            <span class="entry-org">Johns Hopkins Bayview Medical Center</span>
+          </div>
+          <div class="entry-date">2019 – 2021</div>
+        </div>
+        <ul>
+          <li>
+            Acute and critical care nursing within a nationally recognised
+            academic medical center.
+          </li>
+          <li>
+            Served on the front lines of the COVID-19 pandemic response, caring
+            for high-acuity and isolation patients under evolving protocols.
+          </li>
+        </ul>
+      </div>
+
+      <div class="entry">
+        <div class="entry-head">
+          <div>
+            <span class="entry-title">Registered Nurse — Emergency &amp; Med-Surg</span>,
+            <span class="entry-org"
+              >Jackson-Madison County General · Baptist Memorial – Golden
+              Triangle</span
+            >
+          </div>
+          <div class="entry-date">2015 – 2019</div>
+        </div>
+        <ul>
+          <li>
+            Emergency and acute care nursing in high-volume regional hospitals;
+            applied prehospital critical care expertise to rapid triage,
+            resuscitation and stabilisation. Served as clinical resource and
+            preceptor, bridging EMS and nursing practice.
+          </li>
+        </ul>
+      </div>
+
+      <div class="entry">
+        <div class="entry-head">
+          <div>
+            <span class="entry-title">Critical Care Paramedic</span>,
+            <span class="entry-org"
+              >Pickens County Ambulance · Emergystat · Stat Ambulance</span
+            >
+          </div>
+          <div class="entry-date">1996 – 2014</div>
+        </div>
+        <ul>
+          <li>
+            27 years of prehospital and emergency care, including high-acuity
+            interfacility transport with ventilator, cardiac and multi-drip
+            patients.
+          </li>
+          <li>
+            Field leader and preceptor; supported EMS quality assurance,
+            protocol adherence and continuing education.
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section>
+      <h2>Teaching &amp; Healthcare AI</h2>
+      <ul>
+        <li>
+          <strong>American Heart Association Instructor</strong> (BLS / ACLS /
+          PALS), 1988 – present. Over 5,000 healthcare professionals, EMS
+          providers, nurses and students taught. Named EMS Instructor of the
+          Year, 2012.
+        </li>
+        <li>
+          Built EMS training programmes from initial certification through
+          advanced continuing education; created a Nursing Preceptor Course for
+          Baptist Memorial Hospital.
+        </li>
+        <li>
+          <strong>Hutchinson CareOS One</strong> — operational-intelligence
+          prototype for skilled nursing leadership, built entirely on synthetic
+          data.
+        </li>
+        <li>
+          <strong>AI–Human Work Benchmark Map</strong> — task-level decision
+          tool scoring 64 illustrative work cases against six frontier models,
+          separating AI capability from human accountability.
+        </li>
+        <li>
+          Evaluating large language models for accuracy, safety and clinical
+          relevance in healthcare settings.
+        </li>
+      </ul>
+    </section>
+
+    <div class="cols">
+      <section>
+        <h2>Education</h2>
+        <div class="edu-row">
+          <div><strong>DNP</strong>, Univ. of Texas at Arlington</div>
+          <div class="yr">Exp. 2028</div>
+        </div>
+        <div class="edu-row">
+          <div><strong>MSN</strong>, AGPCNP — Walden University</div>
+          <div class="yr">2022</div>
+        </div>
+        <div class="edu-row">
+          <div><strong>BSN</strong>, Excelsior College</div>
+          <div class="yr">2018</div>
+        </div>
+        <div class="edu-row">
+          <div><strong>ASN</strong>, Excelsior College</div>
+          <div class="yr">2014</div>
+        </div>
+        <div class="edu-row">
+          <div><strong>NREMT-P</strong>, Trenholm Technical College</div>
+          <div class="yr">1994</div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Military Service</h2>
+        <div class="entry">
+          <div class="entry-head">
+            <div><span class="entry-title">Fleet Marine Force Corpsman</span></div>
+            <div class="entry-date">1987 – 1991</div>
+          </div>
+          <p class="inline-list" style="margin-top: 2px">
+            United States Navy — 2nd Marine Division, 8th Marine Regiment.
+            Deployed for Operations Desert Shield and Desert Storm, delivering
+            combat casualty care in Southwest Asia.
+          </p>
+          <p class="inline-list" style="margin-top: 3px">
+            Kuwait Liberation Medal · Southwest Asia Service Medal · Fleet
+            Marine Force Ribbon · National Defense Service Medal · Sea Service
+            Deployment Ribbon
+          </p>
+        </div>
+      </section>
+    </div>
+
+    <div class="cols">
+      <section>
+        <h2>Licensure &amp; Certification</h2>
+        <p class="inline-list">
+          Board Certified AGPCNP (AANP) · APRN, State of Texas · RN, State of
+          Texas · AHA Instructor — BLS, ACLS, PALS
+        </p>
+      </section>
+
+      <section>
+        <h2>Publications &amp; Service</h2>
+        <p class="inline-list">
+          <em>Family Caregiver Toolkit</em> ·
+          <em>Emergency Responder for the Lay Professional</em> ·
+          <em>Hutchinson Review for FNP</em>
+        </p>
+        <p class="inline-list" style="margin-top: 3px">
+          Moderator, r/Paramedics (65,000+ members) · Founding Executive Board
+          Member, Women Battling Multiple Sclerosis · Medical mission, Havana,
+          Cuba
+        </p>
+      </section>
+    </div>
+
+    <footer>
+      <span>Alonda “Al” Hutchinson, MSN, RN, AGPCNP-C</span>
+      <span>Full CV available on request</span>
+    </footer>
+  </body>
+</html>

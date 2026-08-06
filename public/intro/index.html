@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Al Hutchinson — Portfolio</title>
+    <meta
+      name="description"
+      content="Alonda “Al” Hutchinson, MSN, RN, AGPCNP-C — artificial intelligence, healthcare innovation, technology, and education."
+    />
+
+    <link rel="preload" as="image" href="/intro/media/signature-ink.png" />
+    <link rel="stylesheet" href="/intro/styles.css" />
+  </head>
+
+  <body>
+    <!-- First tab stop: straight through to the portfolio. -->
+    <a class="skip-link" href="/">Skip the intro and go to the portfolio</a>
+
+    <!-- Ambient particle field. Decorative. -->
+    <canvas id="particles" aria-hidden="true"></canvas>
+
+    <main class="stage" id="stage">
+      <!--
+        The accessible name lives here and is present before any script runs,
+        so the page is meaningful with JavaScript disabled or images blocked.
+      -->
+      <h1 class="visually-hidden">Al Hutchinson</h1>
+
+      <!--
+        The signature.
+
+        Real calligraphy, keyed to transparency, revealed left-to-right through
+        an animated CSS mask so it appears to be written stroke by stroke — the
+        same technique as a trim-paths reveal in After Effects, but as a single
+        image plus a moving gradient, which stays crisp at any size.
+
+        `.sig-ink`   the artwork, masked by the advancing reveal
+        `.sig-shine` a one-shot highlight sweep, clipped to the ink's own shape
+        `.sig-tip`   the glowing pen tip that rides the leading edge
+      -->
+      <div class="signature" id="signature" aria-hidden="true">
+        <img
+          class="sig-ink"
+          id="sigInk"
+          src="/intro/media/signature-ink.png"
+          alt=""
+          width="1112"
+          height="304"
+          decoding="async"
+          fetchpriority="high"
+        />
+        <span class="sig-shine" id="sigShine"></span>
+        <span class="sig-tip" id="sigTip"></span>
+      </div>
+
+      <p class="disciplines" id="disciplines">
+        <span>Artificial Intelligence</span>
+        <span class="dot" aria-hidden="true">•</span>
+        <span>Healthcare Innovation</span>
+        <span class="dot" aria-hidden="true">•</span>
+        <span>Technology</span>
+        <span class="dot" aria-hidden="true">•</span>
+        <span>Education</span>
+      </p>
+
+      <a class="cta" id="cta" href="/">Enter Portfolio</a>
+
+      <div class="scroll-hint" id="scrollHint" aria-hidden="true">
+        <span>Scroll</span>
+        <span class="scroll-line"></span>
+      </div>
+    </main>
+
+    <script src="/intro/script.js" defer></script>
+  </body>
+</html>

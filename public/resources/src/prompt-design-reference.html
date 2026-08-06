@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Prompt Design Reference — Al Hutchinson</title>
+<style>
+:root {
+  --navy: #0b1f3a; --navy-2: #132a4d; --gold: #f3dfa2; --gold-deep: #97721a;
+  --ink: #16181d; --muted: #565a66; --line: #dcdcd4; --line-soft: #ececE6;
+  --paper: #ffffff; --tint: #faf7ee;
+}
+* { box-sizing: border-box; }
+@page { size: Letter; margin: 0; }
+html, body {
+  margin: 0; padding: 0; background: var(--paper); color: var(--ink);
+  font-family: -apple-system, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 9.6pt; line-height: 1.42;
+  -webkit-print-color-adjust: exact; print-color-adjust: exact;
+}
+.page { position: relative; width: 8.5in; height: 11in; overflow: hidden; page-break-after: always; }
+.page:last-child { page-break-after: auto; }
+.band { background: linear-gradient(135deg, var(--navy) 0%, var(--navy-2) 100%); color: #fff; padding: 0.32in 0.55in 0.26in; border-bottom: 3px solid var(--gold); }
+.band .eyebrow { font-size: 7.6pt; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); font-weight: 600; margin: 0 0 0.06in; }
+.band h1 { font-size: 20pt; margin: 0 0 0.08in; font-weight: 700; letter-spacing: -0.01em; }
+.band p.sub { margin: 0; font-size: 9.6pt; color: #dfe6f1; max-width: 6.6in; line-height: 1.4; }
+.content { padding: 0.24in 0.55in 0.05in; }
+.footer { position: absolute; bottom: 0; left: 0; right: 0; padding: 0.12in 0.55in 0.2in; border-top: 1px solid var(--line); display: flex; justify-content: space-between; font-size: 7.4pt; color: var(--muted); }
+.footer strong { color: var(--ink); }
+h2.section { font-size: 11.6pt; color: var(--navy); margin: 0.16in 0 0.08in; font-weight: 700; display: flex; align-items: center; gap: 0.08in; }
+h2.section .tag { display: inline-block; width: 0.16in; height: 0.16in; background: var(--gold); border-radius: 2px; }
+h3.sub { font-size: 9.6pt; color: var(--navy); font-weight: 700; margin: 0 0 0.05in; }
+p { margin: 0 0 0.08in; color: var(--ink); }
+.lede { color: var(--muted); font-size: 9.4pt; }
+.callout { border-left: 3px solid var(--gold-deep); background: var(--tint); padding: 0.12in 0.16in; border-radius: 0 4px 4px 0; margin: 0.1in 0; }
+.callout p { margin: 0; font-weight: 600; color: var(--navy); font-size: 9.6pt; }
+.steps { list-style: none; margin: 0; padding: 0; }
+.steps li { display: grid; grid-template-columns: 0.28in 1fr; gap: 0.12in; margin-bottom: 0.09in; align-items: start; }
+.steps .num { width: 0.24in; height: 0.24in; border-radius: 50%; background: var(--navy); color: var(--gold); font-weight: 700; font-size: 9pt; display: flex; align-items: center; justify-content: center; }
+.steps .body strong { color: var(--navy); }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.2in; }
+.box { border: 1px solid var(--line); border-radius: 6px; padding: 0.13in 0.15in; }
+.box.good { border-top: 3px solid var(--navy); }
+.box.caution { border-top: 3px solid var(--gold-deep); }
+.box h4 { margin: 0 0 0.07in; font-size: 9.4pt; color: var(--navy); text-transform: uppercase; letter-spacing: 0.03em; }
+.box ul { margin: 0; padding-left: 0.16in; }
+.box li { margin-bottom: 0.045in; }
+ul.check { list-style: none; margin: 0; padding: 0; }
+ul.check li { display: grid; grid-template-columns: 0.16in 1fr; gap: 0.08in; margin-bottom: 0.06in; align-items: baseline; }
+ul.check .box-mark { width: 0.11in; height: 0.11in; border: 1.3px solid var(--navy); border-radius: 2px; margin-top: 0.02in; }
+.code { background: #f4f2ea; border: 1px solid var(--line); border-left: 3px solid var(--navy); border-radius: 0 4px 4px 0; padding: 0.1in 0.13in; font-family: "SFMono-Regular", Menlo, Consolas, monospace; font-size: 8.4pt; color: var(--ink); line-height: 1.4; white-space: pre-wrap; }
+table.cmp { width: 100%; border-collapse: collapse; margin: 0.06in 0; }
+table.cmp th { text-align: left; font-size: 8pt; text-transform: uppercase; letter-spacing: 0.04em; color: var(--navy); border-bottom: 2px solid var(--navy); padding: 0.06in 0.1in; }
+table.cmp td { border-bottom: 1px solid var(--line-soft); padding: 0.08in 0.1in; vertical-align: top; font-size: 9pt; }
+.parts { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.1in; margin: 0.1in 0; }
+.parts .part { border: 1px solid var(--line); border-radius: 6px; padding: 0.1in 0.09in; text-align: center; }
+.parts .part .n { width: 0.26in; height: 0.26in; border-radius: 50%; background: var(--navy); color: var(--gold); font-weight: 700; font-size: 9.5pt; display: flex; align-items: center; justify-content: center; margin: 0 auto 0.06in; }
+.parts .part h5 { margin: 0 0 0.04in; font-size: 8.6pt; color: var(--navy); }
+.parts .part p { margin: 0; font-size: 7.6pt; color: var(--muted); line-height: 1.3; }
+</style>
+</head>
+<body>
+
+<div class="page">
+  <div class="band">
+    <p class="eyebrow">Teaching · Al Hutchinson, MSN, RN, AGPCNP-C</p>
+    <h1>Prompt Design Reference</h1>
+    <p class="sub">Patterns for writing requests that produce checkable, repeatable output. A vague request gets you a fluent-sounding answer you can't verify. A specific one gets you something you can check line by line.</p>
+  </div>
+
+  <div class="content">
+    <h2 class="section"><span class="tag"></span>Five parts of a request you can actually check</h2>
+    <div class="parts">
+      <div class="part"><div class="n">1</div><h5>Role</h5><p>Who should it act as, or what expertise should it apply? Optional, but it sets the tone.</p></div>
+      <div class="part"><div class="n">2</div><h5>Task</h5><p>The specific action. One task per request, stated plainly.</p></div>
+      <div class="part"><div class="n">3</div><h5>Context</h5><p>The actual material it needs — paste it in directly, don't just describe it.</p></div>
+      <div class="part"><div class="n">4</div><h5>Format</h5><p>How you want it structured: bullets, a table, a length, a section order.</p></div>
+      <div class="part"><div class="n">5</div><h5>Constraints</h5><p>What to leave out: no invented facts, no unstated numbers, flag anything uncertain.</p></div>
+    </div>
+
+    <div class="callout">
+      <p>A vague request produces a fluent-sounding answer you can't check. A specific request produces something you can verify line by line.</p>
+    </div>
+
+    <h2 class="section"><span class="tag"></span>Before / after</h2>
+    <h3 class="sub">Before</h3>
+    <div class="code">Write me a summary of this.</div>
+    <h3 class="sub" style="margin-top:0.1in;">After</h3>
+    <div class="code">Summarize the shift report below in 5 bullet points, one per
+patient, using only the information provided. If anything is unclear
+or missing, say so instead of guessing.
+
+[paste the report]</div>
+  </div>
+
+  <div class="footer">
+    <span>Al Hutchinson · alhutchinsondigital.com</span>
+    <span><strong>Prompt Design Reference</strong> · Page 1 of 2</span>
+  </div>
+</div>
+
+<div class="page">
+  <div class="band" style="padding: 0.26in 0.55in 0.2in;">
+    <p class="eyebrow">Prompt Design Reference · Continued</p>
+    <h1 style="font-size:16pt;">Reusable patterns and verification</h1>
+  </div>
+
+  <div class="content">
+    <h2 class="section"><span class="tag"></span>Four patterns worth reusing</h2>
+
+    <h3 class="sub">Constrain to source</h3>
+    <div class="code">Using only the information below, do [task]. Do not add outside
+information or fill gaps with assumptions. [paste material]</div>
+    <p class="lede" style="margin: 0.04in 0 0.1in;">Use when accuracy matters more than completeness — you'd rather it say "not stated" than guess.</p>
+
+    <h3 class="sub">Ask for uncertainty flagged</h3>
+    <div class="code">...and mark anything you are not fully confident about, rather than
+presenting it with the same certainty as the rest.</div>
+    <p class="lede" style="margin: 0.04in 0 0.1in;">Add this line to any prompt where a confident-sounding wrong answer would be costly.</p>
+
+    <h3 class="sub">Iterative narrowing</h3>
+    <div class="code">First pass: broad request. Second pass: "Now do the same thing,
+but only for [narrower case]." Refine instead of starting over.</div>
+    <p class="lede" style="margin: 0.04in 0 0.1in;">Cheaper than trying to write the perfect prompt on the first attempt.</p>
+
+    <h3 class="sub">Save a working prompt as a template</h3>
+    <div class="code">Once a prompt structure works, keep it. Reuse it with new pasted
+material instead of rewriting it from scratch each time.</div>
+
+    <h2 class="section"><span class="tag"></span>Two checklists</h2>
+    <div class="grid2">
+      <div class="box good">
+        <h4>Before you send it</h4>
+        <ul>
+          <li>Did I paste the actual material, not just describe it?</li>
+          <li>Did I say what format I want back?</li>
+          <li>Did I say what not to do — invent, assume, guess?</li>
+          <li>Can I check the answer against something I already know?</li>
+        </ul>
+      </div>
+      <div class="box caution">
+        <h4>After you get a response</h4>
+        <ul>
+          <li>Does every fact or number trace back to what I gave it?</li>
+          <li>If I changed one detail, would the answer change to match?</li>
+          <li>Would I trust this same prompt again next week?</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span>Al Hutchinson · alhutchinsondigital.com</span>
+    <span><strong>Prompt Design Reference</strong> · Page 2 of 2</span>
+  </div>
+</div>
+
+</body>
+</html>
