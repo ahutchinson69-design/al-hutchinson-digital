@@ -138,6 +138,66 @@ export const projects: Project[] = [
     related: ["snf-ai-documentation-system", "ai-human-work-benchmark-map"],
   },
   {
+    slug: "carecompass",
+    title: "CareCompass",
+    category: "Healthcare",
+    categoryLabel: "Healthcare Product",
+    status: "Active",
+    featured: true,
+    image: "/images/projects/carecompass.jpg",
+    imageAlt:
+      "The CareCompass landing page: the wordmark over a photograph of a smiling woman, headed “Find the right skilled nursing facility and complete admission paperwork with confidence — in under thirty minutes, not three hours.”, with Start Facility Search and Begin Admission Packet buttons.",
+    contentStatus: "final",
+    summary:
+      "A searchable database of skilled nursing facilities paired with a guided admission-paperwork intake for families — finding the right facility and completing the packet in under thirty minutes rather than three hours.",
+    overview:
+      "Families choosing a skilled nursing facility are usually doing it under time pressure, often straight after a hospitalisation, and almost always without any prior experience of the system. They face two separate problems at once: working out which facilities are appropriate and available, and then completing an admission packet that assumes knowledge they do not have. CareCompass addresses both in one place — a facility search families can actually use, and an intake flow that walks them through the paperwork.",
+    problem: [
+      "Facility selection happens under time pressure, frequently during a discharge window measured in days.",
+      "Families have no basis for comparison — the information that distinguishes one facility from another is scattered, inconsistent, or written for regulators rather than relatives.",
+      "Admission packets assume familiarity with terminology, insurance mechanics and documentation that most families encounter for the first time.",
+      "The paperwork burden lands on the person least equipped to carry it, at the worst possible moment.",
+    ],
+    solution: [
+      "A searchable facility database built around what a family actually needs to compare, not what is easiest to publish.",
+      "A guided intake that takes the admission packet one step at a time and explains what each part is for.",
+      "Plain language throughout — the interface assumes no prior exposure to skilled nursing.",
+      "A compliance view, so the facility side of the process is served by the same tool rather than a parallel one.",
+    ],
+    process: [
+      {
+        title: "Start from the family's week",
+        description:
+          "Map what actually happens between a discharge decision and an admission, and where the hours go.",
+      },
+      {
+        title: "Separate the two problems",
+        description:
+          "Facility search and paperwork completion are distinct tasks with distinct failure modes; treat them as such rather than merging them into one funnel.",
+      },
+      {
+        title: "Write for the reader who has never done this",
+        description:
+          "Every label and explanation is aimed at a relative under stress, not at an administrator who already knows the vocabulary.",
+      },
+    ],
+    tools: [
+      "Product design",
+      "Search and data modelling",
+      "Guided intake flows",
+      "Plain-language content design",
+    ],
+    lessons: [
+      "The paperwork is not incidental to the admission — for the family it often is the admission.",
+      "Two audiences share one process: what reduces work for the facility and what reduces confusion for the family are not automatically the same thing.",
+    ],
+    nextSteps: [
+      "Expand facility coverage.",
+      "Test the intake flow with families who have recently been through an admission.",
+    ],
+    related: ["hutchinson-careos-one", "snf-ai-documentation-system"],
+  },
+  {
     slug: "ai-human-work-benchmark-map",
     title: "AI–Human Work Benchmark Map",
     category: "Research",
