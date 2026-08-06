@@ -140,18 +140,18 @@ export const projects: Project[] = [
   {
     slug: "carecompass",
     title: "CareCompass",
-    category: "Healthcare",
-    categoryLabel: "Healthcare Product",
-    status: "Active",
+    category: "Design",
+    categoryLabel: "Product Design",
+    status: "Concept",
     featured: true,
     image: "/images/projects/carecompass.jpg",
     imageAlt:
-      "The CareCompass landing page: the wordmark over a photograph of a smiling woman, headed “Find the right skilled nursing facility and complete admission paperwork with confidence — in under thirty minutes, not three hours.”, with Start Facility Search and Begin Admission Packet buttons.",
+      "A design for the CareCompass landing page: the wordmark over a photograph of a smiling woman, headed “Find the right skilled nursing facility and complete admission paperwork with confidence — in under thirty minutes, not three hours.”, with Start Facility Search and Begin Admission Packet buttons.",
     contentStatus: "final",
     summary:
-      "A searchable database of skilled nursing facilities paired with a guided admission-paperwork intake for families — finding the right facility and completing the packet in under thirty minutes rather than three hours.",
+      "In design. A searchable database of skilled nursing facilities paired with a guided admission-paperwork intake for families — aimed at finding the right facility and completing the packet in under thirty minutes rather than three hours.",
     overview:
-      "Families choosing a skilled nursing facility are usually doing it under time pressure, often straight after a hospitalisation, and almost always without any prior experience of the system. They face two separate problems at once: working out which facilities are appropriate and available, and then completing an admission packet that assumes knowledge they do not have. CareCompass addresses both in one place — a facility search families can actually use, and an intake flow that walks them through the paperwork.",
+      "CareCompass is currently a design, not a product — the interface is drawn, the flows are worked out, and nothing has been built yet. The problem it addresses is one I watch families run into constantly. Choosing a skilled nursing facility usually happens under time pressure, often straight after a hospitalisation, and almost always without any prior experience of the system. Families face two separate problems at once: working out which facilities are appropriate and available, and then completing an admission packet that assumes knowledge they do not have. The design puts both in one place.",
     problem: [
       "Facility selection happens under time pressure, frequently during a discharge window measured in days.",
       "Families have no basis for comparison — the information that distinguishes one facility from another is scattered, inconsistent, or written for regulators rather than relatives.",
@@ -190,10 +190,12 @@ export const projects: Project[] = [
     lessons: [
       "The paperwork is not incidental to the admission — for the family it often is the admission.",
       "Two audiences share one process: what reduces work for the facility and what reduces confusion for the family are not automatically the same thing.",
+      "Designing the search first and the intake second was the wrong order. The paperwork is where families actually lose their week, so it should lead.",
     ],
     nextSteps: [
-      "Expand facility coverage.",
-      "Test the intake flow with families who have recently been through an admission.",
+      "Put the designed flows in front of families who have recently been through an admission, before any of it is built.",
+      "Work out where the facility data would come from, and what could be kept current honestly.",
+      "Scope a build once the intake flow survives contact with real families.",
     ],
     related: ["hutchinson-careos-one", "snf-ai-documentation-system"],
   },
