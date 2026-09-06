@@ -35,6 +35,8 @@ export type Project = {
   title: string;
   /** Filter bucket used by the Projects gallery. */
   category: ProjectCategory;
+  /** Additional gallery filters for projects that span more than one area. */
+  additionalCategories?: ProjectCategory[];
   /** Human-readable label shown on the card — may be more specific. */
   categoryLabel: string;
   status: ProjectStatus;
@@ -72,6 +74,7 @@ export const projects: Project[] = [
     slug: "hutchinson-careos-one",
     title: "Hutchinson CareOS One",
     category: "Healthcare",
+    additionalCategories: ["AI"],
     categoryLabel: "Healthcare AI",
     status: "Active",
     featured: true,
@@ -203,6 +206,7 @@ export const projects: Project[] = [
     slug: "ai-human-work-benchmark-map",
     title: "AI–Human Work Benchmark Map",
     category: "Research",
+    additionalCategories: ["AI"],
     categoryLabel: "Applied Research",
     status: "Active",
     featured: true,
@@ -274,6 +278,7 @@ export const projects: Project[] = [
     slug: "snf-ai-documentation-system",
     title: "SNF AI Documentation System",
     category: "Healthcare",
+    additionalCategories: ["AI"],
     categoryLabel: "Healthcare AI",
     status: "Concept",
     featured: true,
@@ -341,6 +346,7 @@ export const projects: Project[] = [
     slug: "hutchinson-healthcare-ai-model",
     title: "Hutchinson Healthcare AI Model",
     category: "Healthcare",
+    additionalCategories: ["AI"],
     categoryLabel: "Business Innovation",
     status: "Concept",
     featured: true,
@@ -393,6 +399,7 @@ export const projects: Project[] = [
     slug: "ai-career-resume-education",
     title: "AI Career and Résumé Education",
     category: "Education",
+    additionalCategories: ["AI"],
     categoryLabel: "Education",
     status: "Active",
     featured: true,
@@ -593,6 +600,16 @@ export const featuredProjects = projects.filter((p) => p.featured);
 
 export function getProject(slug: string): Project | undefined {
   return projects.find((p) => p.slug === slug);
+}
+
+export function projectMatchesCategory(
+  project: Project,
+  category: ProjectCategory,
+): boolean {
+  return (
+    project.category === category ||
+    project.additionalCategories?.includes(category) === true
+  );
 }
 
 export function getRelatedProjects(project: Project): Project[] {

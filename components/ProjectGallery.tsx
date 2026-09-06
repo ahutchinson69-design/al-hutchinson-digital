@@ -18,6 +18,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Search, X } from "lucide-react";
 import {
   PROJECT_CATEGORIES,
+  projectMatchesCategory,
   projects,
   type ProjectCategory,
 } from "@/data/projects";
@@ -57,7 +58,9 @@ export function ProjectGallery() {
     const needle = query.trim().toLowerCase();
 
     return projects.filter((project) => {
-      if (filter !== "All" && project.category !== filter) return false;
+      if (filter !== "All" && !projectMatchesCategory(project, filter)) {
+        return false;
+      }
       if (!needle) return true;
 
       return [
