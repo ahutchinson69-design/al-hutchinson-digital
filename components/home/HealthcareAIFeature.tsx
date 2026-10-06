@@ -1,6 +1,5 @@
 /** Section 5 — Healthcare AI feature. Visually distinct from its neighbours. */
 
-import { ArrowRight } from "lucide-react";
 import { focusAreas, healthcareIntro, CLINICAL_SAFEGUARD } from "@/data/healthcare-ai";
 import { Button } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
@@ -8,7 +7,7 @@ import { Reveal } from "@/components/ui/Reveal";
 
 export function HealthcareAIFeature() {
   return (
-    <section className="relative overflow-hidden border-y border-hairline bg-canvas-2">
+    <section className="relative overflow-hidden bg-canvas-2/60">
       <div aria-hidden="true" className="glow-warm absolute inset-0" />
       <div
         aria-hidden="true"
@@ -18,7 +17,7 @@ export function HealthcareAIFeature() {
       <div className="shell section-y relative">
         <div className="grid gap-12 lg:grid-cols-[1fr_1fr] lg:gap-16">
           <Reveal className="flex flex-col gap-6">
-            <p className="eyebrow">Healthcare AI</p>
+            <p className="pill-label w-fit">Healthcare AI</p>
 
             <h2 className="text-2xl leading-[1.15] font-semibold sm:text-3xl lg:text-4xl">
               {healthcareIntro.heading}
@@ -32,19 +31,18 @@ export function HealthcareAIFeature() {
               {CLINICAL_SAFEGUARD}
             </blockquote>
 
-            <Button href="/healthcare-ai" className="mt-2 w-fit">
+            <Button href="/healthcare-ai" className="mt-2 w-fit" withArrow>
               Explore Healthcare AI
-              <ArrowRight aria-hidden="true" className="size-4" />
             </Button>
           </Reveal>
 
           <ul className="flex flex-col gap-4">
             {focusAreas.map((area, index) => (
               <Reveal as="li" key={area.title} delay={0.1 + index * 0.08}>
-                <div className="flex gap-4 rounded-2xl border border-hairline bg-surface/60 p-5 transition-colors hover:border-accent/25">
+                <div className="bezel"><div className="bezel-core flex gap-4 p-5 sm:p-6">
                   <span
                     aria-hidden="true"
-                    className="inline-flex size-10 shrink-0 items-center justify-center rounded-xl border border-hairline bg-accent/[0.07] text-accent"
+                    className="inline-flex size-11 shrink-0 items-center justify-center rounded-2xl bg-accent/[0.08] text-accent shadow-[inset_0_0_0_1px_rgba(243,223,162,0.2)]"
                   >
                     <Icon name={area.icon} className="size-5" />
                   </span>
@@ -57,7 +55,7 @@ export function HealthcareAIFeature() {
                       {area.description}
                     </p>
                   </div>
-                </div>
+                </div></div>
               </Reveal>
             ))}
           </ul>
