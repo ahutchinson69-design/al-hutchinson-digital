@@ -22,9 +22,10 @@ export function CallToAction({
   secondary?: Action;
 }) {
   return (
-    <section className="border-t border-hairline">
+    <section>
       <div className="shell section-y">
-        <Reveal className="relative overflow-hidden rounded-3xl border border-hairline bg-canvas-2 px-6 py-14 sm:px-12 md:py-20">
+        <Reveal className="bezel">
+          <div className="bezel-core relative px-6 py-16 sm:px-12 md:py-24">
           <div aria-hidden="true" className="glow-warm absolute inset-0" />
 
           <div className="relative flex flex-col items-center gap-8">
@@ -36,13 +37,14 @@ export function CallToAction({
             />
 
             <div className="flex flex-col gap-3 sm:flex-row">
-              <Button href={primary.href} size="lg">
+              <Button href={primary.href} size="lg" withArrow>
                 {primary.label}
               </Button>
               <Button href={secondary.href} variant="secondary" size="lg">
                 {secondary.label}
               </Button>
             </div>
+          </div>
           </div>
         </Reveal>
       </div>
