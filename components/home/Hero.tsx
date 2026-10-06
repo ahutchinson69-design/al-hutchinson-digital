@@ -9,7 +9,6 @@
  */
 
 import { motion, useReducedMotion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { PortraitPlaceholder } from "@/components/ui/PortraitPlaceholder";
 
@@ -32,15 +31,15 @@ export function Hero() {
     <section className="relative overflow-hidden">
       <div aria-hidden="true" className="glow-warm absolute inset-0" />
 
-      <div className="shell relative grid items-center gap-12 pt-28 pb-16 sm:pt-32 md:pt-40 md:pb-24 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
+      <div className="shell relative grid items-center gap-12 pt-32 pb-20 sm:pt-36 md:min-h-[100dvh] md:pt-44 md:pb-28 lg:grid-cols-[1.2fr_0.8fr] lg:gap-20">
         {/* ── Left column ─────────────────────────────────────────────── */}
         <div className="flex flex-col gap-7">
-          <motion.p className="eyebrow" {...rise(0)}>
+          <motion.p className="pill-label w-fit max-w-full" {...rise(0)}>
             {EYEBROW}
           </motion.p>
 
           <motion.h1
-            className="max-w-2xl text-4xl leading-[1.05] font-semibold sm:text-5xl lg:text-6xl"
+            className="max-w-2xl text-4xl leading-[1.05] font-semibold sm:text-5xl lg:text-7xl"
             {...rise(0.08)}
           >
             Building practical technology for the future of{" "}
@@ -61,9 +60,8 @@ export function Hero() {
             className="flex flex-col gap-3 sm:flex-row sm:items-center"
             {...rise(0.24)}
           >
-            <Button href="/projects" size="lg">
+            <Button href="/projects" size="lg" withArrow>
               Explore My Work
-              <ArrowRight aria-hidden="true" className="size-4" />
             </Button>
             <Button href="/about" variant="secondary" size="lg">
               About Al
@@ -100,8 +98,18 @@ export function Hero() {
             />
           )}
 
-          <div className="relative">
+          <div className="bezel relative">
             <PortraitPlaceholder priority />
+          </div>
+
+          {/* Floating fact chips (figures from the CV) */}
+          <div className="absolute -bottom-5 -left-3 rounded-2xl bg-canvas/80 px-4 py-3 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.12),0_20px_40px_-20px_rgba(0,0,0,0.8)] backdrop-blur-xl sm:-left-8">
+            <p className="text-2xl leading-none font-semibold text-accent">35 years</p>
+            <p className="mt-1 text-xs text-ink-muted">working inside healthcare</p>
+          </div>
+          <div className="absolute -top-4 -right-2 rounded-2xl bg-canvas/80 px-4 py-3 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.12),0_20px_40px_-20px_rgba(0,0,0,0.8)] backdrop-blur-xl sm:-right-6">
+            <p className="text-2xl leading-none font-semibold text-accent">5,000+</p>
+            <p className="mt-1 text-xs text-ink-muted">educated across three decades</p>
           </div>
         </motion.div>
       </div>
