@@ -46,19 +46,19 @@ export function Header() {
 
   return (
     <>
-      <header
-        className={cn(
-          "fixed inset-x-0 top-0 z-40 transition-colors duration-300",
-          scrolled
-            ? "border-b border-hairline bg-canvas/80 backdrop-blur-xl"
-            : "border-b border-transparent bg-transparent",
-        )}
-      >
-        <div className="shell flex h-18 items-center justify-between gap-4">
+      <header className="pointer-events-none fixed inset-x-0 top-0 z-40 px-3 pt-3 sm:px-5 sm:pt-4">
+        <div
+          className={cn(
+            "pointer-events-auto mx-auto flex h-14 max-w-6xl items-center justify-between gap-3 rounded-full pr-2 pl-5 backdrop-blur-xl transition-[background-color,box-shadow] duration-500",
+            scrolled
+              ? "bg-canvas/75 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.1),0_20px_50px_-20px_rgba(0,0,0,0.8)]"
+              : "bg-white/[0.04] shadow-[inset_0_0_0_1px_rgba(255,255,255,0.08)]",
+          )}
+        >
           <Wordmark />
 
           <nav aria-label="Primary" className="hidden lg:block">
-            <ul className="flex items-center gap-1">
+            <ul className="flex items-center gap-0.5">
               {primaryNav.map((link) => {
                 const active = isActive(link.href);
                 return (
@@ -67,9 +67,9 @@ export function Header() {
                       href={link.href}
                       aria-current={active ? "page" : undefined}
                       className={cn(
-                        "relative inline-flex min-h-11 items-center rounded-full px-3.5 text-sm transition-colors",
+                        "relative inline-flex min-h-11 items-center whitespace-nowrap rounded-full px-3.5 text-sm transition-colors duration-300",
                         active
-                          ? "font-medium text-accent"
+                          ? "bg-white/[0.08] font-medium text-accent"
                           : "text-ink-muted hover:text-ink",
                       )}
                     >
@@ -78,7 +78,7 @@ export function Header() {
                       {active ? (
                         <span
                           aria-hidden="true"
-                          className="absolute inset-x-3.5 bottom-2 h-px bg-accent"
+                          className="absolute inset-x-4 bottom-2 h-px bg-accent"
                         />
                       ) : null}
                     </Link>
@@ -89,15 +89,9 @@ export function Header() {
           </nav>
 
           <div className="flex items-center gap-2">
-            {/*
-              The responsive display lives on this wrapper, not on the Button.
-              Button's own base class sets `inline-flex`, and Tailwind emits
-              both display utilities in the same layer — so a `hidden` passed
-              through className loses to it and the button never hides. On a
-              narrow screen that pushed the menu trigger off the edge.
-            */}
+            {/* Display lives on the wrapper: Button's base sets inline-flex. */}
             <span className="hidden sm:inline-flex">
-              <Button href="/projects" size="sm">
+              <Button href="/projects" size="sm" withArrow>
                 View My Work
               </Button>
             </span>
@@ -108,7 +102,7 @@ export function Header() {
               onClick={() => setMenuOpen(true)}
               aria-expanded={menuOpen}
               aria-haspopup="dialog"
-              className="inline-flex size-11 items-center justify-center rounded-full border border-hairline text-ink-muted transition-colors hover:border-accent/40 hover:text-accent lg:hidden"
+              className="inline-flex size-11 items-center justify-center rounded-full bg-white/[0.06] text-ink-muted transition-colors hover:text-accent lg:hidden"
             >
               <Menu aria-hidden="true" className="size-5" />
               <span className="sr-only">Open navigation menu</span>
