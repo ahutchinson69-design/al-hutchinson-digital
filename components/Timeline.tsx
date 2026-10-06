@@ -19,7 +19,7 @@ export function Timeline() {
             <div className="flex flex-col items-center">
               <span
                 aria-hidden="true"
-                className="inline-flex size-11 shrink-0 items-center justify-center rounded-xl border border-hairline bg-surface text-accent"
+                className="inline-flex size-12 shrink-0 items-center justify-center rounded-2xl bg-surface text-accent shadow-[inset_0_0_0_1px_rgba(243,223,162,0.2)]"
               >
                 <Icon name={entry.icon} className="size-5" />
               </span>
