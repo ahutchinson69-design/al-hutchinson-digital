@@ -23,44 +23,43 @@ export function ProjectCard({
   return (
     <article
       className={cn(
-        "group relative flex flex-col overflow-hidden rounded-2xl",
-        "border border-hairline bg-surface/60 p-3",
-        "transition-[border-color,transform,box-shadow] duration-300",
-        "hover:border-hairline-strong hover:shadow-[0_18px_50px_-30px_rgba(0,0,0,0.9)]",
-        "motion-safe:hover:-translate-y-1",
-        "focus-within:border-accent/50",
+        "bezel group relative lift focus-within:ring-2 focus-within:ring-accent/60",
         className,
       )}
     >
-      <MediaPlaceholder
-        src={project.image}
-        alt={project.imageAlt}
-        seed={project.slug}
-        icon="sparkles"
-        className="transition-transform duration-500 motion-safe:group-hover:scale-[1.015]"
-      />
+      <div className="bezel-core flex h-full flex-col p-2.5">
+        <MediaPlaceholder
+          src={project.image}
+          alt={project.imageAlt}
+          seed={project.slug}
+          icon="sparkles"
+          className="rounded-[1.25rem] border-0 transition-transform duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] motion-safe:group-hover:scale-[1.02]"
+        />
 
-      <div className="flex flex-1 flex-col gap-3 p-4 pt-5">
-        <div className="flex flex-wrap items-center gap-2">
-          <span className="eyebrow">{project.categoryLabel}</span>
-          <StatusBadge status={project.status} className="ms-auto" />
+        <div className="flex flex-1 flex-col gap-3 p-4 pt-5">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="text-xs font-medium text-accent">{project.categoryLabel}</span>
+            <StatusBadge status={project.status} className="ms-auto" />
+          </div>
+
+          <h3 className="text-lg font-semibold text-ink sm:text-xl">
+            <Link href={`/projects/${project.slug}`} className="after:absolute after:-inset-[0.375rem] after:rounded-[2rem] after:content-['']">
+              {project.title}
+            </Link>
+          </h3>
+
+          <p className="text-sm leading-relaxed text-ink-muted">{project.summary}</p>
+
+          <span
+            aria-hidden="true"
+            className="mt-auto inline-flex items-center gap-2 pt-2 text-sm font-medium text-accent"
+          >
+            View Case Study
+            <span className="inline-flex size-7 items-center justify-center rounded-full bg-accent/10 transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
+              <ArrowUpRight className="size-3.5" />
+            </span>
+          </span>
         </div>
-
-        <h3 className="text-lg font-semibold text-ink transition-colors group-hover:text-accent">
-          <Link href={`/projects/${project.slug}`} className="after:absolute after:inset-0">
-            {project.title}
-          </Link>
-        </h3>
-
-        <p className="text-sm leading-relaxed text-ink-muted">{project.summary}</p>
-
-        <span
-          aria-hidden="true"
-          className="mt-auto inline-flex items-center gap-1.5 pt-2 text-sm font-medium text-accent"
-        >
-          View Case Study
-          <ArrowUpRight className="size-4 transition-transform duration-300 motion-safe:group-hover:translate-x-0.5 motion-safe:group-hover:-translate-y-0.5" />
-        </span>
       </div>
     </article>
   );
