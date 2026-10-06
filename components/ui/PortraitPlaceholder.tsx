@@ -18,8 +18,8 @@ export function PortraitPlaceholder({
   priority?: boolean;
 }) {
   const frame = cn(
-    "relative isolate aspect-4/5 w-full overflow-hidden rounded-2xl",
-    "border border-hairline bg-canvas-2",
+    "relative isolate aspect-4/5 w-full overflow-hidden rounded-[1.625rem]",
+    "bg-canvas-2",
     className,
   );
 
