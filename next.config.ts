@@ -22,7 +22,10 @@ const nextConfig: NextConfig = {
    * the tidy /intro URL onto the actual file.
    */
   async rewrites() {
-    return [{ source: "/intro", destination: "/intro/index.html" }];
+    return [
+      { source: "/intro", destination: "/intro/index.html" },
+      { source: "/dbq-studio", destination: "/dbq-studio/index.html" },
+    ];
   },
 };
 
