@@ -1,9 +1,10 @@
 /**
  * PillarCard — the four professional pillars on the homepage.
+ * Double-bezel shell with an inner core; `featured` gives a larger treatment.
  */
 
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { Icon, type IconName } from "@/components/ui/Icon";
 import { cn } from "@/lib/cn";
 
@@ -13,48 +14,65 @@ export function PillarCard({
   href,
   icon,
   className,
+  featured = false,
 }: {
   title: string;
   description: string;
   href: string;
   icon: IconName;
   className?: string;
+  featured?: boolean;
 }) {
   return (
-    <div
-      className={cn(
-        "group relative flex flex-col gap-4 rounded-2xl border border-hairline",
-        "bg-surface/60 p-6",
-        "transition-[border-color,background-color,transform] duration-300",
-        "hover:border-accent/30 hover:bg-surface",
-        "motion-safe:hover:-translate-y-1",
-        "focus-within:border-accent/50",
-        className,
-      )}
-    >
-      <span
-        aria-hidden="true"
+    <div className={cn("bezel group relative lift focus-within:ring-2 focus-within:ring-accent/60", className)}>
+      <div
         className={cn(
-          "inline-flex size-11 items-center justify-center rounded-xl",
-          "border border-hairline bg-accent/[0.07] text-accent",
-          "transition-colors duration-300 group-hover:bg-accent/[0.12]",
+          "bezel-core relative flex flex-col gap-5 p-6 sm:p-8",
+          featured && "justify-between sm:min-h-72 sm:p-10",
         )}
       >
-        <Icon name={icon} className="size-5" />
-      </span>
+        {featured ? (
+          <div
+            aria-hidden="true"
+            className="glow-warm pointer-events-none absolute inset-0 opacity-70"
+          />
+        ) : null}
 
-      <h3 className="text-base font-semibold text-ink transition-colors group-hover:text-accent">
-        <Link href={href} className="after:absolute after:inset-0">
-          {title}
-        </Link>
-      </h3>
+        <span
+          aria-hidden="true"
+          className="relative inline-flex size-12 items-center justify-center rounded-2xl bg-accent/[0.08] text-accent shadow-[inset_0_0_0_1px_rgba(243,223,162,0.2)]"
+        >
+          <Icon name={icon} className="size-5" />
+        </span>
 
-      <p className="text-sm leading-relaxed text-ink-muted">{description}</p>
+        <div className="relative flex flex-col gap-3">
+          <h3
+            className={cn(
+              "font-semibold text-ink",
+              featured ? "text-2xl sm:text-3xl" : "text-lg",
+            )}
+          >
+            <Link href={href} className="after:absolute after:-inset-[0.375rem] after:rounded-[2rem] after:content-['']">
+              {title}
+            </Link>
+          </h3>
+          <p
+            className={cn(
+              "leading-relaxed text-ink-muted",
+              featured ? "max-w-md text-base" : "text-sm",
+            )}
+          >
+            {description}
+          </p>
+        </div>
 
-      <ArrowRight
-        aria-hidden="true"
-        className="mt-auto size-4 text-accent opacity-0 transition-all duration-300 group-hover:opacity-100 motion-safe:group-hover:translate-x-1"
-      />
+        <span
+          aria-hidden="true"
+          className="absolute top-6 right-6 inline-flex size-9 items-center justify-center rounded-full bg-white/[0.06] text-ink-muted transition-[transform,background-color,color] duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:bg-accent group-hover:text-canvas"
+        >
+          <ArrowUpRight className="size-4" />
+        </span>
+      </div>
     </div>
   );
 }
