@@ -1,0 +1,991 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="DBQ Studio: a training studio for clinicians who complete VA Disability Benefits Questionnaires.">
+<title>DBQ Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+<style>
+/* Layout concept: Apple-style product site. Translucent sticky bar, one idea per screen, large type, soft depth. Red, white and blue: navy and blue lead, red is the single accent. */
+:root{
+  --bg:#ffffff; --bg2:#f5f5f7; --panel:#ffffff; --panel2:#f5f5f7; --fg:#1d1d1f; --muted:#5f5f66;
+  --line:rgba(0,0,0,.12); --accent:#0a3d91; --accent-bg:#e9effb; --on-accent:#ffffff; --navy:#071c45;
+  --red:#b3112a; --red-bg:#fcebee;
+  --ok:#14703b; --ok-bg:#e1f3e8; --warn:#8d5400; --warn-bg:#fcefd6; --bad:#a1262b; --bad-bg:#fbe4e4;
+  --shadow:0 1px 2px rgba(0,0,0,.04),0 12px 40px rgba(7,28,69,.08);
+  --glass:rgba(255,255,255,.72);
+  --font:-apple-system,BlinkMacSystemFont,'SF Pro Display','SF Pro Text','Inter','Segoe UI',system-ui,sans-serif;
+  --mono:ui-monospace,'SF Mono','JetBrains Mono',Menlo,Consolas,monospace;
+  --spring:cubic-bezier(.32,.72,0,1);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#000000; --bg2:#0d0d10; --panel:#1c1c1f; --panel2:#141416; --fg:#f5f5f7; --muted:#a1a1a8;
+  --line:rgba(255,255,255,.16); --accent:#7aa8ff; --accent-bg:#0f1d3a; --on-accent:#04122e; --navy:#0b2a63;
+  --red:#ff6b7c; --red-bg:#331219;
+  --ok:#6fd19a; --ok-bg:#10281b; --warn:#f0c26a; --warn-bg:#2d2310; --bad:#ff9b9f; --bad-bg:#2e1416;
+  --shadow:0 0 0 1px rgba(255,255,255,.04);--glass:rgba(0,0,0,.7);color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#000000; --bg2:#0d0d10; --panel:#1c1c1f; --panel2:#141416; --fg:#f5f5f7; --muted:#a1a1a8;
+  --line:rgba(255,255,255,.16); --accent:#7aa8ff; --accent-bg:#0f1d3a; --on-accent:#04122e; --navy:#0b2a63;
+  --red:#ff6b7c; --red-bg:#331219;
+  --ok:#6fd19a; --ok-bg:#10281b; --warn:#f0c26a; --warn-bg:#2d2310; --bad:#ff9b9f; --bad-bg:#2e1416;
+  --shadow:0 0 0 1px rgba(255,255,255,.04);--glass:rgba(0,0,0,.7);color-scheme:dark}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--fg);font-family:var(--font);font-size:16px;line-height:1.5;margin:0;padding-inline:clamp(16px,4vw,40px);padding-block:0 72px;-webkit-font-smoothing:antialiased}
+h1,h2,h3{text-wrap:balance;letter-spacing:-0.03em;line-height:1.08;margin:0;font-weight:650}
+h1{font-size:clamp(2.1rem,5.2vw,3.4rem)}
+h2{font-size:clamp(1.5rem,3vw,2rem)}
+h3{font-size:1.05rem;letter-spacing:-0.01em;line-height:1.25}
+p{margin:0;text-wrap:pretty}
+a{color:var(--accent)}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid color-mix(in srgb,var(--accent) 55%,transparent);outline-offset:2px}
+.wrap{max-width:1120px;margin-inline:auto}
+.muted{color:var(--muted)}
+.small{font-size:.875rem}
+.fine{font-size:.82rem;color:var(--muted)}
+
+/* nav: translucent bar */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;margin-inline:calc(-1*clamp(16px,4vw,40px));padding-inline:clamp(16px,4vw,40px);background:var(--glass);-webkit-backdrop-filter:saturate(180%) blur(22px);backdrop-filter:saturate(180%) blur(22px);border-bottom:1px solid var(--line)}
+.top-in{max-width:1120px;margin-inline:auto;display:flex;align-items:center;gap:14px;min-height:56px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:650;letter-spacing:-0.01em;white-space:nowrap;background:none;border:0;cursor:pointer;padding:0}
+.mark{position:relative;width:30px;height:30px;border-radius:9px;background:linear-gradient(145deg,#1d56c4,var(--navy));color:#fff;display:grid;place-items:center;font-size:.72rem;font-weight:650;letter-spacing:.02em;overflow:hidden}
+.mark::after{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;background:#d0182f}
+.tabs{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;min-width:0;flex:1;justify-content:center}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:none;border:0;background:none;padding:8px 14px;border-radius:999px;color:var(--muted);cursor:pointer;font-weight:500;font-size:.92rem;white-space:nowrap;min-height:40px;transition:color .2s,background .2s}
+.tab:hover{color:var(--fg)}
+.tab[aria-selected="true"]{color:var(--fg);background:var(--bg2)}
+@media (max-width:760px){.bn{display:none}.tabs{justify-content:flex-start}}
+
+.view{display:none;padding-block:clamp(36px,7vw,84px)}
+.view.on{display:block;animation:rise .6s var(--spring)}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+/* buttons, pills, cards */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 22px;border-radius:999px;border:1px solid var(--line);background:var(--panel);cursor:pointer;font-weight:550;text-decoration:none;color:var(--fg);transition:transform .25s var(--spring),background .2s,box-shadow .2s}
+.btn:hover{background:var(--bg2)}
+.btn:active{transform:scale(.97)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.btn.primary:hover{filter:brightness(1.08);background:var(--accent)}
+.btn.ghost{background:transparent}
+.btn.lg{min-height:52px;padding:0 30px;font-size:1.02rem}
+.btn.sm{min-height:36px;padding:0 16px;font-size:.88rem}
+.pill{display:inline-flex;align-items:center;border-radius:999px;padding:2px 10px;font-size:.74rem;font-weight:600;background:var(--bg2);color:var(--muted);white-space:nowrap}
+.pill.guided{background:var(--accent-bg);color:var(--accent)}
+.pill.ok{background:var(--ok-bg);color:var(--ok)}
+.pill.warn{background:var(--warn-bg);color:var(--warn)}
+.pill.bad{background:var(--bad-bg);color:var(--bad)}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:24px;box-shadow:var(--shadow)}
+.grid{display:grid;gap:18px}
+.g3{grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
+.g2{grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr))}
+.eyebrow{font-size:.78rem;font-weight:650;letter-spacing:.14em;text-transform:uppercase;color:var(--red)}
+.stack{display:flex;flex-direction:column;gap:16px}
+.row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.center{justify-content:center}
+.notice{background:var(--bg2);color:var(--muted);border-radius:14px;padding:12px 16px;font-size:.86rem}
+.head{display:flex;flex-direction:column;gap:12px;max-width:720px}
+.head .lede{font-size:1.15rem;color:var(--muted)}
+
+/* home */
+.hero{display:flex;flex-direction:column;align-items:center;text-align:center;gap:22px;max-width:820px;margin-inline:auto}
+.hero h1{font-size:clamp(2.6rem,8vw,5.2rem);letter-spacing:-0.045em;line-height:1.02}
+.grad{background:linear-gradient(95deg,var(--accent) 10%,var(--red) 95%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lede{font-size:clamp(1.05rem,2vw,1.3rem);color:var(--muted);max-width:620px;line-height:1.45}
+.stripe{width:84px;height:4px;border-radius:4px;background:linear-gradient(90deg,var(--red) 0 34%,var(--line) 34% 38%,var(--accent) 38% 100%)}
+.preview{margin:clamp(40px,7vw,72px) auto 0;max-width:760px;border-radius:26px;background:var(--panel);border:1px solid var(--line);box-shadow:0 2px 4px rgba(0,0,0,.04),0 40px 90px rgba(7,28,69,.16);overflow:hidden}
+.pv-bar{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 20px;border-bottom:1px solid var(--line);font-size:.86rem;font-weight:600;background:var(--bg2)}
+.pv-body{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:0}
+@media (max-width:640px){.pv-body{grid-template-columns:minmax(0,1fr)}}
+.pv-form{padding:20px;display:flex;flex-direction:column;gap:14px}
+.pv-f{border:1px solid var(--line);border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:6px;font-size:.88rem}
+.pv-f b{display:flex;justify-content:space-between;gap:8px;align-items:center}
+.pv-side{padding:20px;background:var(--bg2);display:flex;flex-direction:column;gap:12px;font-size:.84rem;border-left:1px solid var(--line)}
+@media (max-width:640px){.pv-side{border-left:0;border-top:1px solid var(--line)}}
+.trio{margin-top:clamp(56px,9vw,110px)}
+.tile{text-align:left;cursor:pointer;display:flex;flex-direction:column;gap:10px;font:inherit;color:inherit;transition:transform .35s var(--spring),box-shadow .35s}
+.tile:hover{transform:translateY(-4px)}
+.tile .n{font-size:.8rem;font-weight:650;color:var(--red);letter-spacing:.08em}
+.tile h3{font-size:1.3rem}
+.band{margin-top:clamp(40px,6vw,72px);border-radius:28px;background:linear-gradient(135deg,var(--navy),#12408f);color:#fff;padding:clamp(28px,5vw,52px);display:flex;gap:20px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+.band h2{color:#fff;max-width:520px}
+.band p{color:rgba(255,255,255,.78)}
+.band .btn{background:#fff;color:#071c45;border-color:#fff}
+.band .btn:hover{background:#eef2fb}
+.band::before{content:"";display:block}
+.legal{margin-top:36px;text-align:center}
+
+/* sign in */
+.seg{display:inline-flex;gap:2px;padding:3px;border-radius:999px;background:var(--bg2);flex-wrap:wrap}
+.seg button{border:0;background:none;padding:8px 18px;border-radius:999px;cursor:pointer;font-weight:550;font-size:.9rem;color:var(--muted);min-height:38px}
+.seg button[aria-selected="true"]{background:var(--panel);color:var(--fg);box-shadow:0 1px 3px rgba(0,0,0,.14)}
+.signcard{max-width:460px;width:100%;margin-inline:auto}
+.signcard h2{font-size:1.7rem}
+.inp{width:100%;min-height:48px;border:1px solid var(--line);background:var(--bg);border-radius:14px;padding:0 16px}
+.chk{display:flex;gap:10px;align-items:flex-start;font-size:.88rem;color:var(--muted)}
+.chk input{margin-top:4px}
+
+/* library */
+.tools{display:flex;gap:10px;flex-wrap:wrap}
+.tools input[type=search],.tools select{min-height:46px;border:1px solid var(--line);background:var(--bg2);border-radius:999px;padding:0 18px}
+.tools input[type=search]{flex:1;min-width:200px}
+.cat{margin-top:34px}
+.cat h3{display:flex;gap:10px;align-items:center;margin-bottom:12px;font-size:1.2rem}
+.forms{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr));gap:10px}
+.form-row{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:6px 8px 6px 4px;min-width:0;transition:border-color .2s,transform .25s var(--spring)}
+.form-row:hover{border-color:var(--accent);transform:translateY(-1px)}
+.form-row .t{min-width:0;overflow-wrap:anywhere;flex:1;text-align:left;background:none;border:0;cursor:pointer;padding:10px 12px;font-weight:520;line-height:1.3}
+.form-row .acts{display:flex;gap:10px;flex:none;align-items:center;padding-right:6px}
+
+/* builder */
+.builder{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:26px;align-items:start}
+@media (max-width:900px){.builder{grid-template-columns:minmax(0,1fr)}}
+.sec{margin-top:10px;font-size:1rem}
+.field{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:18px 20px;display:flex;flex-direction:column;gap:10px;transition:border-color .2s,box-shadow .3s}
+.field.active{border-color:var(--accent);box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 14%,transparent)}
+.field label{font-weight:620;display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+.field textarea{width:100%;min-height:84px;resize:vertical;border:1px solid var(--line);border-radius:14px;background:var(--bg);padding:12px 14px;line-height:1.5}
+.msgs{display:flex;flex-direction:column;gap:4px;font-size:.84rem}
+.meter{height:8px;background:var(--bg2);border-radius:999px;overflow:hidden}
+.meter i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--red));width:0;border-radius:999px;transition:width .5s var(--spring)}
+.coach{position:sticky;top:calc(env(safe-area-inset-top,0px) + 76px);display:flex;flex-direction:column;gap:16px}
+@media (max-width:900px){.coach{position:static}}
+.ex{border-radius:14px;padding:12px 14px;font-size:.9rem}
+.ex.weak{background:var(--bad-bg);color:var(--bad)}
+.ex.good{background:var(--ok-bg);color:var(--ok)}
+.ex b{display:block;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;margin-bottom:2px}
+.checklist{display:flex;flex-direction:column;gap:2px;font-size:.88rem;max-height:260px;overflow:auto}
+.checklist button{display:flex;gap:8px;align-items:center;text-align:left;border:0;background:none;padding:4px 0;cursor:pointer;color:inherit;min-height:32px}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--line);flex:none}
+.dot.ok{background:var(--ok)}.dot.warn{background:var(--warn)}
+.sel{min-height:46px;border:1px solid var(--line);background:var(--bg2);border-radius:999px;padding:0 18px;max-width:100%}
+
+/* prompts */
+.prompt{background:var(--panel);border:1px solid var(--line);border-radius:20px;overflow:hidden}
+.prompt header{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:14px 20px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.prompt pre{margin:0;padding:16px 20px;white-space:pre-wrap;overflow-wrap:anywhere;font-family:var(--mono);font-size:.82rem;line-height:1.65;background:var(--bg2)}
+.rules li{margin-bottom:8px}
+.toast{position:fixed;bottom:calc(env(safe-area-inset-bottom,0px) + 20px);left:50%;transform:translateX(-50%) translateY(8px);background:var(--fg);color:var(--bg);padding:11px 20px;border-radius:999px;font-size:.88rem;opacity:0;pointer-events:none;transition:opacity .25s,transform .35s var(--spring);z-index:50}
+.toast.on{opacity:1;transform:translateX(-50%)}
+.steps{display:flex;gap:8px;flex-wrap:wrap}
+.steps span{background:var(--bg2);border-radius:999px;padding:5px 13px;font-size:.82rem}
+ul.plain{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px}
+.wf{border-radius:16px;padding:14px;background:var(--bg2);display:flex;flex-direction:column;gap:10px;min-width:0}
+.tag{font-size:.7rem;font-weight:650;text-transform:uppercase;letter-spacing:.12em;color:var(--red)}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="top-in">
+    <button class="brand" data-go="start" aria-label="DBQ Studio home"><span class="mark">DQ</span><span class="bn">DBQ Studio</span></button>
+    <nav class="tabs" role="tablist" aria-label="Studio sections" id="tabs"></nav>
+    <button class="btn sm" data-go="signin">Sign in</button>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- HOME -->
+<section class="view on" id="v-start">
+  <div class="hero">
+    <div class="stripe" aria-hidden="true"></div>
+    <span class="eyebrow">A training studio for clinicians</span>
+    <h1>Write a DBQ that <span class="grad">holds up.</span></h1>
+    <p class="lede">Fill out any public VA disability questionnaire with a coach beside you. Then sharpen your own findings with AI prompts that never invent them.</p>
+    <div class="row center">
+      <button class="btn primary lg" data-go="build">Try the builder</button>
+      <button class="btn ghost lg" data-go="library">Browse all forms</button>
+    </div>
+    <p class="fine"><span id="nForms">68</span> guided forms &middot; <span id="nCats">20</span> body systems &middot; every example is synthetic</p>
+  </div>
+
+  <div class="preview" aria-label="Preview of the builder">
+    <div class="pv-bar"><span>Knee and Lower Leg</span><span class="pill ok">5 of 8 complete</span></div>
+    <div class="pv-body">
+      <div class="pv-form">
+        <div class="pv-f"><b>Range of motion <span class="pill ok">Complete</span></b><span class="muted">Active flexion 0 to 105 degrees, pain begins at 90. Extension 0 to 0 degrees. Weight-bearing flexion 100 degrees.</span></div>
+        <div class="pv-f"><b>After three repetitions <span class="pill warn">Needs work</span></b><span class="muted">Unable to determine without speculation.</span><span style="color:var(--warn)">&bull; State the result after three repetitions.</span></div>
+      </div>
+      <div class="pv-side">
+        <span class="eyebrow">Coach</span>
+        <div class="ex good"><b>Complete looks like</b>After 3 repetitions flexion 100 degrees with pain. Flare-up flexion about 80 degrees, based on the stair limitation described.</div>
+        <div class="meter"><i style="width:62%;transition:none"></i></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid g3 trio">
+    <button class="card tile" data-go="library"><span class="n">01</span><h3>Pick any form</h3><p class="muted">Every public VA DBQ, organized by body system, with a link to the official PDF.</p></button>
+    <button class="card tile" data-go="build"><span class="n">02</span><h3>Write with a coach</h3><p class="muted">See a thin answer beside a complete one, and get checked as you type.</p></button>
+    <button class="card tile" data-go="prompts"><span class="n">03</span><h3>Sharpen with AI</h3><p class="muted">Copy-ready prompts that find gaps and ask questions instead of guessing.</p></button>
+  </div>
+
+  <div class="band">
+    <div class="stack" style="gap:10px"><h2>Three companions are next.</h2><p>Veteran Claims Navigator, Preceptor Playbook and Clinician Agent Builder.</p></div>
+    <button class="btn lg" data-go="more">See the plans</button>
+  </div>
+  <p class="fine legal">Independent training tool. Not affiliated with or endorsed by the Department of Veterans Affairs. Use synthetic or fully de-identified cases only.</p>
+</section>
+
+<!-- SIGN IN -->
+<section class="view" id="v-signin">
+  <div class="stack" style="align-items:center;text-align:center;gap:22px">
+    <span class="eyebrow">Sign in</span>
+    <h1>Three ways in</h1>
+    <p class="lede">Preview each option. This is a prototype, so nothing you type is sent or saved.</p>
+    <div class="seg" role="tablist" id="seg" aria-label="Sign-in options"></div>
+    <div class="card signcard stack" id="signPane"></div>
+    <p class="small muted" id="signNote" style="max-width:520px"></p>
+  </div>
+</section>
+
+<!-- LIBRARY -->
+<section class="view" id="v-library">
+  <div class="stack" style="gap:20px">
+    <div class="head">
+      <span class="eyebrow">Library</span>
+      <h1>Every public VA DBQ, by body system</h1>
+      <p class="lede">Open any form in the guided builder, or go straight to the official PDF on VA.gov. VA restricts a few DBQs (hearing loss and tinnitus, TBI and the former POW protocol), so they are not in the public list.</p>
+    </div>
+    <div class="tools">
+      <input id="q" type="search" placeholder="Search, for example knee, sleep, PTSD" aria-label="Search forms">
+      <select id="catSel" class="sel" aria-label="Filter by body system"></select>
+    </div>
+    <div id="libList"></div>
+  </div>
+</section>
+
+<!-- BUILDER -->
+<section class="view" id="v-build">
+  <div class="stack" style="margin-bottom:26px">
+    <div class="head">
+      <span class="eyebrow">Builder</span>
+      <h1>Fill out a DBQ with a coach beside you</h1>
+    </div>
+    <div class="row">
+      <select id="formSel" class="sel" aria-label="Choose a DBQ"></select>
+      <button class="btn sm" id="loadEx">Load example case</button>
+      <button class="btn sm" id="clearForm">Clear</button>
+      <a class="btn sm" id="officialLink" href="#" target="_blank" rel="noopener">Official form on VA.gov &#8599;</a>
+    </div>
+    <div class="notice">The example case is synthetic ("Veteran A"). Do not enter real patient information.</div>
+  </div>
+  <div class="builder">
+    <div class="stack" id="fields"></div>
+    <aside class="coach">
+      <div class="card stack">
+        <div class="row" style="justify-content:space-between"><h3>Completeness</h3><span class="small muted" id="score">0 / 0</span></div>
+        <div class="meter"><i id="bar"></i></div>
+        <div class="checklist" id="checklist"></div>
+      </div>
+      <div class="card stack" id="coachCard"></div>
+      <button class="btn" id="copyDraft">Copy draft as text</button>
+    </aside>
+  </div>
+</section>
+
+<!-- PROMPT LAB -->
+<section class="view" id="v-prompts">
+  <div class="stack" style="gap:30px">
+    <div class="head">
+      <span class="eyebrow">Prompt lab</span>
+      <h1>Use an AI helper without losing your own voice</h1>
+      <p class="lede">These prompts work in any AI assistant your organization approves. The AI checks and organizes your findings. It does not examine the veteran, and it never invents a measurement.</p>
+    </div>
+    <div class="grid g2">
+      <div class="card">
+        <h3>Ground rules</h3>
+        <ul class="plain rules" style="margin-top:12px">
+          <li><b>You are the examiner.</b> Every finding comes from your own exam and the records you reviewed.</li>
+          <li><b>No identifiers.</b> Use only an AI tool your employer or practice has approved for health information. Otherwise paste de-identified notes.</li>
+          <li><b>Give it facts, ask for structure.</b> Tell it to list missing details as questions for you.</li>
+          <li><b>Rewrite every rationale in your own words.</b> Repeated wording across veterans looks like a template.</li>
+          <li><b>Read it against the form.</b> Check each line against what you found before you sign.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Why wording matters now</h3>
+        <p style="margin-top:12px" class="small">In March 2026, VA said it would analyze roughly a million older DBQs, going back to about 2010, for fraud patterns. Reporting describes the signals as repeated boilerplate, unusually high volume from one provider, and internal inconsistencies. VA later said the tool would inform future detection and would not revisit finalized claims.</p>
+        <p style="margin-top:10px" class="small">The practical lesson: document specific, individual findings that stay consistent from section to section.</p>
+        <p style="margin-top:10px" class="small muted">Sources: <a href="https://navigatingva.com/2026/03/12/ai_dba_reviews/" target="_blank" rel="noopener">Navigating VA Benefits</a>, <a href="https://www.stripes.com/veterans/2026-03-16/va-drops-plan-to-scan-old-claims-21089238.html" target="_blank" rel="noopener">Stars and Stripes</a></p>
+      </div>
+    </div>
+    <div class="row"><label for="pForm" class="muted small">Prompts for</label><select id="pForm" class="sel"></select></div>
+    <div class="stack" id="promptList"></div>
+    <div class="stack">
+      <h2>What good and weak AI output look like</h2>
+      <div class="grid g2" id="outEx"></div>
+    </div>
+  </div>
+</section>
+
+<!-- NEXT PROJECTS -->
+<section class="view" id="v-more">
+  <div class="stack" style="gap:30px">
+    <div class="head"><span class="eyebrow">Next</span><h1>Three companions to DBQ Studio</h1></div>
+    <div class="grid g3" id="more"></div>
+  </div>
+</section>
+
+</main>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+(function(){
+"use strict";
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const BASE="https://www.benefits.va.gov/compensation/docs/";
+const toast=m=>{const t=$("#toast");t.textContent=m;t.classList.add("on");clearTimeout(toast.h);toast.h=setTimeout(()=>t.classList.remove("on"),1800)};
+const copy=async txt=>{try{await navigator.clipboard.writeText(txt);toast("Copied")}catch(e){const ta=document.createElement("textarea");ta.value=txt;document.body.appendChild(ta);ta.select();try{document.execCommand("copy");toast("Copied")}catch(_){toast("Select the text and copy it")}ta.remove()}};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+/* ---------- all public DBQs: category|title|file ---------- */
+const RAW=`Separation Health Assessment|Separation Health Assessment DBQ, Part A|SHA_DBQ_Part_A_Self-Assessment.pdf
+Separation Health Assessment|Guidance for Separation Health Assessment DBQ, Part A|SHA_DBQ_Part_A_Guidance.pdf
+Cardiovascular|Artery and Vein Conditions|Artery_and_Vein.pdf
+Cardiovascular|Heart Conditions|Heart.pdf
+Cardiovascular|Hypertension|hypertension.pdf
+Dental and Oral|Oral and Dental|oral-and-dental.pdf
+Dermatological|Scars|scars.pdf
+Dermatological|Skin Diseases|Skin_Diseases.pdf
+Endocrinological|Diabetes Mellitus|Diabetes_Mellitus.pdf
+Endocrinological|Endocrine (other than Thyroid, Parathyroid or Diabetes)|Endocrine_Other_than_Thyroid_Parathyroid_and_Diabetes_Mellitus.pdf
+Endocrinological|Thyroid and Parathyroid|Thyroid_and_Parathyroid.pdf
+Ear, Nose, Throat|Ear (including Vestibular and Infectious)|Ear_Including_Vestibular_and_Infectious.pdf
+Ear, Nose, Throat|Loss of Sense of Smell and/or Taste|Loss_of_Sense_of_Smell_and_or_Taste.pdf
+Ear, Nose, Throat|Sinusitis, Rhinitis and Other Nose, Throat, Larynx and Pharynx Conditions|Sinusitis_Rhinitis_and_Other_Conditions_of_the_Nose_Throat_Larynx_and_Pharynx.pdf
+Gastrointestinal|Esophageal Disorders|esophageal-disorders.pdf
+Gastrointestinal|Gallbladder|gallbladder.pdf
+Gastrointestinal|Hernias (Abdominal, Inguinal and Femoral)|hernias-including-abdominal-inguinal-and-femoral-hernias.pdf
+Gastrointestinal|Intestinal Conditions|intestines.pdf
+Gastrointestinal|Liver Conditions|liver-conditions.pdf
+Gastrointestinal|Pancreas|pancreas.pdf
+Gastrointestinal|Peritoneal Adhesions|peritoneal-adhesions.pdf
+Gastrointestinal|Rectum and Anus|rectum-and-anus.pdf
+Gastrointestinal|Stomach and Duodenum|stomach-and-duodenum.pdf
+Genitourinary|Kidney Conditions|kidney.pdf
+Genitourinary|Male Reproductive Organ Conditions (including Prostate Cancer)|Male_Reproductive_Organ.pdf
+Genitourinary|Urinary Tract Conditions|Urinary_Tract_Conditions.pdf
+Gynecological|Breast|Breast_Conditions.pdf
+Gynecological|Gynecological Conditions|Gynecological_Conditions.pdf
+Hematologic and Lymphatic|Hematologic and Lymphatic Conditions, including Leukemia|Hematologic_and_Lymphatic_Conditions_Including_Leukemia.pdf
+Infectious Diseases|HIV-Related Illnesses|HIV_Related_Illnesses.pdf
+Infectious Diseases|Infectious Diseases (other than HIV, chronic fatigue syndrome and tuberculosis)|Infectious_Diseases_Other_than_HIV_Related_Illness_Chronic_Fatigue_Syndrome_and_Tuberculosis.pdf
+Infectious Diseases|Persian Gulf/Afghanistan Infectious Diseases|Persian_Gulf_Afghanistan_Infectious_Diseases.pdf
+Infectious Diseases|Tuberculosis|Tuberculosis.pdf
+Musculoskeletal|Amputations|amputations.pdf
+Musculoskeletal|Ankle|ankle.pdf
+Musculoskeletal|Back (Thoracolumbar Spine)|Back_Thoracolumbar_Spine.pdf
+Musculoskeletal|Bones and Other Skeletal Conditions|Bones_and_Other_Skeletal_Conditions.pdf
+Musculoskeletal|Elbow and Forearm|Elbow_and_Forearm.pdf
+Musculoskeletal|Foot Conditions including Flatfoot (Pes Planus)|Foot_Conditions_Including_Flatfoot_Pes_Planus.pdf
+Musculoskeletal|Hand and Finger|Hand_and_Finger.pdf
+Musculoskeletal|Hip and Thigh|Hip_and_Thigh.pdf
+Musculoskeletal|Knee and Lower Leg|Knee_and_Lower_Leg.pdf
+Musculoskeletal|Muscle Injuries|Muscle_Injuries.pdf
+Musculoskeletal|Neck (Cervical Spine)|Neck_Conditions_Cervical_Spine.pdf
+Musculoskeletal|Osteomyelitis|Osteomyelitis.pdf
+Musculoskeletal|Shoulder and/or Arm|Shoulder_and_or_Arm.pdf
+Musculoskeletal|Temporomandibular Disorders|Temporomandibular_Disorders.pdf
+Musculoskeletal|Wrist|wrist.pdf
+Neurological|ALS (Lou Gehrig's Disease)|ALS_Lou_Gehrigs_Disease.pdf
+Neurological|Central Nervous System and Neuromuscular Diseases|Central_Nervous_System_and_Neuromuscular_Diseases.pdf
+Neurological|Cranial Nerve Conditions|Cranial_Nerve_Conditions.pdf
+Neurological|Diabetic Peripheral Neuropathy|Diabetic_Peripheral_Neuropathy.pdf
+Neurological|Fibromyalgia|Fibromyalgia.pdf
+Neurological|Headaches (including Migraines)|Headaches_Including_Migraines.pdf
+Neurological|Multiple Sclerosis (MS)|Multiple_Sclerosis.pdf
+Neurological|Narcolepsy|Narcolepsy.pdf
+Neurological|Parkinson's Disease|Parkinsons_Disease.pdf
+Neurological|Peripheral Nerves|Peripheral_Nerves.pdf
+Neurological|Seizure Disorders (Epilepsy)|Seizure_Disorders_Epilepsy.pdf
+Nutrition|Nutritional Deficiencies|Nutritional_Deficiencies.pdf
+Ophthalmological|Eye Conditions|Eye_Conditions.pdf
+Psychological|Eating Disorders|Eating_Disorders.pdf
+Psychological|Mental Disorders|Mental_Disorders.pdf
+Psychological|PTSD Review|PTSD_Review.pdf
+Respiratory|Respiratory Conditions (other than tuberculosis and sleep apnea)|Respiratory_Conditions_Other_than_Tuberculosis_and_Sleep_Apnea.pdf
+Respiratory|Sleep Apnea|Sleep_Apnea.pdf
+Rheumatological|Arthritis|Arthritis.pdf
+Rheumatological|Chronic Fatigue Syndrome|Chronic_Fatigue_Syndrome.pdf
+Rheumatological|Systemic Lupus Erythematosus (SLE) and other Autoimmune Diseases|Systemic_Lupus_Erythematosus_and_Other_Autoimmune_Diseases.pdf
+Spina Bifida|Spina Bifida|Spina_Bifida.pdf`;
+const FORMS=RAW.split("\n").map(l=>{const [cat,title,file]=l.split("|");return{cat,title,file,url:BASE+file}});
+const GUIDED={ "Knee_and_Lower_Leg.pdf":"knee","Back_Thoracolumbar_Spine.pdf":"back","Mental_Disorders.pdf":"mental","Sleep_Apnea.pdf":"sleep","Headaches_Including_Migraines.pdf":"head","hypertension.pdf":"htn" };
+/* ---------- guided form content ---------- */
+const f=(id,sec,label,hint,good,weak,rules,ex)=>({id,sec,label,hint,good,weak,rules:rules||{},ex:ex||""});
+const STUDIO={
+knee:{name:"Knee and Lower Leg",file:"Knee_and_Lower_Leg.pdf",opinionNote:"If the claim needs an opinion on cause, the standard is whether it is at least as likely as not (50% or greater probability), with reasons.",
+ fields:[
+ f("dx","Section 1 · Diagnosis","Diagnosis, ICD code and date","Name each knee condition, the side, an ICD-10 code and the date of diagnosis.","Right knee degenerative arthritis, M17.11, diagnosed 03/2022 on weight-bearing films.","Knee problem.",{icd:1,date:1},"Right knee degenerative arthritis, M17.11, diagnosed 03/2022."),
+ f("hx","Section 2 · Medical history","Onset, course and flare-ups","Describe onset and course. For flare-ups give frequency, duration, triggers and what the veteran cannot do during one.","Onset after a 2008 training injury. Flare-ups about twice a month, lasting 2 to 3 days, triggered by stairs and prolonged standing. During flares cannot climb stairs or squat.","Knee hurts sometimes.",{words:20,num:1,flare:1},"Onset 2008 after a training injury. Flare-ups happen sometimes and hurt."),
+ f("rom","Section 3 · Range of motion","Range of motion measurements","Record flexion and extension in degrees, where pain begins, and whether the test was active, passive, weight-bearing and non-weight-bearing. Normal knee flexion is 0 to 140 degrees and extension 0 degrees.","Active flexion 0 to 105 degrees, pain begins at 90 degrees. Extension 0 to 0 degrees. Passive flexion 110 degrees. Weight-bearing flexion 100 degrees.","Reduced ROM with pain.",{num:3,deg:1,pain:1},"Active flexion 0 to 105 degrees. Extension to 0 degrees."),
+ f("reps","Section 3 · Repetitive use and flare-ups","After three repetitions, and during flare-ups","State the result after three repetitions and whether function changed. For flare-ups give an estimated range of motion in degrees, or explain specifically why an estimate is not possible.","After 3 repetitions flexion 100 degrees with pain, no change in extension. Not examined during a flare-up. Based on the veteran's description of stair limitation, estimated flare-up flexion about 80 degrees.","Unable to determine without speculation.",{reps:1,num:2,because:1},""),
+ f("stab","Section 6 · Joint stability","Stability and ligament testing","Report each test you did (anterior and posterior drawer, Lachman, varus and valgus stress) and the result.","Lachman negative. Anterior and posterior drawer negative. Varus and valgus stress negative at 0 and 30 degrees. No history of subluxation.","Stable.",{words:12,tests:1},""),
+ f("img","Section 13 · Diagnostic testing","Imaging and other tests","Give the test, date, and the finding. State if arthritis is documented.","Right knee X-ray 03/2022: medial joint space narrowing, small osteophytes. Degenerative arthritis documented.","X-ray done.",{date:1,words:10},""),
+ f("func","Section 14 · Functional impact","Effect on work and daily tasks","Name the tasks affected and how: standing, walking, lifting, sitting, stairs. Use time, distance or weight where you can.","Cannot stand more than 30 minutes or walk more than 1 block without stopping. Cannot lift more than 20 pounds from the floor. Sitting jobs are unaffected.","Affects work.",{words:15,num:1},""),
+ f("rem","Section 15 · Remarks","Remarks and rationale","Add anything the form did not capture. If an opinion is requested, give the opinion, the facts that support it, and why.","Opinion requested on service connection. It is at least as likely as not that the knee arthritis is related to the 2008 training injury because the injury is documented in the service record, the first imaging after service shows medial narrowing, and no other cause is documented.","It is at least as likely as not related to service.",{words:12,because:1,opinion:1},"")]},
+back:{name:"Back (Thoracolumbar Spine)",file:"Back_Thoracolumbar_Spine.pdf",opinionNote:"For any opinion, use the at least as likely as not (50% or greater) standard and give reasons.",
+ fields:[
+ f("dx","Section I · Diagnosis","Diagnosis, ICD code and date","List each spine condition with an ICD-10 code and date of diagnosis.","Lumbar degenerative disc disease, M51.36, diagnosed 06/2019 on MRI.","Back pain.",{icd:1,date:1}),
+ f("hx","Section II · Medical history","Onset, course and flare-ups","Describe onset, course, flare-up frequency and duration, and the functional loss during a flare.","Gradual onset 2015. Flare-ups about weekly, lasting 1 to 2 days, triggered by lifting and driving over 30 minutes. During flares cannot bend to put on shoes.","Back hurts at times.",{words:20,num:1,flare:1}),
+ f("rom","Section III · Range of motion","Range of motion measurements","Normal thoracolumbar values are flexion 0 to 90, extension 0 to 30, right and left lateral flexion 0 to 30 each, and right and left rotation 0 to 30 each, in degrees. Record the veteran's values, where pain begins, and any guarding or spasm.","Flexion 0 to 60 degrees with pain at 50. Extension 0 to 15 degrees. Right lateral flexion 20 degrees, left 25. Right rotation 25 degrees, left 25. Paraspinal spasm without abnormal gait.","Limited ROM.",{num:6,deg:1,pain:1}),
+ f("reps","Section III · Repetitive use and flare-ups","After repetition, and during flare-ups","Give measurements after three repetitions. For flare-ups, give an estimate or a specific reason one cannot be given.","After 3 repetitions flexion 55 degrees, extension 15 degrees, pain with each. Not seen in a flare-up. Based on the history of weekly flares, flare-up flexion is estimated at 40 degrees.","Cannot say.",{reps:1,num:2,because:1}),
+ f("neuro","Sections IV to VIII · Neurologic","Strength, reflexes, sensation, straight leg raise, radiculopathy","Report each element tested: strength (0 to 5), reflexes (0 to 4+), sensation by dermatome, straight leg raise, and any radiculopathy with side and nerve root.","Strength 5/5 bilaterally. Knee and ankle reflexes 2+ and symmetric. Sensation intact L2 to S1. Straight leg raise negative bilaterally. No radiculopathy.","Neuro intact.",{words:18,num:2}),
+ f("ivds","Section XI · IVDS","Intervertebral disc syndrome and bed rest","State whether IVDS is present. If so, give any physician-ordered bed rest in the past 12 months and its total duration.","IVDS present. No physician-ordered bed rest in the past 12 months.","See records.",{words:6}),
+ f("img","Section XV · Diagnostic testing","Imaging","Give the study, date, and result. Note whether arthritis is documented.","Lumbar MRI 06/2019: L4-L5 disc bulge with mild canal narrowing. Arthritis documented on X-ray 2018.","MRI done.",{date:1,words:10}),
+ f("func","Section XVI · Functional impact","Effect on work and daily tasks","Name the tasks affected and by how much: sitting, standing, lifting, bending.","Cannot sit more than 45 minutes. Cannot lift more than 15 pounds. Bending limits floor-level tasks.","Limits work.",{words:12,num:1})]},
+mental:{name:"Mental Disorders",file:"Mental_Disorders.pdf",opinionNote:"Differentiate symptoms across diagnoses. State plainly which symptoms belong to which condition, or that they cannot be separated and why.",
+ fields:[
+ f("dx","Section 1 · Diagnosis","Diagnosis and criteria","Give each diagnosis with ICD code, and state how the criteria are met. Say what you did to separate overlapping conditions.","Posttraumatic stress disorder, F43.10. Criteria met on interview and structured assessment (name the tool). Depressive symptoms overlap and cannot be separated from PTSD without speculation because both produce the same sleep and mood findings.","PTSD.",{icd:1,words:18}),
+ f("ev","Section 2 · Clinical findings","Evidence reviewed","List what you reviewed and what was not available.","Reviewed service treatment records 2007 to 2011, VA mental health notes 2019 to 2024, and the veteran's statement. No private records were available.","Records reviewed.",{words:14}),
+ f("hist","Section 2 · Clinical findings","Social, occupational and treatment history","Cover family and relationships, school, work, treatment and medications, legal history, and substance use. Include before, during and after service where it matters.","Married 9 years, two children, reports distance from spouse. Full-time warehouse job for 6 years with two verbal warnings for conflict. Sertraline 100 mg daily for 3 years. No arrests. Alcohol 1 to 2 drinks weekly.","Has family and a job.",{words:25,num:2}),
+ f("sym","Section 3 · Symptoms","Current symptoms","Name each symptom present, with frequency or severity, from the symptom list.","Nightmares 3 to 4 nights weekly, hypervigilance in public, irritability, sleep about 4 hours nightly, difficulty concentrating, avoids crowds.","Anxiety and depression.",{words:12,num:1}),
+ f("obs","Section 4 · Behavioral observations","What you observed","Describe appearance, speech, mood, affect, thought process and behavior as seen in the exam.","Neatly dressed. Speech normal rate. Affect constricted. Thought process linear. Tearful when discussing deployment. Maintained eye contact.","Cooperative.",{words:14}),
+ f("imp","Section C · Level of impairment","Occupational and social impairment","Choose the one level that best fits, and explain it with specific examples from work and relationships.","Occupational and social impairment with reduced reliability and productivity. Two verbal warnings in the past year for conflicts with coworkers, missed 6 days from sleep loss, and no close friendships outside family.","Moderate impairment.",{words:18,because:0}),
+ f("comp","Section 6 · Competency","Ability to manage finances","State yes or no, with the basis.","Able to manage finances. Reports paying bills on time and keeping a household budget.","Yes.",{words:6})]},
+sleep:{name:"Sleep Apnea",file:"Sleep_Apnea.pdf",opinionNote:"The form states a sleep study is needed to confirm the diagnosis. Document the study.",
+ fields:[
+ f("dx","Section I · Diagnosis","Diagnosis, type and sleep study","Give the type (obstructive, central, mixed), ICD code, date, and the sleep study that confirmed it.","Obstructive sleep apnea, G47.33, diagnosed 11/2021 on in-lab polysomnography.","Sleep apnea.",{icd:1,date:1,study:1}),
+ f("hx","Section II · Medical history","Onset and course","Describe onset, course, symptoms, and treatment history.","Snoring and witnessed apneas since about 2016. Daytime sleepiness. Weight gain of 30 pounds between 2015 and 2020.","Snores.",{words:14}),
+ f("tx","Section II · Medical history","Treatment: CPAP or other device","State whether a CPAP or similar device is required and whether the veteran uses it.","Requires CPAP, set at 10 cm H2O. Uses it nightly, about 6 hours, per device download.","Uses CPAP.",{words:10,cpap:1}),
+ f("res","Section III · Findings and symptoms","Residuals","Address each residual named on the form: daytime hypersomnolence, cor pulmonale, carbon dioxide retention, chronic respiratory failure, tracheostomy.","Mild daytime hypersomnolence on treatment. No cor pulmonale, no carbon dioxide retention, no chronic respiratory failure, no tracheostomy.","None.",{words:12,resid:1}),
+ f("test","Section V · Diagnostic testing","Sleep study result","Give the study date and result, such as the apnea-hypopnea index.","Polysomnography 11/2021, AHI 28 events per hour.","Positive.",{date:1,num:1}),
+ f("func","Section VI · Functional impact","Effect on work","Describe effect on work with a specific example.","Sleepiness in the afternoon requires a short break. Drives for work, so no driving over 2 hours without rest.","Tired.",{words:12})]},
+head:{name:"Headaches (including Migraines)",file:"Headaches_Including_Migraines.pdf",opinionNote:"Frequency and duration of prostrating attacks drive the answer, so record both with numbers.",
+ fields:[
+ f("dx","Section I · Diagnosis","Diagnosis, ICD code and date","Name the headache type (migraine, tension, cluster, other) with ICD code and date.","Migraine without aura, G43.009, diagnosed 05/2020.","Headaches.",{icd:1,date:1}),
+ f("hx","Section II · Medical history","Onset, course and treatment","Describe onset, course, triggers, and what medicines or treatments help.","Onset 2018. Triggered by bright light and missed meals. Sumatriptan 100 mg at onset reduces severity but not duration.","Gets headaches.",{words:18}),
+ f("sym","Section III · Symptoms","Symptoms during attacks","List the symptoms present: pain location, nausea, light or sound sensitivity, aura.","Pain behind the right eye, nausea, photophobia and phonophobia. No aura.","Pain and nausea.",{words:10}),
+ f("pro","Section IV · Prostrating attacks","Frequency and duration of prostrating attacks","State how often attacks are prostrating (the veteran must stop and lie down) and how long each lasts. Use counts per month and hours or days.","About 3 prostrating attacks per month, each lasting 4 to 8 hours, in the past 6 months. Must lie down in a dark room.","Frequent attacks.",{num:2,words:12,pro:1}),
+ f("img","Section VI · Diagnostic testing","Imaging and other tests","Give the test, date, and result, or state that none was done and why.","MRI brain 08/2020 was normal, with no structural cause found.","None.",{words:5}),
+ f("func","Section VII · Functional impact","Effect on work","Describe how attacks affect work with an example.","Missed 5 workdays in the last 6 months. During attacks cannot use a computer screen.","Misses work.",{words:12,num:1})]},
+htn:{name:"Hypertension",file:"hypertension.pdf",opinionNote:"The form says diagnosis is confirmed by readings taken two or more times on at least three different days.",
+ fields:[
+ f("dx","Section I · Diagnosis","Diagnosis, ICD code and date","Name hypertension or isolated systolic hypertension with ICD code and date.","Essential hypertension, I10, diagnosed 02/2018.","High blood pressure.",{icd:1,date:1}),
+ f("bp","Section II · Medical history","Blood pressure readings","Give at least three readings on different days with dates. The form notes the diagnosis relies on readings two or more times on at least 3 different days.","02/03/2026 152/94 and 150/92. 02/10/2026 148/96. 02/17/2026 154/90. Seated, appropriate cuff size.","Elevated readings.",{num:6,date:1,bp:1}),
+ f("tx","Section II · Medical history","Treatment and continuous medication","State whether continuous medication is required and name it, with dose.","Lisinopril 20 mg daily, continuous since 2018. Reports taking it every day.","On medication.",{words:10,num:1}),
+ f("oth","Section III · Other findings","Complications and related conditions","State complications or related conditions, or state that you looked and found none.","No known end-organ damage. Kidney function normal on 01/2026 labs.","None.",{words:10}),
+ f("func","Section IV · Functional impact","Effect on work","Describe the effect on work, or state none and why.","No work limits. Reports no symptoms with exertion.","None.",{words:8})]}
+};
+/* Guided builders for the remaining public DBQs. Section names come from VA's own forms; every example is synthetic. */
+const A=(label,hint,good,weak,rules,sec)=>({sec:sec||"",label,hint,good,weak,rules:rules||{}});
+const ASSIST=(sec)=>A("Assistive devices","List each device used (wheelchair, brace, crutches, cane, walker) and how often: occasional, regular or constant.","Uses a cane regularly for walking outdoors. No wheelchair, brace or crutches.","Uses a cane.",{kw:"occasional|regular|constant|no ",kwm:"Say how often: occasional, regular or constant.",words:6},sec);
+const REMAIN=(sec)=>A("Remaining effective function","Say whether the loss of function is so severe that amputation with a prosthesis would serve equally well, and describe what function is lost.","Function is not equal to amputation. Can still bear weight and walk with a cane, but cannot run or climb ladders.","Not like amputation.",{words:10},sec);
+const ROM=(norm,good,sec)=>A("Range of motion, measured in degrees","Record active and passive motion for each side, where pain begins, and weight-bearing status if relevant. "+norm,good,"Reduced range of motion with pain.",{num:4,deg:1,pain:1},sec);
+const REPS=(good,sec)=>A("After three repetitions, and during flare-ups","Give the result after three repetitions and any added loss. For flare-ups, estimate the range of motion in degrees or explain exactly why you cannot.",good,"Unable to determine without speculation.",{reps:1,num:2,because:1},sec);
+const ATROPHY=(sec)=>A("Muscle atrophy","State whether atrophy is present. If so, give circumference in centimeters, normal side and affected side, at the point of maximum bulk.","Mild atrophy of the right forearm. Circumference 27 cm right and 29 cm left at 10 cm below the elbow crease.","Some atrophy.",{num:2,kw:"cm|centimeter",kwm:"Give circumference in centimeters."},sec);
+const NEURO=(sec)=>A("Neurologic exam","Record strength (0 to 5), reflexes (0 to 4+), sensation tested and how, gait, and any atrophy. Name each side.","Strength 5/5 in all tested muscle groups. Reflexes 2+ and symmetric. Light touch intact. Gait normal. No atrophy.","Neuro exam normal.",{words:14,num:2},sec);
+
+/* [file, display name, category, dxGood, hxGood, specifics[], testGood, funcGood, testHint] */
+const SPEC2=[
+/* Cardiovascular */
+["Artery_and_Vein.pdf","Artery and Vein Conditions","Cardiovascular","Peripheral arterial disease, I73.9, diagnosed 04/2021.","Symptoms began in 2020 with calf pain on walking. Former smoker. Treated with a walking program and clopidogrel. No revascularization.",[
+ A("Findings for the condition (complete only the parts that apply)","The form has separate parts for varicose veins, peripheral arterial disease, aneurysm, Raynaud's, AV fistula and others. Complete the part that matches the diagnosis: location, side, symptoms and findings.","Peripheral arterial disease of the left leg. Claudication after walking about 1 block (200 feet), relieved by rest within 5 minutes. No ulceration or tissue loss. Left dorsalis pedis pulse diminished.","Leg circulation problem.",{words:18,num:1},"Sections III to XI"),
+ A("Surgery, procedures and residuals","State any surgery or revascularization with dates, and what symptoms remain.","No surgery or revascularization to date. The only residual is left calf claudication.","None.",{words:8},"Sections IV to VII")],
+ "Ankle-brachial index 05/2024: left 0.62, right 0.95.","Cannot walk more than 1 block without stopping. Sedentary work is unaffected.","Give the ankle-brachial index, ankle or toe pressures, or TcPO2 as the form asks, with dates."],
+["Heart.pdf","Heart Conditions","Cardiovascular","Coronary artery disease, I25.10, diagnosed 09/2020 after cardiac catheterization.","Chest pressure with exertion beginning in 2020. Stent placed 09/2020. Takes aspirin, atorvastatin and metoprolol continuously.",[
+ A("Cardiac events and procedures","List each myocardial infarction, arrhythmia, valve condition, procedure and hospitalization with dates and facilities.","Non-ST-elevation myocardial infarction 09/2020 at a regional hospital. Drug-eluting stent to the right coronary artery 09/2020. No arrhythmia. No valve disease.","Had a heart attack.",{words:16,date:1},"Sections III to IX"),
+ A("Physical examination","Record heart rate, blood pressure, rhythm, heart sounds, edema and peripheral pulses.","Heart rate 68, blood pressure 128/80. Regular rhythm, no murmur. No edema. Peripheral pulses 2+ and equal.","Normal exam.",{num:3,words:12},"Section X"),
+ A("METs testing and functional capacity","Record the workload in METs at which symptoms (dyspnea, fatigue, angina, dizziness or syncope) appear, from an exercise test or from an interview if testing is not possible. Add ejection fraction when available.","Treadmill stress test 06/2025: dyspnea and fatigue at 6 METs. Ejection fraction 55 percent on echocardiogram 06/2025.","Good exercise tolerance.",{kw:"MET",kwm:"State the workload in METs.",num:2,date:1},"Section XIII")],
+ "ECG 06/2025 normal sinus rhythm. Echocardiogram 06/2025: no chamber dilatation, EF 55 percent.","Cannot lift more than 25 pounds or climb more than two flights without stopping due to dyspnea.","Include ECG, chest X-ray, echocardiogram or angiography results and dates."],
+/* Dental */
+["oral-and-dental.pdf","Oral and Dental","Dental and Oral","Loss of teeth 7, 8 and 9 due to trauma, K08.1, 03/2019.","Teeth lost in a 2018 training accident. Restored with a partial denture in 2019.",[
+ A("Jaw, teeth, mouth and tongue findings","Cover each part that applies: mandible, maxilla or hard palate loss; which teeth are missing and why; whether a prosthesis can replace them; soft tissue injury, disfigurement or tongue loss.","Upper front teeth 7, 8 and 9 missing due to trauma. Can be restored with a prosthesis. No loss of mandible or maxilla. No tongue or soft tissue loss. No disfigurement.","Missing teeth.",{words:20},"Sections III to VI")],
+ "Panoramic X-ray 04/2019 confirms absent teeth 7 to 9. No bone loss.","No limit on work. Reports mild difficulty biting hard foods.","Name the imaging, date and result."],
+/* Dermatological */
+["scars.pdf","Scars","Dermatological","Surgical scar of the right forearm, L90.5, from 2017 repair.","Laceration repaired surgically in 2017. Scar has been stable since.",[
+ A("Scar measurements and description","For each scar give location, length and width in centimeters, area in square centimeters, and whether it is painful, unstable, or linear. For irregular scars, measure the widest points.","Right forearm, 9 cm long by 0.4 cm wide, area 3.6 square cm. Linear, flat, non-tender, no skin breakdown.","Scar on forearm.",{num:3,kw:"cm|centimeter",kwm:"Give length and width in centimeters.",words:12},"Sections 2-1 and 2-2"),
+ A("Head, face and neck findings (if any)","State whether any scar or disfigurement affects the head, face or neck. If yes, measure it and note pigmentation, texture, tissue loss and distortion of facial features, with photographs.","No scars or disfigurement of the head, face or neck.","None.",{words:8,kw:"head|face|neck",kwm:"Say that you checked the head, face and neck."},"Section 3")],
+ "Photographs taken and added to the record.","No effect on work.","Note whether photographs were taken."],
+["Skin_Diseases.pdf","Skin Diseases","Dermatological","Eczema, L30.9, diagnosed 2016.","Recurrent itchy rash since 2016. Flares with heat and sweat. Treated with topical steroid and moisturizer.",[
+ A("Treatment in the past 12 months","Name each medicine, how it is given (topical or systemic), and for how long: under 6 weeks, 6 weeks or more intermittent, or constant or near-constant.","Triamcinolone cream, topical, used intermittently for about 10 weeks total in the past 12 months. No systemic therapy.","Uses cream.",{kw:"week|constant|month",kwm:"State how long the treatment was used.",words:12,num:1},"Section III"),
+ A("Body area affected","Estimate the percent of total body area and of exposed area affected: none, under 5%, 5 to under 20%, 20 to 40%, over 40%.","Total body area about 6 percent. Exposed area about 2 percent (backs of both hands).","Widespread rash.",{kw:"%|percent",kwm:"Give the percentage of body area.",num:2},"Section IV")],
+ "No biopsy performed. Diagnosis made clinically.","Hand lesions limit work that requires frequent handwashing.","State biopsy or lab results or that none were done."],
+/* Endocrine */
+["Diabetes_Mellitus.pdf","Diabetes Mellitus","Endocrinological","Type 2 diabetes mellitus, E11.9, diagnosed 2015.","Diagnosed 2015. Treated with metformin. No insulin.",[
+ A("Treatment and activity regulation","State whether treatment is diet, oral agent or insulin, and name each. Say whether activities are restricted to avoid low blood sugar.","Metformin 1000 mg twice daily. No insulin. No restriction of activities.","Takes medicine.",{kw:"insulin|oral|diet|metformin|glipizide",kwm:"Name the treatment: diet, oral agent or insulin.",words:10},"Section II"),
+ A("Low blood sugar and ketoacidosis episodes","Give the number of episodes and hospitalizations in the past 12 months.","No hospitalizations or episodes of ketoacidosis in the past 12 months. No hypoglycemic reactions requiring a doctor visit.","None.",{words:12,kw:"12 months|year",kwm:"State the period covered (past 12 months)."},"Section II"),
+ A("Complications","Address neuropathy, nephropathy, retinopathy and any other complication. State if none were found and how you looked.","No retinopathy on 2025 eye exam. Urine albumin normal 03/2026. Monofilament sensation intact.","No complications.",{words:12,kw:"neuropath|nephropath|retinopath|monofilament|albumin",kwm:"Name the complications you looked for."},"Section III")],
+ "A1C 7.1 percent on 03/2026. Fasting glucose 138 on 03/2026.","No limit on work.","List the A1C and glucose results that confirm the diagnosis."],
+["Endocrine_Other_than_Thyroid_Parathyroid_and_Diabetes_Mellitus.pdf","Endocrine (other than Thyroid, Parathyroid or Diabetes)","Endocrinological","Addison's disease, E27.1, diagnosed 2018.","Fatigue and weight loss led to diagnosis in 2018. Takes hydrocortisone and fludrocortisone daily.",[
+ A("Condition findings (Cushing's, acromegaly, diabetes insipidus, Addison's or other)","Complete the part for the diagnosis: current symptoms, and for Addison's the number of crises per year.","Addison's disease controlled on replacement. No adrenal crises in the past 12 months. Mild fatigue. No hyperpigmentation.","Fatigue.",{words:16,num:1},"Sections III to VII"),
+ A("Medications, surgery and treatment history","List hormone therapy and any surgery or radiation.","Hydrocortisone 20 mg daily in divided doses and fludrocortisone 0.1 mg daily. No surgery.","On steroids.",{words:10,num:1},"Section II")],
+ "ACTH stimulation test 2018 confirmed adrenal insufficiency. Sodium 138 and potassium 4.2 on 02/2026.","No work limits while on treatment.","List imaging and lab results with dates."],
+["Thyroid_and_Parathyroid.pdf","Thyroid and Parathyroid","Endocrinological","Hypothyroidism, E03.9, diagnosed 2014.","Fatigue and weight gain in 2014. Takes levothyroxine daily.",[
+ A("Thyroid or parathyroid findings and symptoms","State thyroid size, tenderness, and symptoms of too little or too much hormone: fatigue, weight change, heat or cold intolerance, palpitations, tremor.","Thyroid not enlarged. Mild fatigue and cold intolerance on treatment. No palpitations or tremor.","Thyroid problem.",{words:16},"Sections 3 and 4"),
+ A("Physical exam: eyes, neck, pulse, blood pressure, reflexes","Record pulse and blood pressure, eye findings, neck exam, and deep tendon reflexes.","Pulse 64, blood pressure 118/74. No eye signs. Neck without mass. Reflexes 2+ and symmetric.","Normal exam.",{num:3,words:12},"Sections 5 and 6")],
+ "TSH 3.1 on 02/2026 on levothyroxine 100 micrograms.","No work limits.","List labs, imaging or biopsy with dates."],
+/* ENT */
+["Ear_Including_Vestibular_and_Infectious.pdf","Ear (including Vestibular and Infectious)","Ear, Nose, Throat","Meniere's disease, H81.09, diagnosed 2020.","Episodic vertigo and ringing in the right ear since 2019. Treated with a low-salt diet and a diuretic.",[
+ A("Vestibular symptoms","State whether there is vertigo, imbalance or staggering, how often, how long episodes last, and gait findings.","Vertigo about once every two weeks, each lasting 1 to 2 hours. Staggering during episodes. Gait normal between episodes.","Dizzy sometimes.",{words:16,num:1},"Section III"),
+ A("Infection, inflammation and surgery","Note chronic infection, cholesteatoma, ear surgery and residuals, with exam of the external ear, canal and eardrum.","No chronic infection or cholesteatoma. No ear surgery. External canal and tympanic membrane normal.","Ear exam normal.",{words:14},"Sections IV to VI")],
+ "Audiogram and vestibular testing 2020 consistent with Meniere's.","Cannot work at heights or drive during episodes.","Name the test, date and result."],
+["Loss_of_Sense_of_Smell_and_or_Taste.pdf","Loss of Sense of Smell and/or Taste","Ear, Nose, Throat","Anosmia, R43.0, diagnosed 2021.","Loss of smell began after a 2021 illness and has not returned.",[
+ A("Symptoms and severity","State whether smell, taste or both are lost, whether the loss is complete or partial, and any safety effects.","Complete loss of smell. Taste reduced to sweet and salty only. Cannot detect gas or smoke.","Cannot smell.",{words:14},"Section III")],
+ "Smell identification test 05/2024: scored in the anosmic range.","Cannot work where odor detection is a safety need.","Name the smell or taste test and the result."],
+["Sinusitis_Rhinitis_and_Other_Conditions_of_the_Nose_Throat_Larynx_and_Pharynx.pdf","Sinusitis, Rhinitis and Other Nose, Throat, Larynx and Pharynx Conditions","Ear, Nose, Throat","Chronic sinusitis, J32.9, diagnosed 2017. Allergic rhinitis, J30.9.","Facial pressure and congestion since 2016. Uses nasal steroid daily. No sinus surgery.",[
+ A("Sinusitis episodes in the past 12 months","Give the number of non-incapacitating episodes and the number of incapacitating episodes (those needing antibiotics for 4 to 6 weeks).","4 non-incapacitating episodes in the past 12 months. 1 incapacitating episode requiring 4 weeks of antibiotics.","Gets sinus infections.",{num:2,kw:"incapacitating",kwm:"State incapacitating and non-incapacitating counts."},"Section 4"),
+ A("Nasal obstruction, polyps and septum","State the percent of obstruction on each side, and whether polyps, turbinate hypertrophy or a deviated septum are present.","Right nasal passage 40 percent obstructed, left 30 percent. No polyps. Mild turbinate hypertrophy. Septal deviation present.","Stuffy nose.",{kw:"%|percent",kwm:"Give percent obstruction for each side.",num:2},"Sections 5 and 7")],
+ "CT sinuses 2024: mucosal thickening of the maxillary sinuses.","Missed 3 workdays in the past 12 months.","Name the imaging or endoscopy, date and finding."],
+/* GI */
+["esophageal-disorders.pdf","Esophageal Disorders","Gastrointestinal","Gastroesophageal reflux disease, K21.9, diagnosed 2016.","Heartburn several times a week since 2015. Takes omeprazole daily.",[
+ A("Signs, symptoms and treatment","Name symptoms (heartburn, regurgitation, difficulty swallowing), how often, and treatment. Note any stricture or dilation.","Heartburn 3 to 4 times a week, controlled on omeprazole 20 mg daily. No difficulty swallowing. No stricture. No dilation procedures.","Reflux.",{words:16,num:1},"Section 3")],
+ "Upper endoscopy 2022: mild esophagitis, no stricture.","No work limits.","The form notes GERD can be diagnosed clinically by relief with medicine. Name any endoscopy."],
+["gallbladder.pdf","Gallbladder","Gastrointestinal","Chronic cholecystitis with gallstones, K80.10, diagnosed 2021.","Right upper abdominal pain after meals since 2020.",[
+ A("Attacks in the past 12 months","Give the number of attacks, their symptoms and treatment, and any stricture dilation.","3 attacks of right upper abdominal pain in the past 12 months, each lasting about 2 hours, with nausea. No stricture or dilation.","Has pain.",{num:2,words:14,kw:"12 months|year",kwm:"State the period covered."},"Section III")],
+ "Ultrasound 2021: gallstones with wall thickening.","Missed 2 workdays in the past year.","Name imaging, date and result."],
+["hernias-including-abdominal-inguinal-and-femoral-hernias.pdf","Hernias (Abdominal, Inguinal and Femoral)","Gastrointestinal","Right inguinal hernia, K40.90, diagnosed 2023.","Bulge in the right groin after lifting in 2023. No repair yet.",[
+ A("Hernia type, repair status and size","State the type, whether it is present now or recurrent, whether it is repairable, its size in centimeters, and whether it causes pain with activity.","Right inguinal hernia, present, repairable, 4 cm. Pain with lifting over 20 pounds. No surgery to date.","Has a hernia.",{kw:"cm|centimeter",kwm:"Give the size in centimeters.",num:2,words:14},"Sections III to V")],
+ "No imaging needed. Diagnosis made on exam.","Avoids lifting over 20 pounds.","State imaging or that none was done."],
+["intestines.pdf","Intestinal Conditions","Gastrointestinal","Irritable bowel syndrome, K58.9, diagnosed 2019.","Abdominal pain and loose stools since 2018.",[
+ A("Findings for the condition (IBS, IBD, diverticular disease, celiac, resection or other)","Complete the part for the diagnosis. Give attack frequency, symptoms, weight and nutrition effects, and hospitalizations.","Abdominal pain with alternating diarrhea and constipation about 3 times a week. Weight stable. No hospitalizations or systemic signs.","Stomach problems.",{words:18,num:1},"Sections III to XIV")],
+ "Colonoscopy 2020: normal.","Needs ready bathroom access.","Name endoscopy, imaging or labs with dates."],
+["liver-conditions.pdf","Liver Conditions","Gastrointestinal","Chronic hepatitis C without cirrhosis, B18.2, diagnosed 2012.","Diagnosed on screening in 2012. Completed antiviral treatment in 2019.",[
+ A("Liver disease findings","State symptoms (fatigue, weight loss), treatment, and for cirrhosis the symptoms (ascites, encephalopathy, variceal bleeding) and MELD score with date.","Mild fatigue. No weight loss, ascites or encephalopathy. Completed antiviral therapy in 2019 with sustained response. No cirrhosis.","Liver disease.",{words:16,num:1},"Sections III to VIII")],
+ "HCV RNA undetectable 02/2026. Ultrasound 2025: no cirrhosis.","No work limits.","Name labs, imaging or biopsy with dates."],
+["pancreas.pdf","Pancreas","Gastrointestinal","Chronic pancreatitis, K86.1, diagnosed 2020.","Recurrent upper abdominal pain since 2019.",[
+ A("Pancreas findings","State pain frequency, hospitalizations, enzyme supplements, diabetes from pancreatic insufficiency, vomiting, diarrhea or malabsorption, and any transplant.","Pain twice a month. 1 hospitalization in the past 12 months. Takes pancreatic enzymes with meals. No diabetes. No malabsorption.","Pancreas pain.",{words:18,num:2},"Section III")],
+ "CT 2023: pancreatic calcifications.","Misses about 2 workdays per month during flares.","Name imaging or labs with dates."],
+["peritoneal-adhesions.pdf","Peritoneal Adhesions","Gastrointestinal","Peritoneal adhesions, K66.0, after 2018 surgery.","Abdominal surgery in 2018. Intermittent pain and constipation since.",[
+ A("Manifestations and hospitalizations","State whether adhesions cause pain, constipation or vomiting, and any bowel obstruction. List hospitalizations in the past 24 months with dates.","Intermittent lower abdominal pain. No vomiting. 1 hospitalization 03/2025 for partial small bowel obstruction.","Adhesions.",{words:14,date:1},"Sections III and IV")],
+ "CT 2025 during admission: transition point consistent with adhesions.","Avoids heavy lifting.","Name imaging with date."],
+["rectum-and-anus.pdf","Rectum and Anus","Gastrointestinal","Internal hemorrhoids, K64.8, diagnosed 2020.","Intermittent rectal bleeding and prolapse since 2019.",[
+ A("Findings by condition (hemorrhoids, fistula, stricture, sphincter control, prolapse)","Complete the part that applies. For sphincter control give the frequency of leakage and pad changes.","Internal hemorrhoids with bleeding about twice a month. Prolapse reduces on its own. No anemia. No incontinence or pad use.","Hemorrhoids.",{words:16},"Sections III to VIII"),
+ A("Examination","Describe the rectal and anal exam.","Anal exam shows grade 2 internal hemorrhoids. No fissure or fistula. Sphincter tone normal.","Normal.",{words:12},"Section IX")],
+ "Colonoscopy 2021: internal hemorrhoids only.","No work limits.","Name endoscopy or labs with dates."],
+["stomach-and-duodenum.pdf","Stomach and Duodenum","Gastrointestinal","Duodenal ulcer, K26.9, diagnosed 2019.","Burning upper abdominal pain since 2018. Treated for H. pylori in 2019.",[
+ A("Ulcer or gastritis episodes and surgery complications","Give the number of episodes of pain, vomiting, bleeding (hematemesis or melena), anemia and hospitalization. For stomach surgery note dumping, vomiting and nutrition needs.","2 episodes of pain in the past 12 months. No bleeding, vomiting or anemia. No hospitalization. No stomach surgery.","Ulcer disease.",{words:16,num:1},"Sections III to VII")],
+ "Upper endoscopy 2019: duodenal ulcer. H. pylori eradicated 2019.","No work limits.","Name endoscopy or labs with dates."],
+/* GU */
+["kidney.pdf","Kidney Conditions","Genitourinary","Chronic kidney disease stage 3a, N18.31, diagnosed 2022.","Reduced kidney function found on routine labs in 2022.",[
+ A("Kidney function and related findings","State the GFR, structural abnormality, stones, recurrent infection, and treatment such as dialysis or transplant.","GFR 52 on 03/2026. No hydronephrosis. No stones or recurrent infections. No dialysis.","Kidney problem.",{words:14,num:1},"Sections III to VI")],
+ "Creatinine 1.5 and GFR 52 on 03/2026. Renal ultrasound 2025 normal size.","No work limits.","Name labs and imaging with dates."],
+["Male_Reproductive_Organ.pdf","Male Reproductive Organ Conditions (including Prostate Cancer)","Genitourinary","Benign prostatic hyperplasia, N40.1, diagnosed 2021.","Slow stream and nighttime urination since 2020. Takes tamsulosin.",[
+ A("Voiding dysfunction and urinary frequency","State leakage and appliance use, voids per day and per night, and signs of obstructed voiding.","No leakage. Voids 8 times a day and 3 times a night. Slow stream and hesitancy. No appliance.","Urinates often.",{num:2,words:12},"Section 3"),
+ A("Genital and prostate exam, and erectile function","Describe the penis, testes, epididymis and prostate. State whether there is erectile dysfunction and its cause.","Prostate enlarged and smooth, no nodules. Testes normal. No erectile dysfunction.","Normal.",{words:14},"Sections 4 to 7")],
+ "PSA 2.1 on 01/2026.","Needs bathroom access during the day.","Name labs or imaging with dates."],
+["Urinary_Tract_Conditions.pdf","Urinary Tract Conditions","Genitourinary","Neurogenic bladder, N31.9, diagnosed 2019.","Urinary urgency and leakage since a 2018 injury.",[
+ A("Voiding dysfunction","State leakage severity and absorbent use, voids per day and per night, and obstructed voiding.","Leakage daily. Uses 3 pads a day. Voids 10 times a day and 2 times a night.","Leaks urine.",{num:2,words:12},"Section III"),
+ A("Infections and other bladder conditions","Give infections in the past 12 months, treatment, and any fistula, diverticulum, stones or related kidney impairment.","2 urinary infections in the past 12 months, each treated with oral antibiotics. No hospitalization. No stones or fistula.","Some infections.",{num:2,words:14},"Sections IV to VI")],
+ "Urodynamics 2020 confirmed an overactive neurogenic bladder.","Needs pad changes and bathroom breaks.","Name tests with dates."],
+/* Gynecological */
+["Breast_Conditions.pdf","Breast","Gynecological","Breast cancer, left breast, C50.912, diagnosed 2022.","Left breast cancer found on screening in 2022.",[
+ A("Treatment and surgery","List each surgery, radiation and chemotherapy with dates and whether treatment is complete.","Left lumpectomy 03/2022. Radiation completed 07/2022. Chemotherapy not given. Treatment complete.","Had surgery.",{words:14,date:1},"Section III"),
+ A("Loss of tissue and physical findings","State whether surgery or radiation caused loss of 25 percent or more of the tissue of one breast or both combined, and describe residuals, scars and arm swelling.","Estimated tissue loss under 25 percent. Scar 6 cm, well healed. No arm swelling or nerve damage.","Fine.",{kw:"25|percent|%",kwm:"Address the 25 percent tissue-loss question.",words:14},"Sections IV and V")],
+ "Pathology 03/2022: invasive ductal carcinoma, margins clear.","No work limits.","Name pathology and imaging with dates."],
+["Gynecological_Conditions.pdf","Gynecological Conditions","Gynecological","Endometriosis, N80.9, diagnosed 2019.","Painful periods since 2017. Laparoscopy in 2019.",[
+ A("Findings for the organs involved","Address the part that applies: vulva, vagina, cervix, tubes, ovaries, hysterectomy history with dates and reasons, menopause status.","Pelvic pain with menses. Uterus, ovaries and tubes normal in size on exam. No hysterectomy. Not menopausal.","Pelvic problems.",{words:16},"Sections 5 to 10"),
+ A("Endometriosis, prolapse, incontinence and fistula findings","State findings, treatment and whether treatment is effective.","Endometriosis found at laparoscopy 2019. Hormonal therapy reduces pain from 8 to 3 out of 10. No prolapse, incontinence or fistula.","Endometriosis.",{words:16,num:2},"Sections 11 to 14")],
+ "Laparoscopy 2019: stage 2 endometriosis.","Misses about 1 workday per month.","Name imaging or surgery findings with dates."],
+/* Heme */
+["Hematologic_and_Lymphatic_Conditions_Including_Leukemia.pdf","Hematologic and Lymphatic Conditions, including Leukemia","Hematologic and Lymphatic","Iron deficiency anemia, D50.9, diagnosed 2022.","Fatigue and low iron found in 2022. Treated with oral iron.",[
+ A("Findings for the condition (anemia, leukemia, lymphoma, myeloma, polycythemia, other)","Complete the part that applies: current status, treatment type, transfusion or phlebotomy frequency, and complications.","Iron deficiency anemia on oral iron daily. No transfusion. No bleeding source found after workup. Hemoglobin improved.","Anemia.",{words:16},"Sections 3 to 5")],
+ "Hemoglobin 12.1 and ferritin 38 on 03/2026.","Mild fatigue, no work limits.","Name labs, bone marrow or imaging with dates."],
+/* Infectious */
+["HIV_Related_Illnesses.pdf","HIV-Related Illnesses","Infectious Diseases","HIV disease, B20, diagnosed 2013.","Diagnosed 2013. On antiretroviral therapy since 2013.",[
+ A("Signs, symptoms and weight","Give constitutional symptoms and their frequency, diarrhea, and baseline and current weight.","No fever, night sweats or diarrhea. Weight 178 pounds baseline and 180 pounds current.","Doing well.",{num:2,words:12},"Section III"),
+ A("Secondary diseases and infections","List opportunistic infections, cancers or other body-system disease with onset, treatment and course.","No opportunistic infections or related cancers. No other body-system disease attributed to HIV.","None.",{words:12},"Sections IV and V")],
+ "CD4 640 and viral load undetectable on 02/2026.","No work limits.","Name labs with dates."],
+["Infectious_Diseases_Other_than_HIV_Related_Illness_Chronic_Fatigue_Syndrome_and_Tuberculosis.pdf","Infectious Diseases (other than HIV, chronic fatigue syndrome and tuberculosis)","Infectious Diseases","Lyme disease, A69.20, diagnosed 2020.","Treated with doxycycline in 2020 after a tick bite and rash.",[
+ A("Status, symptoms and residuals","For each disease give whether it is active or inactive, the date treatment ended, current symptoms, and residuals caused by the disease.","Inactive. Treatment ended 06/2020. Residual intermittent knee pain attributed to the disease.","Treated.",{words:14,date:1},"Section III")],
+ "Serology positive 2020.","No work limits.","Name labs with dates."],
+["Persian_Gulf_Afghanistan_Infectious_Diseases.pdf","Persian Gulf/Afghanistan Infectious Diseases","Infectious Diseases","Brucellosis, A23.9, diagnosed 2009.","Fever and joint pain after deployment in 2009. Treated with antibiotics.",[
+ A("Status, symptoms and residuals","For each disease give whether it is active or inactive, the date treatment ended, and any residuals.","Inactive since 2010. No relapse. No residuals.","Treated.",{words:10,date:1},"Section III")],
+ "Culture and serology 2009 confirmed brucellosis. No relapse testing needed.","No work limits.","Give the confirming test for the initial diagnosis and for any relapse."],
+["Tuberculosis.pdf","Tuberculosis","Infectious Diseases","Pulmonary tuberculosis, inactive, A15.0, treated 2008.","Treated for 9 months in 2008.",[
+ A("Pulmonary or non-pulmonary tuberculosis","State active or inactive, dates, and residuals: emphysema, dyspnea, oxygen use, lesion severity, pulmonary hypertension. For non-pulmonary disease name the type.","Inactive. Treatment completed 2009. Mild apical scarring. No dyspnea or oxygen use.","Old TB.",{words:14,date:1},"Sections III and IV")],
+ "Chest X-ray 2025: stable apical scarring. Sputum cultures negative.","No work limits.","Name imaging and cultures with dates."],
+/* MSK */
+["amputations.pdf","Amputations","Musculoskeletal","Traumatic amputation of the right index finger at the PIP joint, S68.119A, 2015.","Injury in 2015. Healed with no revision.",[
+ A("Site, level and prosthesis","State which part is missing, the level of the amputation, and whether a prosthesis is suitable.","Right index finger amputated at the proximal interphalangeal joint. Stump healed. A prosthesis is not needed.","Missing finger.",{words:14},"Sections III to VII"),ASSIST("Section IX")],
+ "X-ray 2015 confirms level of amputation.","Grip is weaker. No limit on desk tasks.","Name imaging with date."],
+["ankle.pdf","Ankle","Musculoskeletal","Right ankle sprain with chronic instability, M25.371, 2017.","Inversion injury in 2017. Recurrent giving way since.",[
+ ROM("Normal plantar flexion is 45 degrees and dorsiflexion is 20 degrees.","Right ankle active plantar flexion 35 degrees, dorsiflexion 10 degrees, pain begins at 8 degrees of dorsiflexion. Left ankle 45 and 20 degrees, no pain. Passive right dorsiflexion 12 degrees.","Section 3"),
+ REPS("After 3 repetitions right dorsiflexion 10 degrees, no added loss. Not seen in a flare-up. Based on the veteran's report of weekly stiffness, flare-up dorsiflexion is estimated at 5 degrees.","Section 3"),
+ A("Stability tests","Report anterior drawer and talar tilt results for each ankle.","Anterior drawer positive on the right. Talar tilt negative bilaterally. Left ankle stable.","Unstable.",{tests:0,words:12,kw:"drawer|talar",kwm:"Report anterior drawer and talar tilt."},"Section 6"),ASSIST("Section 10")],
+ "Ankle X-ray 2024: no fracture or arthritis.","Cannot stand on uneven ground more than 20 minutes.","Name imaging with date."],
+["Back_Thoracolumbar_Spine.pdf","__guided__"],
+["Bones_and_Other_Skeletal_Conditions.pdf","Bones and Other Skeletal Conditions","Musculoskeletal","Costochondritis, M94.0, diagnosed 2021.","Chest wall pain since 2020.",[
+ A("Findings for the condition (skull, spine or chest, ribs, coccyx)","Complete the part that applies: skull loss or fracture, costochondritis, rib removal, coccyx removal and pain.","Tenderness of the left costochondral junctions 3 to 5. No rib removal. No skull or coccyx condition.","Chest pain.",{words:14},"Sections III and IV"),ASSIST("Section VII")],
+ "Chest X-ray 2021 normal.","Pain with heavy lifting.","Name imaging with date."],
+["Elbow_and_Forearm.pdf","Elbow and Forearm","Musculoskeletal","Right lateral epicondylitis, M77.11, diagnosed 2022.","Pain on gripping since 2021. Treated with a brace and injections.",[
+ ROM("Compare with the normal values printed on the form for flexion, extension, supination and pronation.","Right elbow flexion 0 to 130 degrees, extension 0 degrees, supination 80 degrees, pronation 75 degrees. Pain begins at 125 degrees of flexion. Left elbow normal.","Section 3"),
+ REPS("After 3 repetitions flexion 125 degrees with pain, no change in supination. Not seen in a flare-up. Based on the veteran's report of daily gripping pain, flare-up flexion is estimated at 115 degrees.","Section 3"),
+ ATROPHY("Section 4"),ASSIST("Section 9")],
+ "Elbow X-ray 2022 normal.","Cannot lift more than 10 pounds with the right hand.","Name imaging with date."],
+["Foot_Conditions_Including_Flatfoot_Pes_Planus.pdf","Foot Conditions including Flatfoot (Pes Planus)","Musculoskeletal","Bilateral pes planus, M21.41, diagnosed 2018.","Foot pain with standing since service. Uses arch supports.",[
+ A("Findings by condition (flatfoot, plantar fasciitis, neuroma, hammer toe, hallux, cavus)","Complete each part that applies. For flatfoot give pain on use or manipulation, swelling, calluses, arch height, weight-bearing line, and whether supports help.","Bilateral flatfoot. Pain on use, no swelling. Arch collapses on standing. Weight-bearing line falls medial to the great toe. Supports give partial relief.","Flat feet.",{words:20},"Sections III to XI"),ASSIST("Section XI")],
+ "Weight-bearing foot X-ray 2020: bilateral pes planus.","Cannot stand more than 45 minutes.","Name imaging with date."],
+["Hand_and_Finger.pdf","Hand and Finger","Musculoskeletal","Right thumb osteoarthritis, M18.11, diagnosed 2021.","Thumb pain with gripping since 2020.",[
+ ROM("Compare each digit with the normal values printed on the form.","Right thumb MCP flexion 40 degrees, IP flexion 60 degrees. Pain begins at 35 degrees of MCP flexion. Fingers 2 to 5 full range. Left hand normal.","Section III"),
+ REPS("After 3 repetitions right thumb MCP flexion 35 degrees with pain. Not seen in a flare-up. Based on the veteran's report of daily morning stiffness, flare-up MCP flexion is estimated at 30 degrees.","Section III"),
+ A("Grip strength and ankylosis","Rate grip strength (0 to 5) for each hand and state whether any joint is ankylosed.","Right grip 4/5, left 5/5. No ankylosis. Mild atrophy not present.","Weak grip.",{words:12,num:2},"Sections IV and V"),ASSIST("Section VII")],
+ "Hand X-ray 2021: thumb carpometacarpal arthritis.","Cannot grip tools for more than 15 minutes.","Name imaging with date."],
+["Hip_and_Thigh.pdf","Hip and Thigh","Musculoskeletal","Left hip degenerative arthritis, M16.12, diagnosed 2021.","Groin and thigh pain since 2019.",[
+ ROM("Normal hip values: flexion 125, extension 30, abduction 45, adduction 25, external rotation 60, internal rotation 40 degrees.","Left hip flexion 90 degrees with pain at 80, extension 15, abduction 30, adduction 20, external rotation 40, internal rotation 20 degrees. Right hip normal.","Section III"),
+ REPS("After 3 repetitions left hip flexion 85 degrees with pain. Not seen in a flare-up. Based on the veteran's report of stiffness after sitting, flare-up flexion is estimated at 70 degrees.","Section III"),
+ ATROPHY("Section IV"),ASSIST("Section IX")],
+ "Hip X-ray 2022: joint space narrowing.","Cannot walk more than 1 block or climb more than one flight of stairs.","Name imaging with date."],
+["Knee_and_Lower_Leg.pdf","__guided__"],
+["Muscle_Injuries.pdf","Muscle Injuries","Musculoskeletal","Gunshot wound residual, right thigh muscle injury, S76.011A, 2010.","Wound in 2010. Healed with scarring.",[
+ A("Muscle group and side","Name each muscle group injured and the side.","Right thigh, quadriceps muscle group.","Thigh.",{words:5,kw:"muscle group|quadriceps|hamstring|group",kwm:"Name the muscle group."},"Section III"),
+ A("Muscle injury exam","Describe scars, fascial defects, loss of muscle substance, strength (0 to 5), fatigue, coordination, and atrophy in centimeters.","Entry scar 3 cm, non-adherent. No fascial defect. Strength 4/5 in knee extension. Thigh circumference 50 cm right, 53 cm left.","Weak.",{num:3,words:16,kw:"cm|centimeter",kwm:"Give measurements in centimeters."},"Section IV"),ASSIST("Section V"),REMAIN("Section VI")],
+ "Thigh X-ray 2010 showed retained fragments.","Cannot run or climb ladders.","Name imaging with date."],
+["Neck_Conditions_Cervical_Spine.pdf","Neck (Cervical Spine)","Musculoskeletal","Cervical degenerative disc disease, M50.30, diagnosed 2020.","Neck pain since 2018.",[
+ ROM("Normal cervical values: forward flexion 45, extension 45, lateral flexion 45 each side, rotation 80 each side, in degrees.","Flexion 30 degrees with pain at 25, extension 30, right lateral flexion 30, left 35, right rotation 60, left 65. Paraspinal spasm. No abnormal gait.","Section III"),
+ REPS("After 3 repetitions flexion 28 degrees with pain. Not seen in a flare-up. Based on the veteran's report of monthly flares, flare-up flexion is estimated at 20 degrees.","Section III"),
+ NEURO("Sections IV to VII"),ASSIST("Section XI")],
+ "Cervical MRI 2020: C5-C6 disc osteophyte.","Cannot look down for more than 15 minutes.","Name imaging with date."],
+["Osteomyelitis.pdf","Osteomyelitis","Musculoskeletal","Chronic osteomyelitis of the left tibia, M86.652, diagnosed 2014.","Bone infection after a 2013 fracture. Treated with surgery and antibiotics.",[
+ A("Recurrent infections and current signs","State additional infections with dates and locations, and current findings: sinus drainage, pain, swelling, tenderness, redness, warmth, malaise.","One recurrence 2017. Currently no drainage, redness or warmth. Mild tibial tenderness.","Old infection.",{words:14,date:1},"Sections III and IV"),ASSIST("Section VI"),REMAIN("Section VII")],
+ "MRI 2025: no active infection. ESR 12.","No work limits.","Name imaging and labs with dates."],
+["Shoulder_and_or_Arm.pdf","Shoulder and/or Arm","Musculoskeletal","Right rotator cuff tendinopathy, M75.101, diagnosed 2022.","Shoulder pain with overhead use since 2021.",[
+ ROM("Normal shoulder values: flexion 180, abduction 180, internal rotation 90, external rotation 90 degrees.","Right flexion 120 degrees with pain at 100, abduction 110, external rotation 60, internal rotation 70. Left normal.","Section 3"),
+ REPS("After 3 repetitions right flexion 115 degrees with pain. Not seen in a flare-up. Based on the veteran's report of weekly night pain, flare-up flexion is estimated at 90 degrees.","Section 3"),
+ A("Special tests","Report the tests you did: Hawkins, empty can, external rotation strength, lift-off, apprehension, cross-body adduction.","Hawkins positive. Empty can positive with pain. Lift-off negative. Apprehension negative.","Positive tests.",{words:12,kw:"hawkins|empty can|lift-off|apprehension|cross-body",kwm:"Name the shoulder tests you did."},"Sections 6 to 8"),
+ ATROPHY("Section 4"),ASSIST("Section 12")],
+ "Shoulder MRI 2022: partial supraspinatus tear.","Cannot reach overhead or lift more than 10 pounds.","Name imaging with date."],
+["Temporomandibular_Disorders.pdf","Temporomandibular Disorders","Musculoskeletal","Temporomandibular joint disorder, M26.60, diagnosed 2021.","Jaw pain and clicking since 2020.",[
+ A("Range of motion, measured in millimeters","Record maximum mouth opening and lateral excursion in millimeters, and where pain begins.","Maximum mouth opening 32 mm with pain beginning at 28 mm. Lateral excursion 4 mm. Clicking on the right.","Limited opening.",{num:3,pain:1,kw:"mm|millimeter",kwm:"Give mouth opening in millimeters."},"Section III"),
+ A("Dietary restrictions","State whether a mechanically altered diet is needed because of the condition, and what is restricted.","Avoids hard and chewy foods. Eats soft foods. No liquid-only diet.","Soft diet.",{words:10},"Section IV")],
+ "TMJ imaging 2021: disc displacement.","No work limits.","Name imaging with date."],
+["wrist.pdf","Wrist","Musculoskeletal","Left wrist scaphoid nonunion, S62.001K, 2018.","Fall in 2018. Surgery 2019.",[
+ ROM("Normal wrist values: dorsiflexion 70, palmar flexion 80, ulnar deviation 45, radial deviation 20 degrees.","Left dorsiflexion 40 degrees with pain at 35, palmar flexion 50, ulnar deviation 30, radial deviation 10. Right normal.","Section III"),
+ REPS("After 3 repetitions left dorsiflexion 35 degrees with pain. Not seen in a flare-up. Based on the veteran's report of weekly pain with gripping, flare-up dorsiflexion is estimated at 25 degrees.","Section III"),
+ ATROPHY("Section IV"),
+ A("Surgery and residuals","List wrist surgery with dates and any residual weakness, pain or limited motion.","Scaphoid screw fixation 2019. Residual pain and reduced grip.","Had surgery.",{words:10,date:1},"Section VI"),ASSIST("Section VIII"),REMAIN("Section IX")],
+ "Wrist X-ray 2024: healed with sclerosis.","Cannot grip or lift more than 10 pounds with the left hand.","Name imaging with date."],
+/* Neuro */
+["ALS_Lou_Gehrigs_Disease.pdf","ALS (Lou Gehrig's Disease)","Neurological","Amyotrophic lateral sclerosis, G12.21, diagnosed 2024.","Progressive weakness of the right hand beginning 2023.",[
+ A("Conditions, signs and symptoms","Address muscle weakness, swallowing, breathing, sleep apnea, bowel and bladder control, and sexual dysfunction.","Progressive weakness of both arms. Mild difficulty swallowing liquids. Uses nighttime ventilatory support. No bowel or bladder dysfunction.","Weakness.",{words:18},"Section III"),NEURO("Section IV"),
+ A("Housebound and aid and attendance","State whether the veteran is substantially confined to the home, and whether help is needed with dressing, feeding, toileting, bathing and hygiene.","Not housebound. Needs help with dressing and feeding. Independent in toileting with assistance for transfers.","Needs help.",{words:16},"Sections VII to IX"),ASSIST("Section X"),REMAIN("Section XI")],
+ "EMG 2024 consistent with ALS.","Unable to work.","Name tests with dates."],
+["Central_Nervous_System_and_Neuromuscular_Diseases.pdf","Central Nervous System and Neuromuscular Diseases","Neurological","Transverse myelitis residual, G37.3, 2016.","Acute illness in 2016 with lasting leg weakness.",[
+ A("Conditions, signs and symptoms","Cover each item on the form: weakness, swallowing, breathing, sleep, bowel and bladder control with frequency, and sexual dysfunction.","Leg weakness. Urinary urgency with leakage 2 to 3 times a week. Bowel control normal. No swallowing or breathing problem.","Neuro problem.",{words:18,num:1},"Section III"),NEURO("Section IV"),ASSIST("Section IX"),REMAIN("Section X")],
+ "MRI 2016 spine lesion. Repeat 2024 stable.","Cannot stand more than 20 minutes.","Name imaging with date."],
+["Cranial_Nerve_Conditions.pdf","Cranial Nerve Conditions","Neurological","Trigeminal neuralgia, G50.0, diagnosed 2019.","Sudden facial pain since 2018. Takes carbamazepine.",[
+ A("Findings, signs and symptoms","State pain type (constant, intermittent, dull), numbness, paresthesias, and trouble chewing, swallowing or speaking.","Sharp right facial pain 2 to 3 times a day lasting seconds. Triggered by chewing. No numbness or swallowing difficulty.","Face pain.",{words:16,num:1},"Section III"),
+ A("Strength, sensation and nerve summary","Test the nerves involved and rate each: not affected, incomplete moderate, incomplete severe or complete.","Light touch intact across V1 to V3. Facial strength normal. Right trigeminal nerve: incomplete, moderate.","Nerve problem.",{words:14,kw:"incomplete|complete|not affected",kwm:"Rate each nerve as not affected, incomplete moderate, incomplete severe or complete."},"Sections IV to VI")],
+ "MRI brain 2019 normal.","Avoids eating hot or cold food at work.","Name imaging with date."],
+["Diabetic_Peripheral_Neuropathy.pdf","Diabetic Peripheral Neuropathy","Neurological","Diabetic peripheral neuropathy of both feet, E11.42, diagnosed 2021.","Numbness and burning in the feet since 2020.",[
+ A("Symptoms","Rate each symptom as none, mild, moderate or severe for each limb: constant pain, intermittent pain, paresthesias or dysesthesias, and numbness.","Both feet: constant burning pain mild, paresthesias moderate, numbness moderate. Hands: none.","Foot pain.",{words:16,kw:"mild|moderate|severe|none",kwm:"Rate each as none, mild, moderate or severe."},"Section 3"),
+ NEURO("Section 4"),
+ A("Nerve severity","Based on your findings, rate the nerves involved (radial, median, ulnar, sciatic, femoral) as not affected, incomplete mild, moderate, severe or complete.","Bilateral sciatic nerve: incomplete, moderate. Upper extremity nerves not affected.","Moderate.",{words:12,kw:"incomplete|complete|not affected|mild|moderate|severe",kwm:"Rate each nerve involved."},"Section 5"),ASSIST("Section 6"),REMAIN("Section 7")],
+ "Monofilament testing abnormal on both feet 03/2026.","Cannot stand more than 30 minutes.","Name nerve testing with dates."],
+["Fibromyalgia.pdf","Fibromyalgia","Neurological","Fibromyalgia, M79.7, diagnosed 2019.","Widespread pain and fatigue since 2018.",[
+ A("Findings, signs and symptoms","Address widespread pain, stiffness, fatigue, sleep problems, headache, mood and bowel symptoms, how often they occur, and tender points by region.","Widespread pain on most days. Fatigue and unrefreshing sleep. Tender points in the neck, shoulders and hips bilaterally. Symptoms present more than 3 months.","Hurts all over.",{words:20,num:1},"Section III"),ASSIST("Section VII")],
+ "Labs normal for inflammatory disease 2024.","Misses about 2 workdays a month.","Name labs with dates."],
+["Multiple_Sclerosis.pdf","Multiple Sclerosis (MS)","Neurological","Relapsing-remitting multiple sclerosis, G35, diagnosed 2017.","Vision loss in 2016 led to diagnosis. Takes disease-modifying therapy.",[
+ A("Conditions, signs and symptoms","Address weakness, swallowing, breathing, sleep, bowel and bladder control, vision disturbance and sexual dysfunction.","Mild right leg weakness. Fatigue. Occasional blurred vision. Urinary urgency without leakage.","MS symptoms.",{words:16},"Section III"),NEURO("Section IV"),ASSIST("Section X")],
+ "MRI brain 2024: stable periventricular lesions.","Fatigue limits work to 6 hours a day.","Name imaging with date."],
+["Narcolepsy.pdf","Narcolepsy","Neurological","Narcolepsy type 1, G47.411, diagnosed 2020.","Excessive daytime sleepiness since 2018.",[
+ A("Signs and symptoms","Address daytime sleepiness, sleep attacks, cataplexy, sleep paralysis and hallucinations. Give cataplexy episodes in the past 6 months.","Daily sleep attacks. Cataplexy about 4 times in the past 6 months. Occasional sleep paralysis.","Sleepy.",{num:2,words:14},"Section III")],
+ "Sleep study and multiple sleep latency test 2020 confirmed narcolepsy.","Cannot drive for work.","Name sleep tests with dates."],
+["Parkinsons_Disease.pdf","Parkinson's Disease","Neurological","Parkinson's disease, G20, diagnosed 2022.","Right hand tremor since 2021. Takes carbidopa-levodopa.",[
+ A("Dominant hand and motor findings","State the dominant hand, then tremor, rigidity, bradykinesia, posture, balance and gait findings.","Right-handed. Right hand rest tremor. Mild rigidity of the right arm. Slow movements. Stooped posture. Gait with reduced arm swing.","Parkinson findings.",{words:18},"Sections 3 and 4"),
+ A("Digestive, urinary, other and mental manifestations","Address swallowing, bowels, bladder, speech, smell, sleep and mood or cognition.","Soft speech. Constipation. No swallowing or bladder problem. Mild depression on treatment.","Other symptoms.",{words:14},"Sections 5 to 8"),REMAIN("Section 9"),ASSIST("Section 10")],
+ "DAT scan 2022 consistent with Parkinson's.","Fine motor tasks are slowed.","Name tests with dates."],
+["Peripheral_Nerves.pdf","Peripheral Nerves","Neurological","Right carpal tunnel syndrome, G56.01, diagnosed 2020.","Numbness and tingling in the right hand since 2019.",[
+ A("Symptoms","Give constant and intermittent pain, paresthesias, dysesthesias and numbness with the location and severity.","Intermittent numbness of the right thumb, index and middle fingers, moderate. Nighttime paresthesias.","Hand numb.",{words:14},"Section III"),NEURO("Sections IV to VIII"),
+ A("Special tests and nerve severity","Report Phalen and Tinel tests and rate paralysis of each nerve involved.","Phalen positive. Tinel positive at the wrist. Median nerve: incomplete, mild.","Positive.",{words:10,kw:"phalen|tinel|incomplete|complete",kwm:"Report the special tests and rate the nerve."},"Sections IX to XI"),ASSIST("Section XII"),REMAIN("Section XIII")],
+ "EMG 2020: median neuropathy at the wrist.","Cannot keyboard for more than 20 minutes.","Name nerve studies with dates."],
+["Seizure_Disorders_Epilepsy.pdf","Seizure Disorders (Epilepsy)","Neurological","Focal epilepsy, G40.209, diagnosed 2018.","First seizure in 2018 after a head injury. Takes levetiracetam.",[
+ A("Signs and symptoms","Describe seizure manifestations: convulsions, loss of consciousness, staring, jerking, speech or mood changes.","Staring with loss of awareness for about 1 minute. Occasional convulsions. Confusion after.","Seizures.",{words:14},"Section III"),
+ A("Type and frequency","Give the type (major or minor) and the number in the past 6 months and past 2 years.","Minor seizures 3 in the past 6 months and 8 in the past 2 years. No major seizures.","Some seizures.",{num:2,kw:"6 months|year",kwm:"State the periods covered.",words:12},"Section IV")],
+ "EEG 2018 showed temporal lobe discharges. MRI 2018 normal.","Cannot drive or work at heights.","Name EEG or imaging with dates."],
+/* Nutrition */
+["Nutritional_Deficiencies.pdf","Nutritional Deficiencies","Nutrition","Vitamin B12 deficiency, E53.8, diagnosed 2021.","Fatigue and numbness in 2021. Treated with B12 injections.",[
+ A("Signs and symptoms","Address symptoms of pellagra, beriberi (neuropathy, heart failure) and other vitamin deficiency, and any residuals.","Mild numbness of the feet on treatment. No dermatitis, diarrhea or heart failure.","Deficiency.",{words:14},"Section III")],
+ "B12 level 180 pg/mL in 2021, 520 in 2026.","No work limits.","Name labs with dates."],
+/* Eye */
+["Eye_Conditions.pdf","Eye Conditions","Ophthalmological","Glaucoma, open angle, H40.1131, diagnosed 2020.","Elevated eye pressure found on routine exam in 2020. Uses eye drops.",[
+ A("Conditions present and their effect","For each eye condition (lids, tear system, cornea, glaucoma, uvea, lens, retina, nerve, tumor, trauma) state whether present and whether it reduces vision or causes other impairment.","Open angle glaucoma in both eyes. Controlled with drops. Mild peripheral field loss on the right. Visual acuity not reduced.","Eye problem.",{words:18},"Sections 4.1 to 4.12"),
+ A("Incapacitating episodes and treatment, past 12 months","Give any periods that needed bed rest and treatment, and treatment steps taken.","No incapacitating episodes in the past 12 months. Uses latanoprost nightly.","None.",{words:10,kw:"12 months|year",kwm:"State the period covered."},"Section 6")],
+ "Visual field and OCT 2025: mild right field loss. Pressure 16 on treatment.","Reduced peripheral vision limits driving at night.","Name acuity, field and pressure results with dates."],
+/* Psych */
+["Eating_Disorders.pdf","Eating Disorders","Psychological","Bulimia nervosa, F50.2, diagnosed 2019.","Binge and purge behavior since 2017. In treatment.",[
+ A("Findings","Describe binge eating, self-induced vomiting, weight loss, hospitalizations, and incapacitating episodes (bed rest and treatment by a physician).","Binge and purge episodes about 3 times a week. Weight stable. 1 hospitalization in the past 12 months. No incapacitating episodes.","Eating disorder.",{words:18,num:2},"Section III")],
+ "Labs 2026 show normal electrolytes.","Misses about 1 workday a month for appointments.","Name labs with dates."],
+["Mental_Disorders.pdf","__guided__"],
+["PTSD_Review.pdf","PTSD Review","Psychological","Posttraumatic stress disorder, F43.10, diagnosed 2019.","Symptoms began after a 2010 deployment event. In treatment since 2019.",[
+ A("Diagnostic criteria A through H","Show how each DSM-5 criterion is met: the stressor, intrusion, avoidance, mood and cognition changes, arousal changes, duration, distress and not due to substance or other illness.","Criterion A: exposure to a roadside explosion in 2010. B: nightmares and intrusive memories 3 to 4 times a week. C: avoids crowds and driving on highways. D: detachment and guilt. E: hypervigilance and sleep loss. F: more than 1 month. G: impairment at work. H: not due to substances.","PTSD criteria met.",{words:40,kw:"criterion|A:|B:",kwm:"Address each criterion A through H."},"Section 2"),
+ A("Level of occupational and social impairment","Choose the one level that fits and explain it with examples.","Occupational and social impairment with reduced reliability and productivity. Two warnings at work for conflicts and 6 missed days in the past year.","Moderate.",{words:18},"Section 1"),
+ A("Evidence reviewed, history and observations","List records reviewed, recent social and work history, treatment, substance use, and what you observed.","Reviewed VA mental health notes 2019 to 2025. Married, works full time. Sertraline 100 mg daily. Alcohol rarely. Affect constricted, thought process linear.","Reviewed records.",{words:20},"Section 2")],
+ "Structured PTSD interview completed. Name the tool and score.","Conflicts with coworkers and missed workdays.","Name instruments and scores."],
+/* Respiratory */
+["Respiratory_Conditions_Other_than_Tuberculosis_and_Sleep_Apnea.pdf","Respiratory Conditions (other than tuberculosis and sleep apnea)","Respiratory","Asthma, J45.909, diagnosed 2015.","Wheezing since childhood. Uses an inhaled steroid and rescue inhaler.",[
+ A("Findings for the condition (asthma, bronchiectasis, sarcoidosis, embolism, infection, pneumothorax, other)","Complete the part that applies. For asthma give episodes of respiratory failure and physician visits for exacerbations in the past 12 months, and medicines.","Asthma on fluticasone daily and albuterol as needed. 2 urgent visits for exacerbations in the past 12 months. No respiratory failure.","Asthma.",{words:18,num:1},"Parts A to L"),
+ A("Pulmonary function tests","Give FEV-1, FVC and FEV-1/FVC with the date, or state why testing was not done (oxygen therapy, respiratory failure or cor pulmonale).","PFT 03/2026: FEV-1 72 percent predicted, FVC 85 percent, FEV-1/FVC 71 percent.","PFT done.",{kw:"FEV|FVC",kwm:"Give FEV-1 and FVC, or say why not done.",num:2,date:1},"Testing")],
+ "Chest X-ray 03/2026 clear.","Avoids dusty work.","Name imaging and PFT with dates."],
+/* Rheum */
+["Arthritis.pdf","Arthritis","Rheumatological","Rheumatoid arthritis, M06.9, diagnosed 2018.","Joint pain and swelling since 2017. Takes methotrexate.",[
+ A("Joints involved","Name each joint affected on each side: spine, shoulders, elbows, wrists, hands, hips, knees, ankles, feet.","Both hands (MCP joints), both wrists and both knees. Spine, shoulders, elbows, hips and feet not involved.","Many joints.",{words:14},"Section III"),
+ A("Systemic involvement and exacerbations","Name body systems affected, and give the number and length of incapacitating and non-incapacitating exacerbations, weight loss and anemia.","No systemic involvement. 3 non-incapacitating exacerbations in the past 12 months, each about 1 week. No weight loss. No anemia.","Flares.",{num:2,words:16,kw:"12 months|year",kwm:"State the period covered."},"Sections IV and V"),ASSIST("Section VII"),REMAIN("Section VIII")],
+ "RF positive and anti-CCP positive 2018. X-ray 2025: erosions of both wrists.","Cannot grip for more than 15 minutes.","Name labs and imaging with dates."],
+["Chronic_Fatigue_Syndrome.pdf","Chronic Fatigue Syndrome","Rheumatological","Chronic fatigue syndrome, G93.32, diagnosed 2019.","Severe fatigue since 2018. Other causes excluded.",[
+ A("Findings, signs and symptoms","Address fatigue, fever, sore throat, tender nodes, muscle and joint pain, post-exertional malaise, headache, cognitive trouble and sleep, with how often and how much activity is restricted.","Fatigue most days reducing activity to about 50 percent of pre-illness level. Post-exertional malaise lasting 24 hours. Cognitive slowing. No fever.","Tired.",{words:20,num:1,kw:"percent|%",kwm:"State activity level as a percent of normal."},"Section III")],
+ "Labs 2025 excluded thyroid, anemia and sleep apnea.","Works 4 hours a day.","Name the workup that excluded other causes."],
+["Systemic_Lupus_Erythematosus_and_Other_Autoimmune_Diseases.pdf","Systemic Lupus Erythematosus (SLE) and other Autoimmune Diseases","Rheumatological","Systemic lupus erythematosus, M32.9, diagnosed 2017.","Joint pain and facial rash led to diagnosis in 2017. Takes hydroxychloroquine.",[
+ A("Skin findings","State rash location, body area affected, scarring alopecia and disfigurement.","Malar rash in flares, about 1 percent of body area. No scarring alopecia.","Rash.",{words:10,kw:"%|percent",kwm:"Give percent of body area."},"Section III"),
+ A("Signs and symptoms by body system","Address arthritis, oral ulcers, blood, lung, heart, nervous system, kidney, gut and vascular involvement, and exacerbations.","Arthritis of the hands with flares 3 times a year. No kidney, lung, heart or nervous system involvement. ANA positive.","Lupus.",{words:18},"Section IV")],
+ "ANA and anti-dsDNA positive 2017. Urine protein normal 03/2026.","Misses 2 workdays during flares.","Name labs with dates."],
+["Spina_Bifida.pdf","Spina Bifida","Spina Bifida","Spina bifida occulta with tethered cord, Q76.0, diagnosed 1987.","Diagnosed in childhood. Surgery for tethered cord 2003.",[
+ A("Walking and upper extremities","State how the person gets around (walking unsupported, with braces, wheelchair) and any arm or hand impairment, separating spina bifida from other causes.","Walks with bilateral braces and crutches. Grip and fine motor function intact. No other condition affects walking.","Hard to walk.",{words:16},"Sections III and IV"),
+ A("Intelligence level, urinary and bowel continence","Give IQ level with source and date, and classify urinary and bowel control, noting other contributing conditions.","IQ in the average range per school testing 1998. Urinary incontinence needing a pad daily. Bowel incontinence weekly. No other cause.","Incontinent.",{words:20,num:1},"Sections V to VII")],
+ "MRI 2003 showed tethered cord.","Cannot do tasks requiring standing.","Name imaging with date."]
+];
+
+
+/* ---------- generated guided forms ---------- */
+const GENERIC_NOTE="If the claim needs an opinion on cause, use the at least as likely as not (50% or greater probability) standard and give reasons from the record and your exam.";
+const slug=fl=>fl.replace(/\.pdf$/,"").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
+const GEN=[];
+SPEC2.forEach(s=>{
+  if(s[1]==="__guided__")return;
+  const [file,name,cat,dx,hx,spec,test,func,thint]=s, key=slug(file), fields=[];
+  const add=(id,sec,label,hint,good,weak,rules)=>{rules=Object.assign({},rules);if(rules.words){const cap=Math.max(2,Math.floor(good.split(/\s+/).length*0.7));if(rules.words>cap)rules.words=cap;}fields.push({id,sec,label,hint,good,weak,rules,ex:""});};
+  add("dx","Diagnosis","Diagnosis, ICD code and date","Name each condition, the side if it applies, an ICD-10 code and the date of diagnosis.",dx,"Condition noted.",{icd:1,date:1});
+  add("hx","Medical history","Onset, course and treatment","Describe when it began, how it has changed, and what treatment the veteran has had and still needs.",hx,"Has had it a while.",{words:8});
+  spec.forEach((a,i)=>add("s"+i,a.sec||"Condition findings",a.label,a.hint,a.good,a.weak,a.rules));
+  add("test","Diagnostic testing","Diagnostic testing",thint,test,"Testing done.",/(19|20)\d\d|\d\/\d/.test(test)?{date:1,words:3}:{words:3});
+  add("func","Functional impact","Effect on work and daily tasks","Say how the condition affects work and daily tasks, with time, distance or weight where you can, or state that there is no effect.",func,"Affects work.",{words:4});
+  STUDIO[key]={name,file,opinionNote:GENERIC_NOTE,fields,cat};
+  GUIDED[file]=key; GEN.push(key);
+});
+const SHA="Separation Health Assessment";
+FORMS.sort((a,b)=>(a.cat===SHA)-(b.cat===SHA));
+FORMS.forEach(x=>{x.g=GUIDED[x.file]||null; if(x.g)STUDIO[x.g].cat=x.cat;});
+
+function check(fl,val){
+  const v=(val||"").trim(), msgs=[]; let state="ok";
+  if(!v) return {state:"missing",msgs:[["bad","Required. Nothing entered yet."]]};
+  const r=fl.rules, words=v.split(/\s+/).length, nums=(v.match(/\d+(\.\d+)?/g)||[]).length;
+  const warn=m=>{msgs.push(["warn",m]); if(state==="ok") state="warn"};
+  if(r.words&&words<r.words) warn("Short for this section. Add detail (about "+r.words+"+ words).");
+  if(r.num&&nums<r.num) warn("Needs numbers: "+(fl.id==="rom"?"degrees for each motion.":"measurements, counts or dates."));
+  if(r.deg&&!/°|degree/i.test(v)) warn("State units in degrees.");
+  if(r.icd&&!/\b[A-Z]\d{2}(\.\d+)?\b/.test(v)) warn("Add an ICD-10 code (for example M17.11).");
+  if(r.date&&!/\b(19|20)\d{2}\b|\b\d{1,2}\/\d{1,2}/.test(v)) warn("Add a date or year.");
+  if(r.flare&&!/flare/i.test(v)) warn("Address flare-ups: how often, how long, what the veteran cannot do.");
+  if(r.reps&&!/repetit|three|3 rep|x ?3/i.test(v)) warn("State the result after three repetitions.");
+  if(r.pain&&!/pain/i.test(v)) warn("Say where in the motion pain begins.");
+  if(r.tests&&!/lachman|drawer|stress|varus|valgus/i.test(v)) warn("Name the stability tests you did.");
+  if(r.study&&!/polysomno|sleep study|home sleep|AHI/i.test(v)) warn("Name the sleep study that confirmed the diagnosis.");
+  if(r.cpap&&!/cpap|bipap|device/i.test(v)) warn("State whether a breathing device is required and used.");
+  if(r.resid&&!/cor pulmonale|hypersomnol|trach|respiratory failure|carbon dioxide/i.test(v)) warn("Address each residual listed on the form.");
+  if(r.pro&&!/prostrat|lie down|lay down/i.test(v)) warn("Say whether attacks are prostrating.");
+  if(r.bp&&!/\b\d{2,3}\s*\/\s*\d{2,3}\b/.test(v)) warn("Enter readings like 150/92 with dates.");
+  if(r.kw&&!new RegExp(r.kw,"i").test(v)) warn(r.kwm||"Add the missing detail.");
+  if(r.because&&!/because|due to|based on|since|as evidenced|supported by|specifically/i.test(v)) warn("Give the reason, not just the conclusion.");
+  if(r.opinion&&/as likely as not/i.test(v)&&!/because|due to|based on|supported by/i.test(v)) warn("An opinion needs reasons: the facts and the medical logic that support it.");
+  if(/\b(see c-?file|per (the )?veteran only|as above|n\/a|unable to (determine|assess))\b/i.test(v)&&!/because|due to|speculation/i.test(v)) warn("Specify what was tested and the result. If you cannot estimate, say exactly why.");
+  if(state==="ok") msgs.push(["ok","Looks complete for this section."]);
+  return {state,msgs};
+}
+
+/* ---------- UI: tabs ---------- */
+const TABS=[["start","Home"],["library","Library"],["build","Builder"],["prompts","Prompt lab"],["more","Next"]];
+const VIEWS=[...TABS.map(t=>t[0]),"signin"];
+$("#tabs").innerHTML=TABS.map(([k,t],i)=>`<button class="tab" role="tab" data-t="${k}" aria-selected="${i===0}">${t}</button>`).join("");
+function go(k){
+  VIEWS.forEach(id=>$("#v-"+id).classList.toggle("on",id===k));
+  $$(".tab").forEach(b=>b.setAttribute("aria-selected",b.dataset.t===k));
+  window.scrollTo({top:0});
+  try{history.replaceState(null,"","#"+k)}catch(e){}
+}
+document.addEventListener("click",e=>{const t=e.target.closest("[data-t],[data-go]");if(t)go(t.dataset.t||t.dataset.go)});
+const nG=Object.keys(STUDIO).length; $("#nForms").textContent=nG; $("#nCats").textContent=new Set(FORMS.filter(x=>x.g).map(x=>x.cat)).size;
+
+/* ---------- sign-in previews ---------- */
+const SIGN=[
+ ["A","Examiner",`<h2>Sign in to your studio</h2><input class="inp" type="email" placeholder="Email" aria-label="Email"><input class="inp" type="password" placeholder="Password" aria-label="Password"><input class="inp" type="text" placeholder="NPI (optional, for certificates)" aria-label="NPI"><label class="chk"><input type="checkbox"> I will use synthetic or de-identified cases only</label><button class="btn primary lg" type="submit">Sign in</button><button class="btn ghost" type="button" data-fake>Create account</button>`,"Best for saving progress and issuing completion certificates. The checkbox sets the data rule before anyone types a case."],
+ ["B","Try it first",`<h2>Complete a sample DBQ in 10 minutes</h2><p class="muted">No account needed. Start with the knee example and see how the coach works.</p><button class="btn primary lg" type="button" data-go="build">Start the knee example</button><button class="btn ghost" type="button" data-go="library">Pick another condition</button><p class="fine">Sign in later to save your work.</p>`,"Best for first visits. A new examiner sees the value before deciding to sign up. Recommended as the public front door."],
+ ["C","Organization",`<h2>Train your whole exam team</h2><input class="inp" type="email" placeholder="Work email" aria-label="Work email"><input class="inp" type="text" placeholder="Organization name" aria-label="Organization name"><button class="btn primary lg" type="submit">Request team access</button><button class="btn ghost" type="button" data-fake>Sign in with organization SSO</button>`,"Best for clinic groups and schools. Adds team dashboards and a shared prompt library later."]
+];
+function renderSign(i){
+  $("#seg").innerHTML=SIGN.map((s,j)=>`<button role="tab" data-sg="${j}" aria-selected="${j===i}">${s[0]} &middot; ${s[1]}</button>`).join("");
+  const pane=$("#signPane"); pane.innerHTML=`<form class="stack" id="signForm" novalidate>${SIGN[i][2]}</form>`;
+  $("#signNote").textContent=SIGN[i][3]+(i===1?"":" Suggested combination: B in front, with A behind a Save my progress button.");
+  $("#signForm").addEventListener("submit",e=>{e.preventDefault();toast("Prototype only. Nothing was sent.")});
+  pane.querySelectorAll("[data-fake]").forEach(b=>b.onclick=()=>toast("Prototype only. Nothing was sent."));
+}
+$("#seg").addEventListener("click",e=>{const b=e.target.closest("[data-sg]");if(b)renderSign(+b.dataset.sg)});
+renderSign(1);
+
+/* ---------- library ---------- */
+const cats=[...new Set(FORMS.map(x=>x.cat))];
+$("#catSel").innerHTML=`<option value="">All body systems</option>`+cats.map(c=>`<option>${esc(c)}</option>`).join("");
+function renderLib(){
+  const q=$("#q").value.toLowerCase(), c=$("#catSel").value;
+  const list=FORMS.filter(x=>(!q||(x.title+" "+x.cat).toLowerCase().includes(q))&&(!c||x.cat===c));
+  const by={}; list.forEach(x=>(by[x.cat]=by[x.cat]||[]).push(x));
+  $("#libList").innerHTML=(list.length?"":`<p class="muted">No forms match. Try a shorter search.</p>`)+Object.keys(by).map(cat=>`
+    <div class="cat"><h3>${esc(cat)} <span class="pill">${by[cat].length}</span></h3>
+    <div class="forms">${by[cat].map(x=>`<div class="form-row">${x.g?`<button class="t" data-open="${x.g}">${esc(x.title)}</button>`:`<span class="t">${esc(x.title)}</span>`}<span class="acts">${x.g?"":`<span class="pill">Reference</span>`}<a class="small" href="${x.url}" target="_blank" rel="noopener" aria-label="Official PDF: ${esc(x.title)}">PDF &#8599;</a></span></div>`).join("")}</div></div>`).join("");
+}
+["q","catSel"].forEach(id=>$("#"+id).addEventListener("input",renderLib));
+document.addEventListener("click",e=>{const b=e.target.closest("[data-open]");if(b){loadForm(b.dataset.open,true);go("build")}});
+renderLib();
+
+/* ---------- builder ---------- */
+
+const STATE={}; let cur="knee", focusId=null;
+const EX={
+ knee:{dx:"Right knee degenerative arthritis, M17.11, diagnosed 03/2022 on weight-bearing films.",hx:"Onset after a training injury in 2008. The knee hurts sometimes and flares up with stairs.",rom:"Active flexion 0 to 105 degrees with pain beginning at 90 degrees. Extension 0 to 0 degrees.",reps:"",stab:"",img:"X-ray done.",func:"",rem:""},
+ back:{dx:"Lumbar degenerative disc disease, M51.36, diagnosed 06/2019.",hx:"",rom:"",reps:"",neuro:"",ivds:"",img:"",func:""},
+ mental:{dx:"PTSD.",ev:"",hist:"",sym:"",obs:"",imp:"",comp:""},
+ sleep:{dx:"Obstructive sleep apnea, G47.33, diagnosed 11/2021 on in-lab polysomnography.",hx:"",tx:"",res:"",test:"",func:""},
+ head:{dx:"Migraine without aura, G43.009, diagnosed 05/2020.",hx:"",sym:"",pro:"Frequent attacks.",img:"",func:""},
+ htn:{dx:"Essential hypertension, I10, diagnosed 02/2018.",bp:"Elevated readings.",tx:"",oth:"",func:""}
+};
+
+(function(){const by={};FORMS.filter(x=>x.g).forEach(x=>(by[x.cat]=by[x.cat]||[]).push(x));
+$("#formSel").innerHTML=Object.keys(by).map(c=>`<optgroup label="${esc(c)}">${by[c].map(x=>`<option value="${x.g}">${esc(STUDIO[x.g].name)}</option>`).join("")}</optgroup>`).join("");})();
+
+function loadForm(k,example){
+  cur=k; STATE[k]=STATE[k]||{}; focusId=null;
+  if(example||!Object.keys(STATE[k]).length) STATE[k]=Object.assign({},EX[k]);
+  $("#formSel").value=k;
+  const S=STUDIO[k]; $("#officialLink").href=BASE+S.file;
+  let last=""; $("#fields").innerHTML=S.fields.map(fl=>{
+    const hd=fl.sec!==last?`<h3 class="sec">${esc(fl.sec.split(" · ")[0])} ${fl.sec.includes(" · ")?`<span class="muted" style="font-weight:400">· ${esc(fl.sec.split(" · ")[1])}</span>`:""}</h3>`:""; last=fl.sec;
+    return hd+`<div class="field" id="fld-${fl.id}"><label for="in-${fl.id}"><span>${esc(fl.label)}</span><span class="pill" id="st-${fl.id}"></span></label>
+      <div class="small muted">${esc(fl.hint)}</div>
+      <textarea id="in-${fl.id}" data-id="${fl.id}" spellcheck="true"></textarea>
+      <div class="msgs" id="m-${fl.id}"></div></div>`}).join("");
+  S.fields.forEach(fl=>{$("#in-"+fl.id).value=STATE[k][fl.id]||""});
+  evalAll(); showCoach(S.fields[0].id);
+}
+function evalAll(){
+  const S=STUDIO[cur]; let done=0;
+  $("#checklist").innerHTML="";
+  S.fields.forEach(fl=>{
+    const res=check(fl,STATE[cur][fl.id]); if(res.state==="ok") done++;
+    const pill=$("#st-"+fl.id); pill.className="pill "+(res.state==="ok"?"ok":res.state==="warn"?"warn":"bad");
+    pill.textContent=res.state==="ok"?"Complete":res.state==="warn"?"Needs work":"Empty";
+    $("#m-"+fl.id).innerHTML=res.msgs.map(([t,m])=>`<span style="color:var(--${t==="ok"?"ok":t==="warn"?"warn":"bad"})">${t==="ok"?"✓":"•"} ${esc(m)}</span>`).join("");
+    const b=document.createElement("button"); b.innerHTML=`<span class="dot ${res.state==="ok"?"ok":res.state==="warn"?"warn":""}"></span>${esc(fl.label)}`;
+    b.onclick=()=>{$("#in-"+fl.id).focus();$("#fld-"+fl.id).scrollIntoView({behavior:"smooth",block:"center"})};
+    $("#checklist").appendChild(b);
+  });
+  $("#score").textContent=done+" / "+S.fields.length;
+  $("#bar").style.width=(100*done/S.fields.length)+"%";
+}
+function showCoach(id){
+  focusId=id; const S=STUDIO[cur], fl=S.fields.find(x=>x.id===id);
+  $$(".field").forEach(e=>e.classList.toggle("active",e.id==="fld-"+id));
+  $("#coachCard").innerHTML=`<span class="eyebrow">Coach · ${esc(fl.sec)}</span><h3>${esc(fl.label)}</h3>
+    <p class="small">${esc(fl.hint)}</p>
+    <div class="ex weak"><b>Too thin</b>${esc(fl.weak)}</div>
+    <div class="ex good"><b>Complete</b>${esc(fl.good)}</div>
+    <button class="btn sm" id="useGood">Insert the complete example as a starting point</button>
+    <p class="small muted">${esc(S.opinionNote)}</p>`;
+  $("#useGood").onclick=()=>{const t=$("#in-"+id);t.value=fl.good;STATE[cur][id]=fl.good;evalAll();toast("Example inserted. Replace it with your own findings.")};
+}
+$("#fields").addEventListener("input",e=>{const t=e.target.closest("textarea");if(!t)return;STATE[cur][t.dataset.id]=t.value;evalAll()});
+$("#fields").addEventListener("focusin",e=>{const t=e.target.closest("textarea");if(t&&t.dataset.id!==focusId)showCoach(t.dataset.id)});
+$("#formSel").addEventListener("change",e=>loadForm(e.target.value,!Object.keys(STATE[e.target.value]||{}).length));
+$("#loadEx").onclick=()=>{loadForm(cur,true);toast("Example case loaded")};
+$("#clearForm").onclick=()=>{STATE[cur]={};loadForm(cur,false);STUDIO[cur].fields.forEach(fl=>{$("#in-"+fl.id).value=""});evalAll();toast("Cleared")};
+$("#copyDraft").onclick=()=>{const S=STUDIO[cur];copy(S.name+" DBQ draft\n\n"+S.fields.map(fl=>fl.sec+" · "+fl.label+"\n"+(STATE[cur][fl.id]||"[not completed]")).join("\n\n"))};
+/* ---------- prompts ---------- */
+const KEY={
+ knee:["diagnosis with ICD code and date","flare-up frequency, duration and triggers","active and passive range of motion in degrees, with and without weight-bearing","result after three repetitions","flare-up estimate or the specific reason none can be given","stability tests","imaging with date","functional impact on standing, walking, lifting"],
+ back:["diagnosis with ICD code and date","flare-ups","range of motion in all six directions in degrees","result after three repetitions","strength, reflexes, sensory and straight leg raise results","IVDS and bed rest in the past 12 months","imaging","functional impact"],
+ mental:["each diagnosis and how criteria are met","how overlapping diagnoses were separated","records reviewed","social, occupational and treatment history","current symptoms with frequency","behavioral observations","one level of occupational and social impairment with examples","competency to manage finances"],
+ sleep:["type of sleep apnea and the sleep study that confirmed it","onset and course","whether a breathing device is required and used","each residual named on the form","study date and result","functional impact"],
+ head:["headache type and ICD code","triggers and treatment response","symptoms during attacks","number of prostrating attacks per month and how long each lasts","imaging or why none was done","days of work missed or tasks limited"],
+ htn:["diagnosis with ICD code and date","at least three readings on different days with dates","continuous medication and dose","complications or related conditions","functional impact"]
+};
+
+GEN.forEach(k=>{const F=STUDIO[k].fields;KEY[k]=F.map(x=>x.label.charAt(0).toLowerCase()+x.label.slice(1));EX[k]={dx:F[0].good,hx:F[1].weak};});
+$("#pForm").innerHTML=$("#formSel").innerHTML;
+function renderPrompts(){
+  const k=$("#pForm").value, name=STUDIO[k].name, items=KEY[k].map(x=>"- "+x).join("\n");
+  const P=[
+   ["1. Find what is missing","Run this on your own de-identified draft before you sign.",
+`You are helping me review a draft of the "${name}" Disability Benefits Questionnaire. I am the examiner and I will make all clinical findings.
+
+For each section of the form, tell me whether my draft is complete, vague, or missing. A complete ${name} DBQ includes:
+${items}
+
+Rules:
+- Do not add findings or numbers I did not give you.
+- For each gap, write a short question I should answer from my own exam.
+- Flag any place where two sections disagree.
+
+My de-identified draft:
+[PASTE DRAFT HERE]`],
+   ["2. Turn my exam notes into section language","Use when your notes are shorthand and the DBQ needs full sentences.",
+`Below are my de-identified exam notes for the "${name}" DBQ. Rewrite them as clear, specific findings for the section I name, using only facts in my notes.
+
+If a detail the form asks for is not in my notes, do not guess. Add it to a list titled "Questions for the examiner."
+
+Section: [SECTION NAME]
+Notes:
+[PASTE NOTES HERE]`],
+   ["3. Outline the reasoning for an opinion","Use only when an opinion is requested. You write the final wording.",
+`I am asked for a medical opinion on the "${name}" DBQ. The standard is "at least as likely as not" (50% or greater probability).
+
+Using only the facts below, outline the reasoning in this order:
+1. Records and findings I relied on
+2. The medical principle that connects them
+3. How that principle applies to this veteran
+4. Other possible causes I considered, and why they are more or less likely
+5. My conclusion
+
+Mark any step where the facts I gave are not enough. Do not write the conclusion for me.
+
+Facts:
+[PASTE FACTS HERE]`],
+   ["4. Play the skeptical reviewer","Run it last to catch weak spots.",
+`Act as a careful claims reviewer reading my completed "${name}" DBQ. List everything that could lead to the form being returned or a new exam being ordered: missing measurements, vague phrases, unsupported conclusions, and statements that conflict with each other. Quote the exact words from my draft for each problem. Do not rewrite my findings.
+
+Draft:
+[PASTE DRAFT HERE]`],
+   ["5. Check wording for sameness","Helps you keep each report individual.",
+`Compare these two de-identified DBQ sections that I wrote for different veterans. Point out phrases that are identical or nearly identical. For each, tell me what individual detail from the notes I could state instead. Do not change any clinical facts.
+
+Section A:
+[PASTE]
+Section B:
+[PASTE]`]
+  ];
+  $("#promptList").innerHTML=P.map((p,i)=>`<div class="prompt"><header><div><b>${esc(p[0])}</b><div class="small muted">${esc(p[1])}</div></div><button class="btn sm" data-cp="${i}">Copy prompt</button></header><pre>${esc(p[2])}</pre></div>`).join("");
+  $("#promptList").onclick=e=>{const b=e.target.closest("[data-cp]");if(b)copy(P[b.dataset.cp][2])};
+}
+$("#pForm").addEventListener("change",renderPrompts); renderPrompts();
+$("#outEx").innerHTML=[
+ ["bad","Weak: the AI invented details","Prompt: \"Write my knee ROM section.\"\nOutput: \"Flexion 0 to 90 degrees with pain, extension 0 degrees, no instability.\"\nProblem: you gave no measurements. The AI made them up.","Fix: paste your notes and ask it to list missing details as questions."],
+ ["ok","Strong: the AI asked for what was missing","Prompt: notes plus \"do not guess, list questions.\"\nOutput: \"Questions for the examiner: 1) Was passive flexion measured? 2) Was it tested weight-bearing? 3) What was flexion after three repetitions?\"","Result: you answer from your exam and the section becomes specific."]
+].map(([t,h,b,fix])=>`<div class="card stack"><span class="pill ${t==="ok"?"ok":"bad"}" style="width:max-content">${esc(h)}</span><p class="small" style="white-space:pre-wrap">${esc(b)}</p><p class="small muted">${esc(fix)}</p></div>`).join("");
+
+/* ---------- more projects ---------- */
+$("#more").innerHTML=[
+ ["Veteran Claims Navigator","Plain-language guide for veterans, written to pair with DBQ Studio.",
+  ["Claim flow from intent to file through decision","What a C&P exam is and how to prepare","Evidence checklist by claim type","What a complete DBQ says, in plain words","Glossary and a printable question list for the exam"],
+  ["Start: What do you want to do?","Pick: new claim, increase, or appeal","Checklist and timeline","Exam day preparation","Resources and accredited help"]],
+ ["Preceptor Playbook","How new NP students get through clinicals, and how preceptors teach them.",
+  ["Before day one: paperwork, immunizations, orientation","First-week routine and expectations","Presenting a patient: a simple structure","Documentation and supervision basics","Feedback scripts and a mid-rotation check-in","Common mistakes and how to recover"],
+  ["Student path and preceptor path","Week-by-week timeline","Skills checklist","Feedback templates","Hours and evaluation tracker"]],
+ ["Clinician Agent Builder","A guided way for clinicians to design a safe AI helper for one task, without code.",
+  ["Pick a task: patient education, chart-summary prep, study quizzing","Write the helper's role, limits and tone","Add allowed sources and what it must never do","Test with sample questions and a safety checklist","Export the setup as a prompt to use in an approved AI tool"],
+  ["Step 1 Task","Step 2 Rules and limits","Step 3 Sources","Step 4 Test","Step 5 Export"]]
+].map(p=>`<div class="card stack"><h3>${esc(p[0])}</h3><p class="small muted">${esc(p[1])}</p>
+  <div><b class="small">Outline</b><ul class="plain small" style="margin-top:6px">${p[2].map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>
+  <div class="wf"><span class="tag">Wireframe flow</span><div class="steps">${p[3].map(x=>`<span>${esc(x)}</span>`).join("")}</div></div></div>`).join("");
+
+loadForm("knee",true);
+const h=(location.hash||"").slice(1); if(VIEWS.includes(h)) go(h);
+})();
+</script>
+</body>
+</html>
