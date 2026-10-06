@@ -38,13 +38,13 @@ export function SectionHeading({
         className,
       )}
     >
-      {eyebrow ? <p className="eyebrow">{eyebrow}</p> : null}
+      {eyebrow ? <p className="pill-label w-fit">{eyebrow}</p> : null}
 
       <Tag
         className={cn(
           Tag === "h1"
             ? "text-4xl leading-[1.05] font-semibold sm:text-5xl lg:text-6xl"
-            : "text-2xl leading-[1.15] font-semibold sm:text-3xl lg:text-4xl",
+            : "text-3xl leading-[1.1] font-semibold sm:text-4xl lg:text-5xl",
           "max-w-3xl",
           headingClassName,
         )}
