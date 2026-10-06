@@ -3,12 +3,8 @@
 /**
  * Reveal — the site's single scroll-reveal primitive.
  *
- * Content fades and rises once, the first time it enters the viewport. When
- * the visitor prefers reduced motion the children render immediately with no
- * transform and no opacity animation.
- *
- * Kept deliberately small: this is the only Framer Motion component used for
- * page content, which keeps the client bundle down.
+ * Content fades, un-blurs and rises once, the first time it enters the
+ * viewport. With reduced motion the children render immediately.
  */
 
 import { motion, useReducedMotion } from "framer-motion";
@@ -27,7 +23,7 @@ type Props = {
 export function Reveal({
   children,
   delay = 0,
-  y = 16,
+  y = 28,
   className,
   as = "div",
 }: Props) {
@@ -42,13 +38,13 @@ export function Reveal({
   return (
     <Component
       className={className}
-      initial={{ opacity: 0, y }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.2, margin: "0px 0px -80px 0px" }}
+      initial={{ opacity: 0, y, filter: "blur(8px)" }}
+      whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+      viewport={{ once: true, amount: 0.15, margin: "0px 0px -60px 0px" }}
       transition={{
-        duration: 0.55,
+        duration: 0.8,
         delay,
-        ease: [0.22, 1, 0.36, 1],
+        ease: [0.32, 0.72, 0, 1],
       }}
     >
       {children}
