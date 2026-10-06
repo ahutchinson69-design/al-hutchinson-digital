@@ -13,8 +13,8 @@ export function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-hairline bg-canvas-2">
-      <div className="shell py-14 md:py-16">
+    <footer className="mx-3 mb-3 rounded-[2rem] bg-canvas-2 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.07)] sm:mx-5 sm:mb-5">
+      <div className="shell py-14 md:py-20">
         <div className="grid gap-12 lg:grid-cols-[1.4fr_2fr]">
           <div className="flex flex-col gap-6">
             <Wordmark />
@@ -31,7 +31,7 @@ export function Footer() {
           <nav aria-label="Footer" className="grid gap-8 sm:grid-cols-3">
             {footerNav.map((group) => (
               <div key={group.heading} className="flex flex-col gap-4">
-                <h2 className="eyebrow">{group.heading}</h2>
+                <h2 className="text-xs font-medium tracking-[0.14em] text-accent uppercase">{group.heading}</h2>
                 <ul className="flex flex-col gap-3">
                   {group.links.map((link) => (
                     <li key={link.href}>
