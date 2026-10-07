@@ -270,6 +270,19 @@ details.exc .exb{padding:4px 22px 22px;display:flex;flex-direction:column;gap:14
 .bar{height:10px;background:var(--bg2);border-radius:999px;overflow:hidden}
 .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--red));border-radius:999px;transition:width .5s var(--spring)}
 
+
+/* Apple button specification */
+.btn{font-family:inherit;font-size:1.0625rem;font-weight:400;letter-spacing:-.022em;line-height:1.17648;min-height:44px;padding:0 21px;border-radius:980px;white-space:nowrap}
+.btn.sm{font-size:.875rem;min-height:34px;padding:0 15px;letter-spacing:-.016em}
+.btn.lg{min-height:48px;padding:0 24px}
+.btn.primary{background:#0071e3;border:1px solid #0071e3;color:#fff}
+.btn.primary:hover{background:#0077ed;border-color:#0077ed;filter:none}
+.btn.primary:active{background:#006edb;border-color:#006edb}
+.btn.ghost{background:transparent;border:1px solid #0071e3;color:#0066cc}
+.btn.ghost:hover{background:#0071e3;color:#fff}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .btn.ghost{color:#2997ff;border-color:#2997ff}:root:not([data-theme="light"]) .btn.ghost:hover{background:#0071e3;color:#fff;border-color:#0071e3}}
+:root[data-theme="dark"] .btn.ghost{color:#2997ff;border-color:#2997ff}
+.btn:focus-visible{outline:2px solid #0071e3;outline-offset:2px}
 </style>
 </head>
 <body>
