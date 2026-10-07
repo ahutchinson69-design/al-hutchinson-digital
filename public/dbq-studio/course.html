@@ -1,0 +1,794 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="DBQ Examiner Course: eight modules, quizzes, two labs and 30 completed DBQ examples, including the quality assurance step.">
+<title>DBQ Examiner Course</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+<style>
+/* Layout concept: Apple-style product site. Translucent sticky bar, one idea per screen, large type, soft depth. Red, white and blue: navy and blue lead, red is the single accent. */
+:root{
+  --bg:#ffffff; --bg2:#f5f5f7; --panel:#ffffff; --panel2:#f5f5f7; --fg:#1d1d1f; --muted:#5f5f66;
+  --line:rgba(0,0,0,.12); --accent:#0a3d91; --accent-bg:#e9effb; --on-accent:#ffffff; --navy:#071c45;
+  --red:#b3112a; --red-bg:#fcebee;
+  --ok:#14703b; --ok-bg:#e1f3e8; --warn:#8d5400; --warn-bg:#fcefd6; --bad:#a1262b; --bad-bg:#fbe4e4;
+  --shadow:0 1px 2px rgba(0,0,0,.04),0 12px 40px rgba(7,28,69,.08);
+  --glass:rgba(255,255,255,.72);
+  --font:-apple-system,BlinkMacSystemFont,'SF Pro Display','SF Pro Text','Inter','Segoe UI',system-ui,sans-serif;
+  --mono:ui-monospace,'SF Mono','JetBrains Mono',Menlo,Consolas,monospace;
+  --spring:cubic-bezier(.32,.72,0,1);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#000000; --bg2:#0d0d10; --panel:#1c1c1f; --panel2:#141416; --fg:#f5f5f7; --muted:#a1a1a8;
+  --line:rgba(255,255,255,.16); --accent:#7aa8ff; --accent-bg:#0f1d3a; --on-accent:#04122e; --navy:#0b2a63;
+  --red:#ff6b7c; --red-bg:#331219;
+  --ok:#6fd19a; --ok-bg:#10281b; --warn:#f0c26a; --warn-bg:#2d2310; --bad:#ff9b9f; --bad-bg:#2e1416;
+  --shadow:0 0 0 1px rgba(255,255,255,.04);--glass:rgba(0,0,0,.7);color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#000000; --bg2:#0d0d10; --panel:#1c1c1f; --panel2:#141416; --fg:#f5f5f7; --muted:#a1a1a8;
+  --line:rgba(255,255,255,.16); --accent:#7aa8ff; --accent-bg:#0f1d3a; --on-accent:#04122e; --navy:#0b2a63;
+  --red:#ff6b7c; --red-bg:#331219;
+  --ok:#6fd19a; --ok-bg:#10281b; --warn:#f0c26a; --warn-bg:#2d2310; --bad:#ff9b9f; --bad-bg:#2e1416;
+  --shadow:0 0 0 1px rgba(255,255,255,.04);--glass:rgba(0,0,0,.7);color-scheme:dark}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--fg);font-family:var(--font);font-size:16px;line-height:1.5;margin:0;padding-inline:clamp(16px,4vw,40px);padding-block:0 72px;-webkit-font-smoothing:antialiased}
+h1,h2,h3{text-wrap:balance;letter-spacing:-0.03em;line-height:1.08;margin:0;font-weight:650}
+h1{font-size:clamp(2.1rem,5.2vw,3.4rem)}
+h2{font-size:clamp(1.5rem,3vw,2rem)}
+h3{font-size:1.05rem;letter-spacing:-0.01em;line-height:1.25}
+p{margin:0;text-wrap:pretty}
+a{color:var(--accent)}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid color-mix(in srgb,var(--accent) 55%,transparent);outline-offset:2px}
+.wrap{max-width:1120px;margin-inline:auto}
+.muted{color:var(--muted)}
+.small{font-size:.875rem}
+.fine{font-size:.82rem;color:var(--muted)}
+
+/* nav: translucent bar */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;margin-inline:calc(-1*clamp(16px,4vw,40px));padding-inline:clamp(16px,4vw,40px);background:var(--glass);-webkit-backdrop-filter:saturate(180%) blur(22px);backdrop-filter:saturate(180%) blur(22px);border-bottom:1px solid var(--line)}
+.top-in{max-width:1120px;margin-inline:auto;display:flex;align-items:center;gap:14px;min-height:56px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:650;letter-spacing:-0.01em;white-space:nowrap;background:none;border:0;cursor:pointer;padding:0}
+.mark{position:relative;width:30px;height:30px;border-radius:9px;background:linear-gradient(145deg,#1d56c4,var(--navy));color:#fff;display:grid;place-items:center;font-size:.72rem;font-weight:650;letter-spacing:.02em;overflow:hidden}
+.mark::after{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;background:#d0182f}
+.tabs{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;min-width:0;flex:1;justify-content:center}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:none;border:0;background:none;padding:8px 14px;border-radius:999px;color:var(--muted);cursor:pointer;font-weight:500;font-size:.92rem;white-space:nowrap;min-height:40px;transition:color .2s,background .2s}
+.tab:hover{color:var(--fg)}
+.tab[aria-selected="true"]{color:var(--fg);background:var(--bg2)}
+@media (max-width:760px){.bn{display:none}.tabs{justify-content:flex-start}}
+
+.view{display:none;padding-block:clamp(36px,7vw,84px)}
+.view.on{display:block;animation:rise .6s var(--spring)}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+/* buttons, pills, cards */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 22px;border-radius:999px;border:1px solid var(--line);background:var(--panel);cursor:pointer;font-weight:550;text-decoration:none;color:var(--fg);transition:transform .25s var(--spring),background .2s,box-shadow .2s}
+.btn:hover{background:var(--bg2)}
+.btn:active{transform:scale(.97)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.btn.primary:hover{filter:brightness(1.08);background:var(--accent)}
+.btn.ghost{background:transparent}
+.btn.lg{min-height:52px;padding:0 30px;font-size:1.02rem}
+.btn.sm{min-height:36px;padding:0 16px;font-size:.88rem}
+.pill{display:inline-flex;align-items:center;border-radius:999px;padding:2px 10px;font-size:.74rem;font-weight:600;background:var(--bg2);color:var(--muted);white-space:nowrap}
+.pill.guided{background:var(--accent-bg);color:var(--accent)}
+.pill.ok{background:var(--ok-bg);color:var(--ok)}
+.pill.warn{background:var(--warn-bg);color:var(--warn)}
+.pill.bad{background:var(--bad-bg);color:var(--bad)}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:24px;box-shadow:var(--shadow)}
+.grid{display:grid;gap:18px}
+.g3{grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
+.g2{grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr))}
+.eyebrow{font-size:.78rem;font-weight:650;letter-spacing:.14em;text-transform:uppercase;color:var(--red)}
+.stack{display:flex;flex-direction:column;gap:16px}
+.row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.center{justify-content:center}
+.notice{background:var(--bg2);color:var(--muted);border-radius:14px;padding:12px 16px;font-size:.86rem}
+.head{display:flex;flex-direction:column;gap:12px;max-width:720px}
+.head .lede{font-size:1.15rem;color:var(--muted)}
+
+/* home */
+.hero{display:flex;flex-direction:column;align-items:center;text-align:center;gap:22px;max-width:820px;margin-inline:auto}
+.hero h1{font-size:clamp(2.6rem,8vw,5.2rem);letter-spacing:-0.045em;line-height:1.02}
+.grad{background:linear-gradient(95deg,var(--accent) 10%,var(--red) 95%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lede{font-size:clamp(1.05rem,2vw,1.3rem);color:var(--muted);max-width:620px;line-height:1.45}
+.stripe{width:84px;height:4px;border-radius:4px;background:linear-gradient(90deg,var(--red) 0 34%,var(--line) 34% 38%,var(--accent) 38% 100%)}
+.preview{margin:clamp(40px,7vw,72px) auto 0;max-width:760px;border-radius:26px;background:var(--panel);border:1px solid var(--line);box-shadow:0 2px 4px rgba(0,0,0,.04),0 40px 90px rgba(7,28,69,.16);overflow:hidden}
+.pv-bar{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 20px;border-bottom:1px solid var(--line);font-size:.86rem;font-weight:600;background:var(--bg2)}
+.pv-body{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:0}
+@media (max-width:640px){.pv-body{grid-template-columns:minmax(0,1fr)}}
+.pv-form{padding:20px;display:flex;flex-direction:column;gap:14px}
+.pv-f{border:1px solid var(--line);border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:6px;font-size:.88rem}
+.pv-f b{display:flex;justify-content:space-between;gap:8px;align-items:center}
+.pv-side{padding:20px;background:var(--bg2);display:flex;flex-direction:column;gap:12px;font-size:.84rem;border-left:1px solid var(--line)}
+@media (max-width:640px){.pv-side{border-left:0;border-top:1px solid var(--line)}}
+.trio{margin-top:clamp(56px,9vw,110px)}
+.tile{text-align:left;cursor:pointer;display:flex;flex-direction:column;gap:10px;font:inherit;color:inherit;transition:transform .35s var(--spring),box-shadow .35s}
+.tile:hover{transform:translateY(-4px)}
+.tile .n{font-size:.8rem;font-weight:650;color:var(--red);letter-spacing:.08em}
+.tile h3{font-size:1.3rem}
+.band{margin-top:clamp(40px,6vw,72px);border-radius:28px;background:linear-gradient(135deg,var(--navy),#12408f);color:#fff;padding:clamp(28px,5vw,52px);display:flex;gap:20px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+.band h2{color:#fff;max-width:520px}
+.band p{color:rgba(255,255,255,.78)}
+.band .btn{background:#fff;color:#071c45;border-color:#fff}
+.band .btn:hover{background:#eef2fb}
+.band::before{content:"";display:block}
+.legal{margin-top:36px;text-align:center}
+
+/* sign in */
+.seg{display:inline-flex;gap:2px;padding:3px;border-radius:999px;background:var(--bg2);flex-wrap:wrap}
+.seg button{border:0;background:none;padding:8px 18px;border-radius:999px;cursor:pointer;font-weight:550;font-size:.9rem;color:var(--muted);min-height:38px}
+.seg button[aria-selected="true"]{background:var(--panel);color:var(--fg);box-shadow:0 1px 3px rgba(0,0,0,.14)}
+.signcard{max-width:460px;width:100%;margin-inline:auto}
+.signcard h2{font-size:1.7rem}
+.inp{width:100%;min-height:48px;border:1px solid var(--line);background:var(--bg);border-radius:14px;padding:0 16px}
+.chk{display:flex;gap:10px;align-items:flex-start;font-size:.88rem;color:var(--muted)}
+.chk input{margin-top:4px}
+
+/* library */
+.tools{display:flex;gap:10px;flex-wrap:wrap}
+.tools input[type=search],.tools select{min-height:46px;border:1px solid var(--line);background:var(--bg2);border-radius:999px;padding:0 18px}
+.tools input[type=search]{flex:1;min-width:200px}
+.cat{margin-top:34px}
+.cat h3{display:flex;gap:10px;align-items:center;margin-bottom:12px;font-size:1.2rem}
+.forms{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr));gap:10px}
+.form-row{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:6px 8px 6px 4px;min-width:0;transition:border-color .2s,transform .25s var(--spring)}
+.form-row:hover{border-color:var(--accent);transform:translateY(-1px)}
+.form-row .t{min-width:0;overflow-wrap:anywhere;flex:1;text-align:left;background:none;border:0;cursor:pointer;padding:10px 12px;font-weight:520;line-height:1.3}
+.form-row .acts{display:flex;gap:10px;flex:none;align-items:center;padding-right:6px}
+
+/* builder */
+.builder{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:26px;align-items:start}
+@media (max-width:900px){.builder{grid-template-columns:minmax(0,1fr)}}
+.sec{margin-top:10px;font-size:1rem}
+.field{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:18px 20px;display:flex;flex-direction:column;gap:10px;transition:border-color .2s,box-shadow .3s}
+.field.active{border-color:var(--accent);box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 14%,transparent)}
+.field label{font-weight:620;display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+.field textarea{width:100%;min-height:84px;resize:vertical;border:1px solid var(--line);border-radius:14px;background:var(--bg);padding:12px 14px;line-height:1.5}
+.msgs{display:flex;flex-direction:column;gap:4px;font-size:.84rem}
+.meter{height:8px;background:var(--bg2);border-radius:999px;overflow:hidden}
+.meter i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--red));width:0;border-radius:999px;transition:width .5s var(--spring)}
+.coach{position:sticky;top:calc(env(safe-area-inset-top,0px) + 76px);display:flex;flex-direction:column;gap:16px}
+@media (max-width:900px){.coach{position:static}}
+.ex{border-radius:14px;padding:12px 14px;font-size:.9rem}
+.ex.weak{background:var(--bad-bg);color:var(--bad)}
+.ex.good{background:var(--ok-bg);color:var(--ok)}
+.ex b{display:block;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;margin-bottom:2px}
+.checklist{display:flex;flex-direction:column;gap:2px;font-size:.88rem;max-height:260px;overflow:auto}
+.checklist button{display:flex;gap:8px;align-items:center;text-align:left;border:0;background:none;padding:4px 0;cursor:pointer;color:inherit;min-height:32px}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--line);flex:none}
+.dot.ok{background:var(--ok)}.dot.warn{background:var(--warn)}
+.sel{min-height:46px;border:1px solid var(--line);background:var(--bg2);border-radius:999px;padding:0 18px;max-width:100%}
+
+/* prompts */
+.prompt{background:var(--panel);border:1px solid var(--line);border-radius:20px;overflow:hidden}
+.prompt header{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:14px 20px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.prompt pre{margin:0;padding:16px 20px;white-space:pre-wrap;overflow-wrap:anywhere;font-family:var(--mono);font-size:.82rem;line-height:1.65;background:var(--bg2)}
+.rules li{margin-bottom:8px}
+.toast{position:fixed;bottom:calc(env(safe-area-inset-bottom,0px) + 20px);left:50%;transform:translateX(-50%) translateY(8px);background:var(--fg);color:var(--bg);padding:11px 20px;border-radius:999px;font-size:.88rem;opacity:0;pointer-events:none;transition:opacity .25s,transform .35s var(--spring);z-index:50}
+.toast.on{opacity:1;transform:translateX(-50%)}
+.steps{display:flex;gap:8px;flex-wrap:wrap}
+.steps span{background:var(--bg2);border-radius:999px;padding:5px 13px;font-size:.82rem}
+ul.plain{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px}
+.wf{border-radius:16px;padding:14px;background:var(--bg2);display:flex;flex-direction:column;gap:10px;min-width:0}
+.tag{font-size:.7rem;font-weight:650;text-transform:uppercase;letter-spacing:.12em;color:var(--red)}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important}}
+
+/* course additions */
+.own{display:flex;gap:14px;align-items:flex-start;border-radius:18px;padding:16px 18px;background:var(--red-bg);color:var(--fg);border:1px solid color-mix(in srgb,var(--red) 30%,transparent)}
+.own b{color:var(--red);font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;display:block;margin-bottom:2px}
+.own p{font-weight:560}
+.pipe{display:flex;gap:10px;flex-wrap:wrap;align-items:stretch;justify-content:center}
+.pipe .st{flex:1 1 170px;min-width:0;background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:16px;display:flex;flex-direction:column;gap:6px;position:relative;box-shadow:var(--shadow)}
+.pipe .st b{font-size:1.02rem}
+.pipe .st .n{font-size:.74rem;font-weight:650;color:var(--red);letter-spacing:.1em}
+.pipe .st.qa{border-color:var(--accent);background:var(--accent-bg)}
+.pipe .ar{align-self:center;color:var(--muted);font-size:1.4rem}
+@media (max-width:760px){.pipe .ar{display:none}}
+.course{display:grid;grid-template-columns:minmax(0,300px) minmax(0,1fr);gap:26px;align-items:start}
+@media (max-width:900px){.course{grid-template-columns:minmax(0,1fr)}}
+.mlist{display:flex;flex-direction:column;gap:8px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 76px)}
+@media (max-width:900px){.mlist{position:static}}
+.mi{display:flex;gap:12px;align-items:center;text-align:left;width:100%;border:1px solid var(--line);background:var(--panel);border-radius:16px;padding:12px 14px;cursor:pointer;min-height:56px}
+.mi[aria-current="true"]{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 14%,transparent)}
+.mi[disabled]{opacity:.55;cursor:not-allowed}
+.mi .no{flex:none;width:30px;height:30px;border-radius:50%;background:var(--bg2);display:grid;place-items:center;font-weight:650;font-size:.82rem}
+.mi .tt{min-width:0;flex:1;font-weight:560;font-size:.92rem;line-height:1.25}
+.mi .tt small{display:block;color:var(--muted);font-weight:450;margin-top:2px}
+.mod{display:flex;flex-direction:column;gap:22px;min-width:0}
+.mod h2{font-size:clamp(1.6rem,3.4vw,2.3rem)}
+.meta{display:flex;gap:8px;flex-wrap:wrap}
+.obj{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+details.les{border:1px solid var(--line);border-radius:16px;background:var(--panel);padding:0}
+details.les summary{cursor:pointer;padding:14px 18px;font-weight:600;list-style:none;display:flex;justify-content:space-between;gap:10px;min-height:48px;align-items:center}
+details.les summary::-webkit-details-marker{display:none}
+details.les summary::after{content:"+";color:var(--muted);font-size:1.2rem}
+details.les[open] summary::after{content:"\2212"}
+details.les p{padding:0 18px 16px;color:var(--muted)}
+.qz{display:flex;flex-direction:column;gap:16px}
+.qq{border:1px solid var(--line);border-radius:18px;padding:16px 18px;background:var(--panel);display:flex;flex-direction:column;gap:10px}
+.qq.right{border-color:var(--ok)}.qq.wrong{border-color:var(--bad)}
+.qq .q{font-weight:600}
+.opt{display:flex;gap:10px;align-items:flex-start;padding:8px 10px;border-radius:12px;cursor:pointer;min-height:40px}
+.opt:hover{background:var(--bg2)}
+.opt input{margin-top:5px;accent-color:var(--accent)}
+.opt.ans{background:var(--ok-bg)}
+.opt.bad{background:var(--bad-bg)}
+.why{font-size:.88rem;border-radius:12px;padding:10px 12px;background:var(--bg2);color:var(--muted)}
+.score{display:flex;gap:14px;align-items:center;flex-wrap:wrap;border-radius:18px;padding:16px 18px;background:var(--bg2)}
+.score b{font-size:1.4rem}
+.spot{display:flex;flex-direction:column;gap:10px}
+.sp{display:flex;gap:12px;align-items:flex-start;border:1px solid var(--line);border-radius:14px;padding:12px 14px;background:var(--panel);cursor:pointer}
+.sp input{margin-top:4px;accent-color:var(--red)}
+.sp.ok{border-color:var(--ok);background:var(--ok-bg)}.sp.no{border-color:var(--bad);background:var(--bad-bg)}
+.sp .why{background:transparent;padding:6px 0 0;color:inherit}
+.tool{border:1px solid var(--line);border-radius:22px;background:var(--panel);padding:20px;display:flex;flex-direction:column;gap:14px;box-shadow:var(--shadow)}
+.tool svg{width:100%;max-width:520px;height:auto;align-self:center;background:var(--bg2);border-radius:16px}
+.tool .ctl{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.tool input[type=range]{flex:1;min-width:180px;accent-color:var(--accent)}
+.big{font-size:1.8rem;font-weight:650;letter-spacing:-.02em;min-width:5ch;font-variant-numeric:tabular-nums}
+.vw{display:grid;grid-template-columns:minmax(0,160px) minmax(0,1fr);gap:14px}
+@media (max-width:640px){.vw{grid-template-columns:minmax(0,1fr)}}
+.pgs{display:flex;flex-wrap:wrap;gap:6px;align-content:flex-start}
+.pg{width:34px;height:44px;border-radius:5px;background:var(--bg2);border:1px solid var(--line);font-size:.6rem;display:grid;place-items:end center;padding-bottom:3px;color:var(--muted)}
+.pg.hit{background:var(--accent-bg);border-color:var(--accent);color:var(--accent)}
+.pbox{border:1px solid var(--line);border-radius:14px;padding:12px 14px;background:var(--bg);font-family:var(--mono);font-size:.8rem;min-height:48px;overflow-wrap:anywhere}
+.pbox .part{border-radius:6px;padding:0 3px}
+.pbox .t1{background:var(--accent-bg)}.pbox .t2{background:var(--warn-bg)}.pbox .t3{background:var(--ok-bg)}.pbox .t4{background:var(--red-bg)}
+.arow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:start;border:1px solid var(--line);border-radius:14px;padding:12px 14px;font-size:.88rem;animation:rise .45s var(--spring)}
+.arow .src{margin-top:8px;background:var(--bg2);border-radius:10px;padding:8px 10px;font-family:var(--mono);font-size:.78rem}
+.exfilter{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.exfilter input[type=search],.exfilter select{min-height:46px;border:1px solid var(--line);background:var(--bg2);border-radius:999px;padding:0 18px}
+.exfilter input[type=search]{flex:1;min-width:200px}
+details.exc{border:1px solid var(--line);border-radius:22px;background:var(--panel);box-shadow:var(--shadow)}
+details.exc summary{cursor:pointer;list-style:none;padding:18px 22px;display:flex;gap:14px;justify-content:space-between;align-items:center;flex-wrap:wrap;min-height:64px}
+details.exc summary::-webkit-details-marker{display:none}
+details.exc summary h3{font-size:1.1rem}
+details.exc .exb{padding:4px 22px 22px;display:flex;flex-direction:column;gap:14px}
+.fx{border:1px solid var(--line);border-radius:16px;padding:14px 16px;display:flex;flex-direction:column;gap:8px;background:var(--bg)}
+.fx h4{margin:0;font-size:.98rem;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.fx .good{background:var(--ok-bg);color:var(--ok);border-radius:12px;padding:10px 12px;font-size:.92rem}
+.fx .weak{background:var(--bad-bg);color:var(--bad);border-radius:12px;padding:10px 12px;font-size:.88rem}
+.fx .good b,.fx .weak b{display:block;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;margin-bottom:2px}
+.fx .h{font-size:.84rem;color:var(--muted)}
+.qa-lens{display:flex;gap:6px;flex-wrap:wrap}
+.qa-lens .pill{background:var(--accent-bg);color:var(--accent);white-space:normal}
+.miss{font-size:.82rem;color:var(--warn)}
+.hidew .weak{display:none}
+.scan textarea{width:100%;min-height:200px;resize:vertical;border:1px solid var(--line);border-radius:16px;background:var(--bg);padding:14px;line-height:1.5}
+.find{display:flex;gap:10px;align-items:flex-start;border-radius:14px;padding:10px 14px;font-size:.9rem}
+.find.hi{background:var(--bad-bg);color:var(--bad)}.find.md{background:var(--warn-bg);color:var(--warn)}.find.lo{background:var(--bg2);color:var(--muted)}
+.cert{border:2px solid var(--navy);border-radius:24px;padding:34px;text-align:center;background:var(--panel);display:flex;flex-direction:column;gap:10px;box-shadow:var(--shadow)}
+.cert h2{color:var(--navy)}
+@media (prefers-color-scheme:dark){.cert h2{color:var(--fg)}}
+.bar{height:10px;background:var(--bg2);border-radius:999px;overflow:hidden}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--red));border-radius:999px;transition:width .5s var(--spring)}
+
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="top-in">
+    <a class="brand" href="/dbq-studio" aria-label="Back to DBQ Studio" style="text-decoration:none;color:inherit"><span class="mark">DQ</span><span class="bn">DBQ Studio</span></a>
+    <nav class="tabs" role="tablist" aria-label="Course sections" id="tabs"></nav>
+    <a class="btn sm" href="/dbq-studio">Open the studio</a>
+  </div>
+</header>
+<main class="wrap">
+
+<section class="view on" id="v-over">
+  <div class="hero">
+    <div class="stripe" aria-hidden="true"></div>
+    <span class="eyebrow">DBQ Examiner Course</span>
+    <h1>Learn to complete a DBQ <span class="grad">the right way.</span></h1>
+    <p class="lede">Eight short modules for new examiners and working clinicians. Each one ends in a ten-question quiz. The course starts with how to use AI, and one rule runs through every module.</p>
+    <div class="row center">
+      <button class="btn primary lg" data-go="course">Start the course</button>
+      <button class="btn ghost lg" data-go="ex">See 30 completed examples</button>
+    </div>
+    <p class="fine">Every veteran, record and report here is fictional. Do not enter real patient information.</p>
+  </div>
+
+  <div class="own" style="margin-top:clamp(36px,6vw,64px)"><div><b>The ownership rule</b><p>If you put it in, it belongs to you. What you type into an AI tool, and what you paste out of one into a report, is your responsibility.</p></div></div>
+
+  <div class="stack" style="margin-top:clamp(36px,6vw,64px)">
+    <div class="head"><span class="eyebrow">How a report travels</span><h2>Examiner, quality assurance, rater</h2><p class="lede" style="font-size:1.05rem">Your AI is one check. A quality assurance reviewer, often with their own AI, is another. Neither replaces your own exam and your own review.</p></div>
+    <div class="pipe" aria-label="Report workflow">
+      <div class="st"><span class="n">1</span><b>Examiner</b><span class="small muted">Examines, measures, writes the report, and signs it. May use AI to search the record and check the draft.</span></div>
+      <span class="ar" aria-hidden="true">&rarr;</span>
+      <div class="st qa"><span class="n">2</span><b>Quality assurance</b><span class="small muted">Checks completeness, consistency and support, often with their own AI. Catches what the first AI missed. Verifies against the report and record.</span></div>
+      <span class="ar" aria-hidden="true">&rarr;</span>
+      <div class="st"><span class="n">3</span><b>Rater</b><span class="small muted">Uses the finished report to decide the claim and the rating.</span></div>
+    </div>
+    <p class="notice">Program details vary by contractor and VA process. Learn how your own program handles QA, returns and addenda.</p>
+  </div>
+
+  <div class="grid g3" style="margin-top:clamp(36px,6vw,64px)">
+    <div class="card stack"><span class="tile n" style="cursor:default">8 MODULES</span><h3>A full course</h3><p class="muted small">Objectives, lessons, a hands-on activity and a quiz in each module. About 21 hours in all.</p></div>
+    <div class="card stack"><span class="tile n" style="cursor:default">30 EXAMPLES</span><h3>Completed DBQs</h3><p class="muted small">Strong and weak versions of every field, with what QA checks and where AI tends to slip.</p></div>
+    <div class="card stack"><span class="tile n" style="cursor:default">2 LABS</span><h3>Goniometer and AI search</h3><p class="muted small">An on-screen goniometer and an animated record viewer with planted errors to catch.</p></div>
+  </div>
+
+  <div class="card stack" style="margin-top:clamp(36px,6vw,64px)" id="prog"></div>
+  <p class="notice" style="margin-top:20px">Training material only. Not legal or medical advice, and not CE credit. Regulation references and normal values are being verified against current VA sources by a clinician reviewer before launch.</p>
+</section>
+
+<section class="view" id="v-course">
+  <div class="course">
+    <div class="mlist" id="mlist" role="list" aria-label="Modules"></div>
+    <div class="mod" id="mod"></div>
+  </div>
+</section>
+
+<section class="view" id="v-ex">
+  <div class="stack">
+    <div class="head"><span class="eyebrow">Examples</span><h2>30 completed DBQs</h2><p class="lede">Each example shows what a strong answer looks like for every field, the weak version it replaces, what QA checks, and where AI tends to slip. All veterans are fictional.</p></div>
+    <div class="exfilter">
+      <input type="search" id="exq" placeholder="Search examples" aria-label="Search examples">
+      <select id="exc" aria-label="Body system"></select>
+      <label class="chk" style="color:var(--fg)"><input type="checkbox" id="exw" checked> Show weak versions</label>
+    </div>
+    <p class="fine" id="excount"></p>
+    <div class="stack" id="exlist"></div>
+  </div>
+</section>
+
+<section class="view" id="v-qa">
+  <div class="stack">
+    <div class="head"><span class="eyebrow">QA tools</span><h2>Check a report like a QA reviewer</h2><p class="lede">Paste a fictional practice report. The scan looks for the problems an AI draft often leaves behind. It runs in your browser and sends nothing anywhere.</p></div>
+    <div class="own"><div><b>Ownership rule</b><p>Never paste a real veteran's information here or into any tool your program has not approved. If you put it in, it belongs to you.</p></div></div>
+    <div class="grid g2">
+      <div class="card stack scan">
+        <label for="qain"><b>Practice report text</b></label>
+        <textarea id="qain" placeholder="Paste a fictional report..."></textarea>
+        <div class="row"><button class="btn primary" id="qarun">Run QA scan</button><button class="btn ghost" id="qasamp">Load a sample with problems</button></div>
+      </div>
+      <div class="card stack"><b>Scan results</b><div class="stack" id="qaout" style="gap:8px"><p class="muted small">Results appear here.</p></div></div>
+    </div>
+    <div class="card stack">
+      <h3>The QA checklist</h3>
+      <ul class="plain small" id="qalist"></ul>
+      <p class="fine">The scan is a simple teaching tool. A real QA reviewer's AI finds different things, and every flag must still be checked against the report and the record.</p>
+    </div>
+  </div>
+</section>
+
+</main>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+const EXS=[{"n":1,"name":"Knee and Lower Leg","cat":"Musculoskeletal","fields":[{"sec":"Section 1 · Diagnosis","label":"Diagnosis, ICD code and date","hint":"Name each knee condition, the side, an ICD-10 code and the date of diagnosis.","good":"Right knee degenerative arthritis, M17.11, diagnosed 03/2022 on weight-bearing films.","weak":"Knee problem.","rules":{"icd":1,"date":1}},{"sec":"Section 2 · Medical history","label":"Onset, course and flare-ups","hint":"Describe onset and course. For flare-ups give frequency, duration, triggers and what the veteran cannot do during one.","good":"Onset after a 2008 training injury. Flare-ups about twice a month, lasting 2 to 3 days, triggered by stairs and prolonged standing. During flares cannot climb stairs or squat.","weak":"Knee hurts sometimes.","rules":{"words":20,"num":1}},{"sec":"Section 3 · Range of motion","label":"Range of motion measurements","hint":"Record flexion and extension in degrees, where pain begins, and whether the test was active, passive, weight-bearing and non-weight-bearing. Normal knee flexion is 0 to 140 degrees and extension 0 degrees.","good":"Active flexion 0 to 105 degrees, pain begins at 90 degrees. Extension 0 to 0 degrees. Passive flexion 110 degrees. Weight-bearing flexion 100 degrees.","weak":"Reduced ROM with pain.","rules":{"num":3,"deg":1,"pain":1}},{"sec":"Section 3 · Repetitive use and flare-ups","label":"After three repetitions, and during flare-ups","hint":"State the result after three repetitions and whether function changed. For flare-ups give an estimated range of motion in degrees, or explain specifically why an estimate is not possible.","good":"After 3 repetitions flexion 100 degrees with pain, no change in extension. Not examined during a flare-up. Based on the veteran's description of stair limitation, estimated flare-up flexion about 80 degrees.","weak":"Unable to determine without speculation.","rules":{"reps":1,"num":2,"because":1}},{"sec":"Section 6 · Joint stability","label":"Stability and ligament testing","hint":"Report each test you did (anterior and posterior drawer, Lachman, varus and valgus stress) and the result.","good":"Lachman negative. Anterior and posterior drawer negative. Varus and valgus stress negative at 0 and 30 degrees. No history of subluxation.","weak":"Stable.","rules":{"words":12}},{"sec":"Section 13 · Diagnostic testing","label":"Imaging and other tests","hint":"Give the test, date, and the finding. State if arthritis is documented.","good":"Right knee X-ray 03/2022: medial joint space narrowing, small osteophytes. Degenerative arthritis documented.","weak":"X-ray done.","rules":{"date":1,"words":10}},{"sec":"Section 14 · Functional impact","label":"Effect on work and daily tasks","hint":"Name the tasks affected and how: standing, walking, lifting, sitting, stairs. Use time, distance or weight where you can.","good":"Cannot stand more than 30 minutes or walk more than 1 block without stopping. Cannot lift more than 20 pounds from the floor. Sitting jobs are unaffected.","weak":"Affects work.","rules":{"words":15,"num":1}},{"sec":"Section 15 · Remarks","label":"Remarks and rationale","hint":"Add anything the form did not capture. If an opinion is requested, give the opinion, the facts that support it, and why.","good":"Opinion requested on service connection. It is at least as likely as not that the knee arthritis is related to the 2008 training injury because the injury is documented in the service record, the first imaging after service shows medial narrowing, and no other cause is documented.","weak":"It is at least as likely as not related to service.","rules":{"words":12,"because":1}}]},{"n":2,"name":"Back (Thoracolumbar Spine)","cat":"Musculoskeletal","fields":[{"sec":"Section I · Diagnosis","label":"Diagnosis, ICD code and date","hint":"List each spine condition with an ICD-10 code and date of diagnosis.","good":"Lumbar degenerative disc disease, M51.36, diagnosed 06/2019 on MRI.","weak":"Back pain.","rules":{"icd":1,"date":1}},{"sec":"Section II · Medical history","label":"Onset, course and flare-ups","hint":"Describe onset, course, flare-up frequency and duration, and the functional loss during a flare.","good":"Gradual onset 2015. Flare-ups about weekly, lasting 1 to 2 days, triggered by lifting and driving over 30 minutes. During flares cannot bend to put on shoes.","weak":"Back hurts at times.","rules":{"words":20,"num":1}},{"sec":"Section III · Range of motion","label":"Range of motion measurements","hint":"Normal thoracolumbar values are flexion 0 to 90, extension 0 to 30, right and left lateral flexion 0 to 30 each, and right and left rotation 0 to 30 each, in degrees. Record the veteran's values, where pain begins, and any guarding or spasm.","good":"Flexion 0 to 60 degrees with pain at 50. Extension 0 to 15 degrees. Right lateral flexion 20 degrees, left 25. Right rotation 25 degrees, left 25. Paraspinal spasm without abnormal gait.","weak":"Limited ROM.","rules":{"num":6,"deg":1,"pain":1}},{"sec":"Section III · Repetitive use and flare-ups","label":"After repetition, and during flare-ups","hint":"Give measurements after three repetitions. For flare-ups, give an estimate or a specific reason one cannot be given.","good":"After 3 repetitions flexion 55 degrees, extension 15 degrees, pain with each. Not seen in a flare-up. Based on the history of weekly flares, flare-up flexion is estimated at 40 degrees.","weak":"Cannot say.","rules":{"reps":1,"num":2,"because":1}},{"sec":"Sections IV to VIII · Neurologic","label":"Strength, reflexes, sensation, straight leg raise, radiculopathy","hint":"Report each element tested: strength (0 to 5), reflexes (0 to 4+), sensation by dermatome, straight leg raise, and any radiculopathy with side and nerve root.","good":"Strength 5/5 bilaterally. Knee and ankle reflexes 2+ and symmetric. Sensation intact L2 to S1. Straight leg raise negative bilaterally. No radiculopathy.","weak":"Neuro intact.","rules":{"words":18,"num":2}},{"sec":"Section XI · IVDS","label":"Intervertebral disc syndrome and bed rest","hint":"State whether IVDS is present. If so, give any physician-ordered bed rest in the past 12 months and its total duration.","good":"IVDS present. No physician-ordered bed rest in the past 12 months.","weak":"See records.","rules":{"words":6}},{"sec":"Section XV · Diagnostic testing","label":"Imaging","hint":"Give the study, date, and result. Note whether arthritis is documented.","good":"Lumbar MRI 06/2019: L4-L5 disc bulge with mild canal narrowing. Arthritis documented on X-ray 2018.","weak":"MRI done.","rules":{"date":1,"words":10}},{"sec":"Section XVI · Functional impact","label":"Effect on work and daily tasks","hint":"Name the tasks affected and by how much: sitting, standing, lifting, bending.","good":"Cannot sit more than 45 minutes. Cannot lift more than 15 pounds. Bending limits floor-level tasks.","weak":"Limits work.","rules":{"words":12,"num":1}}]},{"n":3,"name":"Ankle","cat":"Musculoskeletal","fields":[{"sec":"Diagnosis","label":"Diagnosis, ICD code and date","hint":"","good":"Right ankle sprain with chronic instability, M25.371, 2017.","weak":"Condition noted.","rules":{"icd":1,"date":1}},{"sec":"Medical history","label":"Onset, course and treatment","hint":"","good":"Inversion injury in 2017. Recurrent giving way since.","weak":"Has had it a while.","rules":{"words":8}},{"sec":"Section 3","label":"Range of motion, measured in degrees","hint":"Record active and passive motion for each side, where pain begins, and weight-bearing status if relevant. Normal plantar flexion is 45 degrees and dorsiflexion is 20 degrees.","good":"Right ankle active plantar flexion 35 degrees, dorsiflexion 10 degrees, pain begins at 8 degrees of dorsiflexion. Left ankle 45 and 20 degrees, no pain. Passive right dorsiflexion 12 degrees.","weak":"Reduced range of motion with pain.","rules":{"num":4,"deg":1,"pain":1}},{"sec":"Section 3","label":"After three repetitions, and during flare-ups","hint":"Give the result after three repetitions and any added loss. For flare-ups, estimate the range of motion in degrees or explain exactly why you cannot.","good":"After 3 repetitions right dorsiflexion 10 degrees, no added loss. Not seen in a flare-up. Based on the veteran's report of weekly stiffness, flare-up dorsiflexion is estimated at 5 degrees.","weak":"Unable to determine without speculation.","rules":{"reps":1,"num":2,"because":1}},{"sec":"Section 6","label":"Stability tests","hint":"Report anterior drawer and talar tilt results for each ankle.","good":"Anterior drawer positive on the right. Talar tilt negative bilaterally. Left ankle stable.","weak":"Unstable.","rules":{"words":12,"kw":"drawer|talar","kwm":"Report anterior drawer and talar tilt."}},{"sec":"Section 10","label":"Assistive devices","hint":"List each device used (wheelchair, brace, crutches, cane, walker) and how often: occasional, regular or constant.","good":"Uses a cane regularly for walking outdoors. No wheelchair, brace or crutches.","weak":"Uses a cane.","rules":{"kw":"occasional|regular|constant|no ","kwm":"Say how often: occasional, regular or constant.","words":6}},{"sec":"Diagnostic testing","label":"Diagnostic testing","hint":"Name imaging with date.","good":"Ankle X-ray 2024: no fracture or arthritis.","weak":"Testing done.","rules":{}},{"sec":"Functional impact","label":"Effect on work and daily tasks","hint":"","good":"Cannot stand on uneven ground more than 20 minutes.","weak":"Affects work.","rules":{}}]},{"n":4,"name":"Hip and Thigh","cat":"Musculoskeletal","fields":[{"sec":"Diagnosis","label":"Diagnosis, ICD code and date","hint":"","good":"Left hip degenerative arthritis, M16.12, diagnosed 2021.","weak":"Condition noted.","rules":{"icd":1,"date":1}},{"sec":"Medical history","label":"Onset, course and treatment","hint":"","good":"Groin and thigh pain since 2019.","weak":"Has had it a while.","rules":{"words":8}},{"sec":"Section III","label":"Range of motion, measured in degrees","hint":"Record active and passive motion for each side, where pain begins, and weight-bearing status if relevant. Normal hip values: flexion 125, extension 30, abduction 45, adduction 25, external rotation 60, internal rotation 40 degrees.","good":"Left hip flexion 90 degrees with pain at 80, extension 15, abduction 30, adduction 20, external rotation 40, internal rotation 20 degrees. Right hip normal.","weak":"Reduced range of motion with pain.","rules":{"num":4,"deg":1,"pain":1}},{"sec":"Section III","label":"After three repetitions, and during flare-ups","hint":"Give the result after three repetitions and any added loss. For flare-ups, estimate the range of motion in degrees or explain exactly why you cannot.","good":"After 3 repetitions left hip flexion 85 degrees with pain. Not seen in a flare-up. Based on the veteran's report of stiffness after sitting, flare-up flexion is estimated at 70 degrees.","weak":"Unable to determine without speculation.","rules":{"reps":1,"num":2,"because":1}},{"sec":"Section IV","label":"Muscle atrophy","hint":"State whether atrophy is present. If so, give circumference in centimeters, normal side and affected side, at the point of maximum bulk.","good":"Mild atrophy of the right forearm. Circumference 27 cm right and 29 cm left at 10 cm below the elbow crease.","weak":"Some atrophy.","rules":{"num":2,"kw":"cm|centimeter","kwm":"Give circumference in centimeters."}},{"sec":"Section IX","label":"Assistive devices","hint":"List each device used (wheelchair, brace, crutches, cane, walker) and how often: occasional, regular or constant.","good":"Uses a cane regularly for walking outdoors. No wheelchair, brace or crutches.","weak":"Uses a cane.","rules":{"kw":"occasional|regular|constant|no ","kwm":"Say how often: occasional, regular or constant.","words":6}},{"sec":"Diagnostic testing","label":"Diagnostic testing","hint":"Name imaging with date.","good":"Hip X-ray 2022: joint space narrowing.","weak":"Testing done.","rules":{}},{"sec":"Functional impact","label":"Effect on work and daily tasks","hint":"","good":"Cannot walk more than 1 block or climb more than one flight of stairs.","weak":"Affects work.","rules":{}}]},{"n":5,"name":"Shoulder and/or Arm","cat":"Musculoskeletal","fields":[{"sec":"Diagnosis","label":"Diagnosis, ICD code and date","hint":"","good":"Right rotator cuff tendinopathy, M75.101, diagnosed 2022.","weak":"Condition noted.","rules":{"icd":1,"date":1}},{"sec":"Medical history","label":"Onset, course and treatment","hint":"","good":"Shoulder pain with overhead use since 2021.","weak":"Has had it a while.","rules":{"words":8}},{"sec":"Section 3","label":"Range of motion, measured in degrees","hint":"Record active and passive motion for each side, where pain begins, and weight-bearing status if relevant. Normal shoulder values: flexion 180, abduction 180, internal rotation 90, external rotation 90 degrees.","good":"Right flexion 120 degrees with pain at 100, abduction 110, external rotation 60, internal rotation 70. Left normal.","weak":"Reduced range of motion with pain.","rules":{"num":4,"deg":1,"pain":1}},{"sec":"Section 3","label":"After three repetitions, and during flare-ups","hint":"Give the result after three repetitions and any added loss. For flare-ups, estimate the range of motion in degrees or explain exactly why you cannot.","good":"After 3 repetitions right flexion 115 degrees with pain. Not seen in a flare-up. Based on the veteran's report of weekly night pain, flare-up flexion is estimated at 90 degrees.","weak":"Unable to determine without speculation.","rules":{"reps":1,"num":2,"because":1}},{"sec":"Sections 6 to 8","label":"Special tests","hint":"Report the tests you did: Hawkins, empty can, external rotation strength, lift-off, apprehension, cross-body adduction.","good":"Hawkins positive. Empty can positive with pain. Lift-off negative. Apprehension negative.","weak":"Positive tests.","rules":{"words":12,"kw":"hawkins|empty can|lift-off|apprehension|cross-body","kwm":"Name the shoulder tests you did."}},{"sec":"Section 4","label":"Muscle atrophy","hint":"State whether atrophy is present. If so, give circumference in centimeters, normal side and affected side, at the point of maximum bulk.","good":"Mild atrophy of the right forearm. Circumference 27 cm right and 29 cm left at 10 cm below the elbow crease.","weak":"Some atrophy.","rules":{"num":2,"kw":"cm|centimeter","kwm":"Give circumference in centimeters."}},{"sec":"Section 12","label":"Assistive devices","hint":"List each device used (wheelchair, brace, crutches, cane, walker) and how often: occasional, regular or constant.","good":"Uses a cane regularly for walking outdoors. No wheelchair, brace or crutches.","weak":"Uses a cane.","rules":{"kw":"occasional|regular|constant|no ","kwm":"Say how often: occasional, regular or constant.","words":6}},{"sec":"Diagnostic testing","label":"Diagnostic testing","hint":"Name imaging with date.","good":"Shoulder MRI 2022: partial supraspinatus tear.","weak":"Testing done.","rules":{}},{"sec":"Functional impact","label":"Effect on work and daily tasks","hint":"","good":"Cannot reach overhead or lift more than 10 pounds.","weak":"Affects work.","rules":{}}]},{"n":6,"name":"Neck (Cervical Spine)","cat":"Musculoskeletal","fields":[{"sec":"Diagnosis","label":"Diagnosis, ICD code and date","hint":"","good":"Cervical degenerative disc disease, M50.30, diagnosed 2020.","weak":"Condition noted.","rules":{"icd":1,"date":1}},{"sec":"Medical history","label":"Onset, course and treatment","hint":"","good":"Neck pain since 2018.","weak":"Has had it a while.","rules":{"words":8}},{"sec":"Section III","label":"Range of motion, measured in degrees","hint":"Record active and passive motion for each side, where pain begins, and weight-bearing status if relevant. Normal cervical values: forward flexion 45, extension 45, lateral flexion 45 each side, rotation 80 each side, in degrees.","good":"Flexion 30 degrees with pain at 25, extension 30, right lateral flexion 30, left 35, right rotation 60, left 65. Paraspinal spasm. No abnormal gait.","weak":"Reduced range of motion with pain.","rules":{"num":4,"deg":1,"pain":1}},{"sec":"Section III","label":"After three repetitions, and during flare-ups","hint":"Give the result after three repetitions and any added loss. For flare-ups, estimate the range of motion in degrees or explain exactly why you cannot.","good":"After 3 repetitions flexion 28 degrees with pain. Not seen in a flare-up. Based on the veteran's report of monthly flares, flare-up flexion is estimated at 20 degrees.","weak":"Unable to determine without speculation.","rules":{"reps":1,"num":2,"because":1}},{"sec":"Sections IV to VII","label":"Neurologic exam","hint":"Record strength (0 to 5), reflexes (0 to 4+), sensation tested and how, gait, and any atrophy. Name each side.","good":"Strength 5/5 in all tested muscle groups. Reflexes 2+ and symmetric. Light touch intact. Gait normal. No atrophy.","weak":"Neuro exam normal.","rules":{"words":14,"num":2}},{"sec":"Section XI","label":"Assistive devices","hint":"List each device used (wheelchair, brace, crutches, cane, walker) and how often: occasional, regular or constant.","good":"Uses a cane regularly for walking outdoors. No wheelchair, brace or crutches.","weak":"Uses a cane.","rules":{"kw":"occasional|regular|constant|no ","kwm":"Say how often: occasional, regular or constant.","words":6}},{"sec":"Diagnostic testing","label":"Diagnostic testing","hint":"Name imaging with date.","good":"Cervical MRI 2020: C5-C6 disc osteophyte.","weak":"Testing done.","rules":{}},{"sec":"Functional impact","label":"Effect on work and daily tasks","hint":"","good":"Cannot look down for more than 15 minutes.","weak":"Affects work.","rules":{}}]},{"n":7,"name":"Wrist","cat":"Musculoskeletal","fields":[{"sec":"Diagnosis","label":"Diagnosis, ICD code and date","hint":"","good":"Left wrist scaphoid nonunion, S62.001K, 2018.","weak":"Condition noted.","rules":{"icd":1,"date":1}},{"sec":"Medical history","label":"Onset, course and treatment","hint":"","good":"Fall in 2018. Surgery 2019.","weak":"Has had it a while.","rules":{"words":8}},{"sec":"Section III","label":"Range of motion, measured in degrees","hint":"Record active and passive motion for each side, where pain begins, and weight-bearing status if relevant. Normal wrist values: dorsiflexion 70, palmar flexion 80, ulnar deviation 45, radial deviation 20 degrees.","good":"Left dorsiflexion 40 degrees with pain at 35, palmar flexion 50, ulnar deviation 30, radial deviation 10. Right normal.","weak":"Reduced range of motion with pain.","rules":{"num":4,"deg":1,"pain":1}},{"sec":"Section III","label":"After three repetitions, and during flare-ups","hint":"Give the result after three repetitions and any added loss. For flare-ups, estimate the range of motion in degrees or explain exactly why you cannot.","good":"After 3 repetitions left dorsiflexion 35 degrees with pain. Not seen in a flare-up. Based on the veteran's report of weekly pain with gripping, flare-up dorsiflexion is estimated at 25 degrees.","weak":"Unable to determine without speculation.","rules":{"reps":1,"num":2,"because":1}},{"sec":"Section IV","label":"Muscle atrophy","hint":"State whether atrophy is present. If so, give circumference in centimeters, normal side and affected side, at the point of maximum bulk.","good":"Mild atrophy of the right forearm. Circumference 27 cm right and 29 cm left at 10 cm below the elbow crease.","weak":"Some atrophy.","rules":{"num":2,"kw":"cm|centimeter","kwm":"Give circumference in centimeters."}},{"sec":"Section VI","label":"Surgery and residuals","hint":"List wrist surgery with dates and any residual weakness, pain or limited motion.","good":"Scaphoid screw fixation 2019. Residual pain and reduced grip.","weak":"Had surgery.","rules":{"words":10,"date":1}},{"sec":"Section VIII","label":"Assistive devices","hint":"List each device used (wheelchair, brace, crutches, cane, walker) and how often: occasional, regular or constant.","good":"Uses a cane regularly for walking outdoors. No wheelchair, brace or crutches.","weak":"Uses a cane.","rules":{"kw":"occasional|regular|constant|no ","kwm":"Say how often: occasional, regular or constant.","words":6}},{"sec":"Section IX","label":"Remaining effective function","hint":"Say whether the loss of function is so severe that amputation with a prosthesis would serve equally well, and describe what function is lost.","good":"Function is not equal to amputation. Can still bear weight and walk with a cane, but cannot run or climb ladders.","weak":"Not like amputation.","rules":{"words":10}},{"sec":"Diagnostic testing","label":"Diagnostic testing","hint":"Name imaging with date.","good":"Wrist X-ray 2024: healed with sclerosis.","weak":"Testing done.","rules":{}},{"sec":"Functional impact","label":"Effect on work and daily tasks","hint":"","good":"Cannot grip or lift more than 10 pounds with the left hand.","weak":"Affects work.","rules":{}}]},{"n":8,"name":"Foot Conditions including Flatfoot (Pes Planus)","cat":"Musculoskeletal","fields":[{"sec":"Diagnosis","label":"Diagnosis, ICD code and date","hint":"","good":"Bilateral pes planus, M21.41, diagnosed 2018.","weak":"Condition noted.","rules":{"icd":1,"date":1}},{"sec":"Medical history","label":"Onset, course and treatment","hint":"","good":"Foot pain with standing since service. Uses arch supports.","weak":"Has had it a while.","rules":{"words":8}},{"sec":"Sections III to XI","label":"Findings by condition (flatfoot, plantar fasciitis, neuroma, hammer toe, hallux, cavus)","hint":"Complete each part that applies. For flatfoot give pain on use or manipulation, swelling, calluses, arch height, weight-bearing line, and whether supports help.","good":"Bilateral flatfoot. Pain on use, no swelling. Arch collapses on standing. Weight-bearing line falls medial to the great toe. Supports give partial relief.","weak":"Flat feet.","rules":{"words":20}},{"sec":"Section XI","label":"Assistive devices","hint":"List each device used (wheelchair, brace, crutches, cane, walker) and how often: occasional, regular or constant.","good":"Uses a cane regularly for walking outdoors. No wheelchair, brace or crutches.","weak":"Uses a cane.","rules":{"kw":"occasional|regular|constant|no ","kwm":"Say how often: occasional, regular or constant.","words":6}},{"sec":"Diagnostic testing","label":"Diagnostic testing","hint":"Name imaging with date.","good":"Weight-bearing foot X-ray 2020: bilateral pes planus.","weak":"Testing done.","rules":{}},{"sec":"Functional impact","label":"Effect on work and daily tasks","hint":"","good":"Cannot stand more than 45 minutes.","weak":"Affects work.","rules":{}}]},{"n":9,"name":"Arthritis","cat":"Rheumatological","fields":[{"sec":"Diagnosis","label":"Diagnosis, ICD code and date","hint":"","good":"Rheumatoid arthritis, M06.9, diagnosed 2018.","weak":"Condition noted.","rules":{"icd":1,"date":1}},{"sec":"Medical history","label":"Onset, course and treatment","hint":"","good":"Joint pain and swelling since 2017. Takes methotrexate.","weak":"Has had it a while.","rules":{"words":8}},{"sec":"Section III","label":"Joints involved","hint":"Name each joint affected on each side: spine, shoulders, elbows, wrists, hands, hips, knees, ankles, feet.","good":"Both hands (MCP joints), both wrists and both knees. Spine, shoulders, elbows, hips and feet not involved.","weak":"Many joints.","rules":{"words":14}},{"sec":"Sections IV and V","label":"Systemic involvement and exacerbations","hint":"Name body systems affected, and give the number and length of incapacitating and non-incapacitating exacerbations, weight loss and anemia.","good":"No systemic involvement. 3 non-incapacitating exacerbations in the past 12 months, each about 1 week. No weight loss. No anemia.","weak":"Flares.","rules":{"num":2,"words":16,"kw":"12 months|year","kwm":"State the period covered."}},{"sec":"Section VII","label":"Assistive devices","hint":"List each device used (wheelchair, brace, crutches, cane, walker) and how often: occasional, regular or constant.","good":"Uses a cane regularly for walking outdoors. No wheelchair, brace or crutches.","weak":"Uses a cane.","rules":{"kw":"occasional|regular|constant|no ","kwm":"Say how often: occasional, regular or constant.","words":6}},{"sec":"Section VIII","label":"Remaining effective function","hint":"Say whether the loss of function is so severe that amputation with a prosthesis would serve equally well, and describe what function is lost.","good":"Function is not equal to amputation. Can still bear weight and walk with a cane, but cannot run or climb ladders.","weak":"Not like amputation.","rules":{"words":10}},{"sec":"Diagnostic testing","label":"Diagnostic testing","hint":"Name labs and imaging with dates.","good":"RF positive and anti-CCP positive 2018. X-ray 2025: erosions of both wrists.","weak":"Testing done.","rules":{}},{"sec":"Functional impact","label":"Effect on work and daily tasks","hint":"","good":"Cannot grip for more than 15 minutes.","weak":"Affects work.","rules":{}}]},{"n":10,"name":"Fibromyalgia","cat":"Neurological","fields":[{"sec":"Diagnosis","label":"Diagnosis, ICD code and date","hint":"","good":"Fibromyalgia, M79.7, diagnosed 2019.","weak":"Condition noted.","rules":{"icd":1,"date":1}},{"sec":"Medical history","label":"Onset, course and treatment","hint":"","good":"Widespread pain and fatigue since 2018.","weak":"Has had it a while.","rules":{"words":8}},{"sec":"Section III","label":"Findings, signs and symptoms","hint":"Address widespread pain, stiffness, fatigue, sleep problems, headache, mood and bowel symptoms, how often they occur, and tender points by region.","good":"Widespread pain on most days. Fatigue and unrefreshing sleep. Tender points in the neck, shoulders and hips bilaterally. Symptoms present more than 3 months.","weak":"Hurts all over.","rules":{"words":20,"num":1}},{"sec":"Section VII","label":"Assistive devices","hint":"List each device used (wheelchair, brace, crutches, cane, walker) and how often: occasional, regular or constant.","good":"Uses a cane regularly for walking outdoors. No wheelchair, brace or crutches.","weak":"Uses a cane.","rules":{"kw":"occasional|regular|constant|no ","kwm":"Say how often: occasional, regular or constant.","words":6}},{"sec":"Diagnostic testing","label":"Diagnostic testing","hint":"Name labs with dates.","good":"Labs normal for inflammatory disease 2024.","weak":"Testing done.","rules":{}},{"sec":"Functional impact","label":"Effect on work and daily tasks","hint":"","good":"Misses about 2 workdays a month.","weak":"Affects work.","rules":{}}]},{"n":11,"name":"Headaches (including Migraines)","cat":"Neurological","fields":[{"sec":"Section I · Diagnosis","label":"Diagnosis, ICD code and date","hint":"Name the headache type (migraine, tension, cluster, other) with ICD code and date.","good":"Migraine without aura, G43.009, diagnosed 05/2020.","weak":"Headaches.","rules":{"icd":1,"date":1}},{"sec":"Section II · Medical history","label":"Onset, course and treatment","hint":"Describe onset, course, triggers, and what medicines or treatments help.","good":"Onset 2018. Triggered by bright light and missed meals. Sumatriptan 100 mg at onset reduces severity but not duration.","weak":"Gets headaches.","rules":{"words":18}},{"sec":"Section III · Symptoms","label":"Symptoms during attacks","hint":"List the symptoms present: pain location, nausea, light or sound sensitivity, aura.","good":"Pain behind the right eye, nausea, photophobia and phonophobia. No aura.","weak":"Pain and nausea.","rules":{"words":10}},{"sec":"Section IV · Prostrating attacks","label":"Frequency and duration of prostrating attacks","hint":"State how often attacks are prostrating (the veteran must stop and lie down) and how long each lasts. Use counts per month and hours or days.","good":"About 3 prostrating attacks per month, each lasting 4 to 8 hours, in the past 6 months. Must lie down in a dark room.","weak":"Frequent attacks.","rules":{"num":2,"words":12}},{"sec":"Section VI · Diagnostic testing","label":"Imaging and other tests","hint":"Give the test, date, and result, or state that none was done and why.","good":"MRI brain 08/2020 was normal, with no structural cause found.","weak":"None.","rules":{"words":5}},{"sec":"Section VII · Functional impact","label":"Effect on work","hint":"Describe how attacks affect work with an example.","good":"Missed 5 workdays in the last 6 months. During attacks cannot use a computer screen.","weak":"Misses work.","rules":{"words":12,"num":1}}]},{"n":12,"name":"Peripheral Nerves","cat":"Neurological","fields":[{"sec":"Diagnosis","label":"Diagnosis, ICD code and date","hint":"","good":"Right carpal tunnel syndrome, G56.01, diagnosed 2020.","weak":"Condition noted.","rules":{"icd":1,"date":1}},{"sec":"Medical history","label":"Onset, course and treatment","hint":"","good":"Numbness and tingling in the right hand since 2019.","weak":"Has had it a while.","rules":{"words":8}},{"sec":"Section III","label":"Symptoms","hint":"Give constant and intermittent pain, paresthesias, dysesthesias and numbness with the location and severity.","good":"Intermittent numbness of the right thumb, index and middle fingers, moderate. Nighttime paresthesias.","weak":"Hand numb.","rules":{"words":14}},{"sec":"Sections IV to VIII","label":"Neurologic exam","hint":"Record strength (0 to 5), reflexes (0 to 4+), sensation tested and how, gait, and any atrophy. Name each side.","good":"Strength 5/5 in all tested muscle groups. Reflexes 2+ and symmetric. Light touch intact. Gait normal. No atrophy.","weak":"Neuro exam normal.","rules":{"words":14,"num":2}},{"sec":"Sections IX to XI","label":"Special tests and nerve severity","hint":"Report Phalen and Tinel tests and rate paralysis of each nerve involved.","good":"Phalen positive. Tinel positive at the wrist. Median nerve: incomplete, mild.","weak":"Positive.","rules":{"words":10,"kw":"phalen|tinel|incomplete|complete","kwm":"Report the special tests and rate the nerve."}},{"sec":"Section XII","label":"Assistive devices","hint":"List each device used (wheelchair, brace, crutches, cane, walker) and how often: occasional, regular or constant.","good":"Uses a cane regularly for walking outdoors. No wheelchair, brace or crutches.","weak":"Uses a cane.","rules":{"kw":"occasional|regular|constant|no ","kwm":"Say how often: occasional, regular or constant.","words":6}},{"sec":"Section XIII","label":"Remaining effective function","hint":"Say whether the loss of function is so severe that amputation with a prosthesis would serve equally well, and describe what function is lost.","good":"Function is not equal to amputation. Can still bear weight and walk with a cane, but cannot run or climb ladders.","weak":"Not like amputation.","rules":{"words":10}},{"sec":"Diagnostic testing","label":"Diagnostic testing","hint":"Name nerve studies with dates.","good":"EMG 2020: median neuropathy at the wrist.","weak":"Testing done.","rules":{}},{"sec":"Functional impact","label":"Effect on work and daily tasks","hint":"","good":"Cannot keyboard for more than 20 minutes.","weak":"Affects work.","rules":{}}]},{"n":13,"name":"Seizure Disorders (Epilepsy)","cat":"Neurological","fields":[{"sec":"Diagnosis","label":"Diagnosis, ICD code and date","hint":"","good":"Focal epilepsy, G40.209, diagnosed 2018.","weak":"Condition noted.","rules":{"icd":1,"date":1}},{"sec":"Medical history","label":"Onset, course and treatment","hint":"","good":"First seizure in 2018 after a head injury. Takes levetiracetam.","weak":"Has had it a while.","rules":{"words":8}},{"sec":"Section III","label":"Signs and symptoms","hint":"Describe seizure manifestations: convulsions, loss of consciousness, staring, jerking, speech or mood changes.","good":"Staring with loss of awareness for about 1 minute. Occasional convulsions. Confusion after.","weak":"Seizures.","rules":{"words":14}},{"sec":"Section IV","label":"Type and frequency","hint":"Give the type (major or minor) and the number in the past 6 months and past 2 years.","good":"Minor seizures 3 in the past 6 months and 8 in the past 2 years. No major seizures.","weak":"Some seizures.","rules":{"num":2,"kw":"6 months|year","kwm":"State the periods covered.","words":12}},{"sec":"Diagnostic testing","label":"Diagnostic testing","hint":"Name EEG or imaging with dates.","good":"EEG 2018 showed temporal lobe discharges. MRI 2018 normal.","weak":"Testing done.","rules":{}},{"sec":"Functional impact","label":"Effect on work and daily tasks","hint":"","good":"Cannot drive or work at heights.","weak":"Affects work.","rules":{}}]},{"n":14,"name":"Mental Disorders","cat":"Mental health","fields":[{"sec":"Section 1 · Diagnosis","label":"Diagnosis and criteria","hint":"Give each diagnosis with ICD code, and state how the criteria are met. Say what you did to separate overlapping conditions.","good":"Posttraumatic stress disorder, F43.10. Criteria met on interview and structured assessment (name the tool). Depressive symptoms overlap and cannot be separated from PTSD without speculation because both produce the same sleep and mood findings.","weak":"PTSD.","rules":{"icd":1,"words":18}},{"sec":"Section 2 · Clinical findings","label":"Evidence reviewed","hint":"List what you reviewed and what was not available.","good":"Reviewed service treatment records 2007 to 2011, VA mental health notes 2019 to 2024, and the veteran's statement. No private records were available.","weak":"Records reviewed.","rules":{"words":14}},{"sec":"Section 2 · Clinical findings","label":"Social, occupational and treatment history","hint":"Cover family and relationships, school, work, treatment and medications, legal history, and substance use. Include before, during and after service where it matters.","good":"Married 9 years, two children, reports distance from spouse. Full-time warehouse job for 6 years with two verbal warnings for conflict. Sertraline 100 mg daily for 3 years. No arrests. Alcohol 1 to 2 drinks weekly.","weak":"Has family and a job.","rules":{"words":25,"num":2}},{"sec":"Section 3 · Symptoms","label":"Current symptoms","hint":"Name each symptom present, with frequency or severity, from the symptom list.","good":"Nightmares 3 to 4 nights weekly, hypervigilance in public, irritability, sleep about 4 hours nightly, difficulty concentrating, avoids crowds.","weak":"Anxiety and depression.","rules":{"words":12,"num":1}},{"sec":"Section 4 · Behavioral observations","label":"What you observed","hint":"Describe appearance, speech, mood, affect, thought process and behavior as seen in the exam.","good":"Neatly dressed. Speech normal rate. Affect constricted. Thought process linear. Tearful when discussing deployment. Maintained eye contact.","weak":"Cooperative.","rules":{"words":14}},{"sec":"Section C · Level of impairment","label":"Occupational and social impairment","hint":"Choose the one level that best fits, and explain it with specific examples from work and relationships.","good":"Occupational and social impairment with reduced reliability and productivity. Two verbal warnings in the past year for conflicts with coworkers, missed 6 days from sleep loss, and no close friendships outside family.","weak":"Moderate impairment.","rules":{"words":18,"because":0}},{"sec":"Section 6 · Competency","label":"Ability to manage finances","hint":"State yes or no, with the basis.","good":"Able to manage finances. Reports paying bills on time and keeping a household budget.","weak":"Yes.","rules":{"words":6}}]},{"n":15,"name":"Sleep Apnea","cat":"Respiratory and sleep","fields":[{"sec":"Section I · Diagnosis","label":"Diagnosis, type and sleep study","hint":"Give the type (obstructive, central, mixed), ICD code, date, and the sleep study that confirmed it.","good":"Obstructive sleep apnea, G47.33, diagnosed 11/2021 on in-lab polysomnography.","weak":"Sleep apnea.","rules":{"icd":1,"date":1}},{"sec":"Section II · Medical history","label":"Onset and course","hint":"Describe onset, course, symptoms, and treatment history.","good":"Snoring and witnessed apneas since about 2016. Daytime sleepiness. Weight gain of 30 pounds between 2015 and 2020.","weak":"Snores.","rules":{"words":14}},{"sec":"Section II · Medical history","label":"Treatment: CPAP or other device","hint":"State whether a CPAP or similar device is required and whether the veteran uses it.","good":"Requires CPAP, set at 10 cm H2O. Uses it nightly, about 6 hours, per device download.","weak":"Uses CPAP.","rules":{"words":10}},{"sec":"Section III · Findings and symptoms","label":"Residuals","hint":"Address each residual named on the form: daytime hypersomnolence, cor pulmonale, carbon dioxide retention, chronic respiratory failure, tracheostomy.","good":"Mild daytime hypersomnolence on treatment. No cor pulmonale, no carbon dioxide retention, no chronic respiratory failure, no tracheostomy.","weak":"None.","rules":{"words":12}},{"sec":"Section V · Diagnostic testing","label":"Sleep study result","hint":"Give the study date and result, such as the apnea-hypopnea index.","good":"Polysomnography 11/2021, AHI 28 events per hour.","weak":"Positive.","rules":{"date":1,"num":1}},{"sec":"Section VI · Functional impact","label":"Effect on work","hint":"Describe effect on work with a specific example.","good":"Sleepiness in the afternoon requires a short break. Drives for work, so no driving over 2 hours without rest.","weak":"Tired.","rules":{"words":12}}]},{"n":16,"name":"Respiratory Conditions (other than tuberculosis and sleep apnea)","cat":"Respiratory and sleep","fields":[{"sec":"Diagnosis","label":"Diagnosis, ICD code and date","hint":"","good":"Asthma, J45.909, diagnosed 2015.","weak":"Condition noted.","rules":{"icd":1,"date":1}},{"sec":"Medical history","label":"Onset, course and treatment","hint":"","good":"Wheezing since childhood. Uses an inhaled steroid and rescue inhaler.","weak":"Has had it a while.","rules":{"words":8}},{"sec":"Parts A to L","label":"Findings for the condition (asthma, bronchiectasis, sarcoidosis, embolism, infection, pneumothorax, other)","hint":"Complete the part that applies. For asthma give episodes of respiratory failure and physician visits for exacerbations in the past 12 months, and medicines.","good":"Asthma on fluticasone daily and albuterol as needed. 2 urgent visits for exacerbations in the past 12 months. No respiratory failure.","weak":"Asthma.","rules":{"words":18,"num":1}},{"sec":"Testing","label":"Pulmonary function tests","hint":"Give FEV-1, FVC and FEV-1/FVC with the date, or state why testing was not done (oxygen therapy, respiratory failure or cor pulmonale).","good":"PFT 03/2026: FEV-1 72 percent predicted, FVC 85 percent, FEV-1/FVC 71 percent.","weak":"PFT done.","rules":{"kw":"FEV|FVC","kwm":"Give FEV-1 and FVC, or say why not done.","num":2,"date":1}},{"sec":"Diagnostic testing","label":"Diagnostic testing","hint":"Name imaging and PFT with dates.","good":"Chest X-ray 03/2026 clear.","weak":"Testing done.","rules":{}},{"sec":"Functional impact","label":"Effect on work and daily tasks","hint":"","good":"Avoids dusty work.","weak":"Affects work.","rules":{}}]},{"n":17,"name":"Hypertension","cat":"Cardiovascular","fields":[{"sec":"Section I · Diagnosis","label":"Diagnosis, ICD code and date","hint":"Name hypertension or isolated systolic hypertension with ICD code and date.","good":"Essential hypertension, I10, diagnosed 02/2018.","weak":"High blood pressure.","rules":{"icd":1,"date":1}},{"sec":"Section II · Medical history","label":"Blood pressure readings","hint":"Give at least three readings on different days with dates. The form notes the diagnosis relies on readings two or more times on at least 3 different days.","good":"02/03/2026 152/94 and 150/92. 02/10/2026 148/96. 02/17/2026 154/90. Seated, appropriate cuff size.","weak":"Elevated readings.","rules":{"num":6,"date":1}},{"sec":"Section II · Medical history","label":"Treatment and continuous medication","hint":"State whether continuous medication is required and name it, with dose.","good":"Lisinopril 20 mg daily, continuous since 2018. Reports taking it every day.","weak":"On medication.","rules":{"words":10,"num":1}},{"sec":"Section III · Other findings","label":"Complications and related conditions","hint":"State complications or related conditions, or state that you looked and found none.","good":"No known end-organ damage. Kidney function normal on 01/2026 labs.","weak":"None.","rules":{"words":10}},{"sec":"Section IV · Functional impact","label":"Effect on work","hint":"Describe the effect on work, or state none and why.","good":"No work limits. Reports no symptoms with exertion.","weak":"None.","rules":{"words":8}}]},{"n":18,"name":"Heart Conditions","cat":"Cardiovascular","fields":[{"sec":"Diagnosis","label":"Diagnosis, ICD code and date","hint":"","good":"Coronary artery disease, I25.10, diagnosed 09/2020 after cardiac catheterization.","weak":"Condition noted.","rules":{"icd":1,"date":1}},{"sec":"Medical history","label":"Onset, course and treatment","hint":"","good":"Chest pressure with exertion beginning in 2020. Stent placed 09/2020. Takes aspirin, atorvastatin and metoprolol continuously.","weak":"Has had it a while.","rules":{"words":8}},{"sec":"Sections III to IX","label":"Cardiac events and procedures","hint":"List each myocardial infarction, arrhythmia, valve condition, procedure and hospitalization with dates and facilities.","good":"Non-ST-elevation myocardial infarction 09/2020 at a regional hospital. Drug-eluting stent to the right coronary artery 09/2020. No arrhythmia. No valve disease.","weak":"Had a heart attack.","rules":{"words":16,"date":1}},{"sec":"Section X","label":"Physical examination","hint":"Record heart rate, blood pressure, rhythm, heart sounds, edema and peripheral pulses.","good":"Heart rate 68, blood pressure 128/80. Regular rhythm, no murmur. No edema. Peripheral pulses 2+ and equal.","weak":"Normal exam.","rules":{"num":3,"words":12}},{"sec":"Section XIII","label":"METs testing and functional capacity","hint":"Record the workload in METs at which symptoms (dyspnea, fatigue, angina, dizziness or syncope) appear, from an exercise test or from an interview if testing is not possible. Add ejection fraction when available.","good":"Treadmill stress test 06/2025: dyspnea and fatigue at 6 METs. Ejection fraction 55 percent on echocardiogram 06/2025.","weak":"Good exercise tolerance.","rules":{"kw":"MET","kwm":"State the workload in METs.","num":2,"date":1}},{"sec":"Diagnostic testing","label":"Diagnostic testing","hint":"Include ECG, chest X-ray, echocardiogram or angiography results and dates.","good":"ECG 06/2025 normal sinus rhythm. Echocardiogram 06/2025: no chamber dilatation, EF 55 percent.","weak":"Testing done.","rules":{}},{"sec":"Functional impact","label":"Effect on work and daily tasks","hint":"","good":"Cannot lift more than 25 pounds or climb more than two flights without stopping due to dyspnea.","weak":"Affects work.","rules":{}}]},{"n":19,"name":"Artery and Vein Conditions","cat":"Cardiovascular","fields":[{"sec":"Diagnosis","label":"Diagnosis, ICD code and date","hint":"","good":"Peripheral arterial disease, I73.9, diagnosed 04/2021.","weak":"Condition noted.","rules":{"icd":1,"date":1}},{"sec":"Medical history","label":"Onset, course and treatment","hint":"","good":"Symptoms began in 2020 with calf pain on walking. Former smoker. Treated with a walking program and clopidogrel. No revascularization.","weak":"Has had it a while.","rules":{"words":8}},{"sec":"Sections III to XI","label":"Findings for the condition (complete only the parts that apply)","hint":"The form has separate parts for varicose veins, peripheral arterial disease, aneurysm, Raynaud's, AV fistula and others. Complete the part that matches the diagnosis: location, side, symptoms and findings.","good":"Peripheral arterial disease of the left leg. Claudication after walking about 1 block (200 feet), relieved by rest within 5 minutes. No ulceration or tissue loss. Left dorsalis pedis pulse diminished.","weak":"Leg circulation problem.","rules":{"words":18,"num":1}},{"sec":"Sections IV to VII","label":"Surgery, procedures and residuals","hint":"State any surgery or revascularization with dates, and what symptoms remain.","good":"No surgery or revascularization to date. The only residual is left calf claudication.","weak":"None.","rules":{"words":8}},{"sec":"Diagnostic testing","label":"Diagnostic testing","hint":"Give the ankle-brachial index, ankle or toe pressures, or TcPO2 as the form asks, with dates.","good":"Ankle-brachial index 05/2024: left 0.62, right 0.95.","weak":"Testing done.","rules":{}},{"sec":"Functional impact","label":"Effect on work and daily tasks","hint":"","good":"Cannot walk more than 1 block without stopping. Sedentary work is unaffected.","weak":"Affects work.","rules":{}}]},{"n":20,"name":"Scars","cat":"Skin","fields":[{"sec":"Diagnosis","label":"Diagnosis, ICD code and date","hint":"","good":"Surgical scar of the right forearm, L90.5, from 2017 repair.","weak":"Condition noted.","rules":{"icd":1,"date":1}},{"sec":"Medical history","label":"Onset, course and treatment","hint":"","good":"Laceration repaired surgically in 2017. Scar has been stable since.","weak":"Has had it a while.","rules":{"words":8}},{"sec":"Sections 2-1 and 2-2","label":"Scar measurements and description","hint":"For each scar give location, length and width in centimeters, area in square centimeters, and whether it is painful, unstable, or linear. For irregular scars, measure the widest points.","good":"Right forearm, 9 cm long by 0.4 cm wide, area 3.6 square cm. Linear, flat, non-tender, no skin breakdown.","weak":"Scar on forearm.","rules":{"num":3,"kw":"cm|centimeter","kwm":"Give length and width in centimeters.","words":12}},{"sec":"Section 3","label":"Head, face and neck findings (if any)","hint":"State whether any scar or disfigurement affects the head, face or neck. If yes, measure it and note pigmentation, texture, tissue loss and distortion of facial features, with photographs.","good":"No scars or disfigurement of the head, face or neck.","weak":"None.","rules":{"words":8,"kw":"head|face|neck","kwm":"Say that you checked the head, face and neck."}},{"sec":"Diagnostic testing","label":"Diagnostic testing","hint":"Note whether photographs were taken.","good":"Photographs taken and added to the record.","weak":"Testing done.","rules":{}},{"sec":"Functional impact","label":"Effect on work and daily tasks","hint":"","good":"No effect on work.","weak":"Affects work.","rules":{}}]},{"n":21,"name":"Skin Diseases","cat":"Skin","fields":[{"sec":"Diagnosis","label":"Diagnosis, ICD code and date","hint":"","good":"Eczema, L30.9, diagnosed 2016.","weak":"Condition noted.","rules":{"icd":1,"date":1}},{"sec":"Medical history","label":"Onset, course and treatment","hint":"","good":"Recurrent itchy rash since 2016. Flares with heat and sweat. Treated with topical steroid and moisturizer.","weak":"Has had it a while.","rules":{"words":8}},{"sec":"Section III","label":"Treatment in the past 12 months","hint":"Name each medicine, how it is given (topical or systemic), and for how long: under 6 weeks, 6 weeks or more intermittent, or constant or near-constant.","good":"Triamcinolone cream, topical, used intermittently for about 10 weeks total in the past 12 months. No systemic therapy.","weak":"Uses cream.","rules":{"kw":"week|constant|month","kwm":"State how long the treatment was used.","words":12,"num":1}},{"sec":"Section IV","label":"Body area affected","hint":"Estimate the percent of total body area and of exposed area affected: none, under 5%, 5 to under 20%, 20 to 40%, over 40%.","good":"Total body area about 6 percent. Exposed area about 2 percent (backs of both hands).","weak":"Widespread rash.","rules":{"kw":"%|percent","kwm":"Give the percentage of body area.","num":2}},{"sec":"Diagnostic testing","label":"Diagnostic testing","hint":"State biopsy or lab results or that none were done.","good":"No biopsy performed. Diagnosis made clinically.","weak":"Testing done.","rules":{}},{"sec":"Functional impact","label":"Effect on work and daily tasks","hint":"","good":"Hand lesions limit work that requires frequent handwashing.","weak":"Affects work.","rules":{}}]},{"n":22,"name":"Diabetes Mellitus","cat":"Endocrine","fields":[{"sec":"Diagnosis","label":"Diagnosis, ICD code and date","hint":"","good":"Type 2 diabetes mellitus, E11.9, diagnosed 2015.","weak":"Condition noted.","rules":{"icd":1,"date":1}},{"sec":"Medical history","label":"Onset, course and treatment","hint":"","good":"Diagnosed 2015. Treated with metformin. No insulin.","weak":"Has had it a while.","rules":{"words":8}},{"sec":"Section II","label":"Treatment and activity regulation","hint":"State whether treatment is diet, oral agent or insulin, and name each. Say whether activities are restricted to avoid low blood sugar.","good":"Metformin 1000 mg twice daily. No insulin. No restriction of activities.","weak":"Takes medicine.","rules":{"kw":"insulin|oral|diet|metformin|glipizide","kwm":"Name the treatment: diet, oral agent or insulin.","words":10}},{"sec":"Section II","label":"Low blood sugar and ketoacidosis episodes","hint":"Give the number of episodes and hospitalizations in the past 12 months.","good":"No hospitalizations or episodes of ketoacidosis in the past 12 months. No hypoglycemic reactions requiring a doctor visit.","weak":"None.","rules":{"words":12,"kw":"12 months|year","kwm":"State the period covered (past 12 months)."}},{"sec":"Section III","label":"Complications","hint":"Address neuropathy, nephropathy, retinopathy and any other complication. State if none were found and how you looked.","good":"No retinopathy on 2025 eye exam. Urine albumin normal 03/2026. Monofilament sensation intact.","weak":"No complications.","rules":{"words":12,"kw":"neuropath|nephropath|retinopath|monofilament|albumin","kwm":"Name the complications you looked for."}},{"sec":"Diagnostic testing","label":"Diagnostic testing","hint":"List the A1C and glucose results that confirm the diagnosis.","good":"A1C 7.1 percent on 03/2026. Fasting glucose 138 on 03/2026.","weak":"Testing done.","rules":{}},{"sec":"Functional impact","label":"Effect on work and daily tasks","hint":"","good":"No limit on work.","weak":"Affects work.","rules":{}}]},{"n":23,"name":"Thyroid and Parathyroid","cat":"Endocrine","fields":[{"sec":"Diagnosis","label":"Diagnosis, ICD code and date","hint":"","good":"Hypothyroidism, E03.9, diagnosed 2014.","weak":"Condition noted.","rules":{"icd":1,"date":1}},{"sec":"Medical history","label":"Onset, course and treatment","hint":"","good":"Fatigue and weight gain in 2014. Takes levothyroxine daily.","weak":"Has had it a while.","rules":{"words":8}},{"sec":"Sections 3 and 4","label":"Thyroid or parathyroid findings and symptoms","hint":"State thyroid size, tenderness, and symptoms of too little or too much hormone: fatigue, weight change, heat or cold intolerance, palpitations, tremor.","good":"Thyroid not enlarged. Mild fatigue and cold intolerance on treatment. No palpitations or tremor.","weak":"Thyroid problem.","rules":{"words":16}},{"sec":"Sections 5 and 6","label":"Physical exam: eyes, neck, pulse, blood pressure, reflexes","hint":"Record pulse and blood pressure, eye findings, neck exam, and deep tendon reflexes.","good":"Pulse 64, blood pressure 118/74. No eye signs. Neck without mass. Reflexes 2+ and symmetric.","weak":"Normal exam.","rules":{"num":3,"words":12}},{"sec":"Diagnostic testing","label":"Diagnostic testing","hint":"List labs, imaging or biopsy with dates.","good":"TSH 3.1 on 02/2026 on levothyroxine 100 micrograms.","weak":"Testing done.","rules":{}},{"sec":"Functional impact","label":"Effect on work and daily tasks","hint":"","good":"No work limits.","weak":"Affects work.","rules":{}}]},{"n":24,"name":"Ear (including Vestibular and Infectious)","cat":"Ear, nose, throat and eye","fields":[{"sec":"Diagnosis","label":"Diagnosis, ICD code and date","hint":"","good":"Meniere's disease, H81.09, diagnosed 2020.","weak":"Condition noted.","rules":{"icd":1,"date":1}},{"sec":"Medical history","label":"Onset, course and treatment","hint":"","good":"Episodic vertigo and ringing in the right ear since 2019. Treated with a low-salt diet and a diuretic.","weak":"Has had it a while.","rules":{"words":8}},{"sec":"Section III","label":"Vestibular symptoms","hint":"State whether there is vertigo, imbalance or staggering, how often, how long episodes last, and gait findings.","good":"Vertigo about once every two weeks, each lasting 1 to 2 hours. Staggering during episodes. Gait normal between episodes.","weak":"Dizzy sometimes.","rules":{"words":16,"num":1}},{"sec":"Sections IV to VI","label":"Infection, inflammation and surgery","hint":"Note chronic infection, cholesteatoma, ear surgery and residuals, with exam of the external ear, canal and eardrum.","good":"No chronic infection or cholesteatoma. No ear surgery. External canal and tympanic membrane normal.","weak":"Ear exam normal.","rules":{"words":14}},{"sec":"Diagnostic testing","label":"Diagnostic testing","hint":"Name the test, date and result.","good":"Audiogram and vestibular testing 2020 consistent with Meniere's.","weak":"Testing done.","rules":{}},{"sec":"Functional impact","label":"Effect on work and daily tasks","hint":"","good":"Cannot work at heights or drive during episodes.","weak":"Affects work.","rules":{}}]},{"n":25,"name":"Sinusitis, Rhinitis and Other Nose, Throat, Larynx and Pharynx Conditions","cat":"Ear, nose, throat and eye","fields":[{"sec":"Diagnosis","label":"Diagnosis, ICD code and date","hint":"","good":"Chronic sinusitis, J32.9, diagnosed 2017. Allergic rhinitis, J30.9.","weak":"Condition noted.","rules":{"icd":1,"date":1}},{"sec":"Medical history","label":"Onset, course and treatment","hint":"","good":"Facial pressure and congestion since 2016. Uses nasal steroid daily. No sinus surgery.","weak":"Has had it a while.","rules":{"words":8}},{"sec":"Section 4","label":"Sinusitis episodes in the past 12 months","hint":"Give the number of non-incapacitating episodes and the number of incapacitating episodes (those needing antibiotics for 4 to 6 weeks).","good":"4 non-incapacitating episodes in the past 12 months. 1 incapacitating episode requiring 4 weeks of antibiotics.","weak":"Gets sinus infections.","rules":{"num":2,"kw":"incapacitating","kwm":"State incapacitating and non-incapacitating counts."}},{"sec":"Sections 5 and 7","label":"Nasal obstruction, polyps and septum","hint":"State the percent of obstruction on each side, and whether polyps, turbinate hypertrophy or a deviated septum are present.","good":"Right nasal passage 40 percent obstructed, left 30 percent. No polyps. Mild turbinate hypertrophy. Septal deviation present.","weak":"Stuffy nose.","rules":{"kw":"%|percent","kwm":"Give percent obstruction for each side.","num":2}},{"sec":"Diagnostic testing","label":"Diagnostic testing","hint":"Name the imaging or endoscopy, date and finding.","good":"CT sinuses 2024: mucosal thickening of the maxillary sinuses.","weak":"Testing done.","rules":{}},{"sec":"Functional impact","label":"Effect on work and daily tasks","hint":"","good":"Missed 3 workdays in the past 12 months.","weak":"Affects work.","rules":{}}]},{"n":26,"name":"Eye Conditions","cat":"Ear, nose, throat and eye","fields":[{"sec":"Diagnosis","label":"Diagnosis, ICD code and date","hint":"","good":"Glaucoma, open angle, H40.1131, diagnosed 2020.","weak":"Condition noted.","rules":{"icd":1,"date":1}},{"sec":"Medical history","label":"Onset, course and treatment","hint":"","good":"Elevated eye pressure found on routine exam in 2020. Uses eye drops.","weak":"Has had it a while.","rules":{"words":8}},{"sec":"Sections 4.1 to 4.12","label":"Conditions present and their effect","hint":"For each eye condition (lids, tear system, cornea, glaucoma, uvea, lens, retina, nerve, tumor, trauma) state whether present and whether it reduces vision or causes other impairment.","good":"Open angle glaucoma in both eyes. Controlled with drops. Mild peripheral field loss on the right. Visual acuity not reduced.","weak":"Eye problem.","rules":{"words":18}},{"sec":"Section 6","label":"Incapacitating episodes and treatment, past 12 months","hint":"Give any periods that needed bed rest and treatment, and treatment steps taken.","good":"No incapacitating episodes in the past 12 months. Uses latanoprost nightly.","weak":"None.","rules":{"words":10,"kw":"12 months|year","kwm":"State the period covered."}},{"sec":"Diagnostic testing","label":"Diagnostic testing","hint":"Name acuity, field and pressure results with dates.","good":"Visual field and OCT 2025: mild right field loss. Pressure 16 on treatment.","weak":"Testing done.","rules":{}},{"sec":"Functional impact","label":"Effect on work and daily tasks","hint":"","good":"Reduced peripheral vision limits driving at night.","weak":"Affects work.","rules":{}}]},{"n":27,"name":"Intestinal Conditions","cat":"Digestive and genitourinary","fields":[{"sec":"Diagnosis","label":"Diagnosis, ICD code and date","hint":"","good":"Irritable bowel syndrome, K58.9, diagnosed 2019.","weak":"Condition noted.","rules":{"icd":1,"date":1}},{"sec":"Medical history","label":"Onset, course and treatment","hint":"","good":"Abdominal pain and loose stools since 2018.","weak":"Has had it a while.","rules":{"words":8}},{"sec":"Sections III to XIV","label":"Findings for the condition (IBS, IBD, diverticular disease, celiac, resection or other)","hint":"Complete the part for the diagnosis. Give attack frequency, symptoms, weight and nutrition effects, and hospitalizations.","good":"Abdominal pain with alternating diarrhea and constipation about 3 times a week. Weight stable. No hospitalizations or systemic signs.","weak":"Stomach problems.","rules":{"words":18,"num":1}},{"sec":"Diagnostic testing","label":"Diagnostic testing","hint":"Name endoscopy, imaging or labs with dates.","good":"Colonoscopy 2020: normal.","weak":"Testing done.","rules":{}},{"sec":"Functional impact","label":"Effect on work and daily tasks","hint":"","good":"Needs ready bathroom access.","weak":"Affects work.","rules":{}}]},{"n":28,"name":"Kidney Conditions","cat":"Digestive and genitourinary","fields":[{"sec":"Diagnosis","label":"Diagnosis, ICD code and date","hint":"","good":"Chronic kidney disease stage 3a, N18.31, diagnosed 2022.","weak":"Condition noted.","rules":{"icd":1,"date":1}},{"sec":"Medical history","label":"Onset, course and treatment","hint":"","good":"Reduced kidney function found on routine labs in 2022.","weak":"Has had it a while.","rules":{"words":8}},{"sec":"Sections III to VI","label":"Kidney function and related findings","hint":"State the GFR, structural abnormality, stones, recurrent infection, and treatment such as dialysis or transplant.","good":"GFR 52 on 03/2026. No hydronephrosis. No stones or recurrent infections. No dialysis.","weak":"Kidney problem.","rules":{"words":14,"num":1}},{"sec":"Diagnostic testing","label":"Diagnostic testing","hint":"Name labs and imaging with dates.","good":"Creatinine 1.5 and GFR 52 on 03/2026. Renal ultrasound 2025 normal size.","weak":"Testing done.","rules":{}},{"sec":"Functional impact","label":"Effect on work and daily tasks","hint":"","good":"No work limits.","weak":"Affects work.","rules":{}}]},{"n":29,"name":"Urinary Tract Conditions","cat":"Digestive and genitourinary","fields":[{"sec":"Diagnosis","label":"Diagnosis, ICD code and date","hint":"","good":"Neurogenic bladder, N31.9, diagnosed 2019.","weak":"Condition noted.","rules":{"icd":1,"date":1}},{"sec":"Medical history","label":"Onset, course and treatment","hint":"","good":"Urinary urgency and leakage since a 2018 injury.","weak":"Has had it a while.","rules":{"words":8}},{"sec":"Section III","label":"Voiding dysfunction","hint":"State leakage severity and absorbent use, voids per day and per night, and obstructed voiding.","good":"Leakage daily. Uses 3 pads a day. Voids 10 times a day and 2 times a night.","weak":"Leaks urine.","rules":{"num":2,"words":12}},{"sec":"Sections IV to VI","label":"Infections and other bladder conditions","hint":"Give infections in the past 12 months, treatment, and any fistula, diverticulum, stones or related kidney impairment.","good":"2 urinary infections in the past 12 months, each treated with oral antibiotics. No hospitalization. No stones or fistula.","weak":"Some infections.","rules":{"num":2,"words":14}},{"sec":"Diagnostic testing","label":"Diagnostic testing","hint":"Name tests with dates.","good":"Urodynamics 2020 confirmed an overactive neurogenic bladder.","weak":"Testing done.","rules":{}},{"sec":"Functional impact","label":"Effect on work and daily tasks","hint":"","good":"Needs pad changes and bathroom breaks.","weak":"Affects work.","rules":{}}]},{"n":30,"name":"Gynecological Conditions","cat":"Gynecological","fields":[{"sec":"Diagnosis","label":"Diagnosis, ICD code and date","hint":"","good":"Endometriosis, N80.9, diagnosed 2019.","weak":"Condition noted.","rules":{"icd":1,"date":1}},{"sec":"Medical history","label":"Onset, course and treatment","hint":"","good":"Painful periods since 2017. Laparoscopy in 2019.","weak":"Has had it a while.","rules":{"words":8}},{"sec":"Sections 5 to 10","label":"Findings for the organs involved","hint":"Address the part that applies: vulva, vagina, cervix, tubes, ovaries, hysterectomy history with dates and reasons, menopause status.","good":"Pelvic pain with menses. Uterus, ovaries and tubes normal in size on exam. No hysterectomy. Not menopausal.","weak":"Pelvic problems.","rules":{"words":16}},{"sec":"Sections 11 to 14","label":"Endometriosis, prolapse, incontinence and fistula findings","hint":"State findings, treatment and whether treatment is effective.","good":"Endometriosis found at laparoscopy 2019. Hormonal therapy reduces pain from 8 to 3 out of 10. No prolapse, incontinence or fistula.","weak":"Endometriosis.","rules":{"words":16,"num":2}},{"sec":"Diagnostic testing","label":"Diagnostic testing","hint":"Name imaging or surgery findings with dates.","good":"Laparoscopy 2019: stage 2 endometriosis.","weak":"Testing done.","rules":{}},{"sec":"Functional impact","label":"Effect on work and daily tasks","hint":"","good":"Misses about 1 workday per month.","weak":"Affects work.","rules":{}}]}];
+const M=[];
+M.push({id:0,title:"Using AI to search records and complete DBQs",time:"2 hours",level:"Foundations",
+own:"If you put it in, it belongs to you.",
+big:"What you type into an AI tool leaves your control. What you paste out of it into a report becomes your statement. Both are your responsibility.",
+obj:["State what information must never be entered into an unapproved AI tool.","Write a prompt with task, scope, output form and guardrail.","Explain why an AI answer is a lead, not a fact, until checked against the source page.","Describe what an examiner may and may not delegate to AI when completing a DBQ.","Keep a short log of AI use for each report."],
+lessons:[
+["What goes in is yours","Veteran names, Social Security and VA file numbers, dates of birth and full records stay out of any tool your employer or VA has not approved. Practice with de-identified or fake text. If you paste it, you own the privacy breach."],
+["What comes out is yours","If AI wrote it and you submitted it, you wrote it. A wrong date, an invented quote or an unsupported conclusion is your error, and your signature is on it."],
+["Good uses","Finding mentions across many pages, building a dated timeline, listing repeated complaints, checking your draft for blanks and contradictions, and rewording for clarity without changing facts."],
+["Not allowed uses","Letting AI invent findings, fill measurements you did not take, write the opinion for you, or copy the same wording across veterans."],
+["The prompt pattern","Task, scope, output form, guardrail. Example guardrail: \"If you cannot find it, say so. Do not guess.\""],
+["Verify every time","Open the cited page, read the quote, confirm the date, and mark the finding verified or unverified."],
+["The use log","Date, tool, purpose of the prompt, what you verified. Two lines is enough."]],
+activity:"Spot the errors. Below is a fictional AI answer to the prompt \"List every mention of right knee pain, oldest first, with date, document, page and exact quote.\" Tick the rows you would NOT trust until you check the source page.",
+spot:{intro:"Fictional record excerpt. Tick every row that is a problem.",items:[
+["03/14/2012, Treatment note, p. 41: \"Right knee pain after a run. Ibuprofen given.\"",false,"Date, document, page and quote are all present, so you can check it."],
+["06/2012, Clinic note: \"Knee pain continues.\"",true,"No page, no day and no side. It cannot be verified."],
+["02/09/2013, Orthopedic consult, p. 77: \"Patient reports severe right knee instability for years.\"",true,"A quote that says \"for years\" in a 2013 note about a 2012 start is suspicious. Open the page; the quote may be invented."],
+["11/30/2014, Separation exam, p. 112: \"Right knee: normal.\"",false,"Complete and checkable. It is also useful, because it shows a normal finding at separation."],
+["The AI also states: \"No records of left knee complaints were found.\"",true,"\"Not found\" is a lead, not proof. Search the left knee yourself."],
+["Page numbers listed: 41, 77, 112, 212",true,"Four pages are cited but only three entries were shown. Page 212 has no matching row. Ask for it or check it."]]},
+quiz:[
+["Which item may you paste into an unapproved public AI tool?",["The veteran's name","A fully de-identified practice note","The VA file number","A scanned service record"],1,"Only de-identified or fictional practice text is safe. If you put it in, it belongs to you."],
+["A report you submitted contains an AI-invented quote. Who is responsible?",["The AI vendor","The software","The examiner who submitted it","No one, if the AI wrote it"],2,"The examiner signs the report and owns its content."],
+["\"If you put it in, it belongs to you\" means:",["The AI company owns your entry","You are responsible for what you enter and what you use","Only the output matters","Privacy rules do not apply to short entries"],1,"Ownership covers both what you enter and what you submit."],
+["Which prompt part tells the AI not to invent answers?",["Task","Scope","Output form","Guardrail"],3,"The guardrail sets limits, such as \"if you cannot find it, say so.\""],
+["An AI lists a knee injury on page 212. What should you do before using it?",["Cite it directly","Open page 212 and check the quote and date","Ask the AI if it is sure","Assume it is right because it gave a page"],1,"A page number is a pointer, not proof. Open the page."],
+["Which use is acceptable?",["Having AI fill in range of motion you did not measure","Having AI draft the opinion","Having AI find every mention of right knee pain with page numbers for you to verify","Copying a prior veteran's wording"],2,"Searching with verification is the safe use. The other choices invent or copy content."],
+["The AI says \"no records of hearing loss found.\" The best response is:",["Write \"no hearing loss in service\"","Treat it as unverified and check the hearing tests and separation exam yourself","Ignore the audiology section","Ask the AI to confirm"],1,"Absence in an AI answer is a lead. Verify in the record."],
+["Which belongs in a use log?",["The veteran's name","The date, tool, purpose and what you verified","The full record","Nothing, logs are not needed"],1,"A short log shows what the AI did and what you checked, with no patient identifiers."],
+["Your employer has not approved a particular AI tool. What do you do?",["Use it with initials only","Use it for short records","Do not enter any veteran information in it","Use it after hours"],2,"Initials and short excerpts can still identify a veteran. If you enter it, you own the breach."],
+["After AI helps you build a timeline, who decides what it means clinically?",["The AI","The examiner","The software vendor","The rater alone"],1,"Clinical judgment is the examiner's."]]});
+
+M.push({id:1,title:"DBQ and C&P exam foundations",time:"2 hours",level:"Foundations",
+own:"The form is your statement of what you found, in your name.",
+big:"A DBQ turns an exam into the facts a rater needs. The report goes from the examiner, through quality assurance, to the rater.",
+obj:["Define a DBQ, a C&P exam, a quality assurance (QA) reviewer, a rater and a service-connected condition.","Describe the three elements usually needed for service connection: a current diagnosis, an in-service event or injury, and a link between them.","Explain how a rating percentage is set and why measured detail changes it.","State the \"at least as likely as not\" standard for opinions.","Describe what happens to an incomplete or contradictory report."],
+lessons:[
+["The players","Veteran, examiner, QA reviewer, rater, and the claims file. The examiner reports. QA checks the report before it goes on. The rater decides the claim."],
+["What a DBQ is","A standardized form that turns an exam into the specific facts a rater needs. It is a questionnaire, not a narrative, so every question is answered or given a reason."],
+["How ratings work","Conditions are rated in steps from 0 to 100 percent based on criteria in the VA rating schedule. Measurements and functional effects decide which step applies."],
+["Service connection in plain words","Current condition, event in service, and a medical link. The exam usually supplies the first and third."],
+["The opinion standard","\"At least as likely as not\" means about a 50 percent chance or greater. It is not \"possible\" and not \"certain.\""],
+["Why reports are returned","Missing measurements, blanks, contradictions, and conclusions with no support. QA often catches these before the rater sees them."]],
+activity:"Read a short fictional case and fill a one-page checklist: current diagnosis, in-service event, link, and the three details the rater would still need.",
+quiz:[
+["What does DBQ stand for?",["Disability Benefits Questionnaire","Diagnosis Based Quotient","Disability Board Question","Duty Benefit Qualification"],0,"A DBQ is a Disability Benefits Questionnaire."],
+["Who decides the final rating percentage?",["The examiner","The rater","The veteran's physician","The clinic manager"],1,"The rater decides. The examiner reports."],
+["What does \"C&P\" stand for?",["Claim and Payment","Compensation and Pension","Care and Planning","Clinical and Pathology"],1,"Compensation and Pension."],
+["Which is NOT usually one of the elements of service connection?",["Current diagnosis","In-service event or injury","Link between them","The veteran's employer history"],3,"The three elements are diagnosis, event, and link."],
+["\"At least as likely as not\" means:",["Possible","About 50 percent or greater","Certain","Less than 50 percent"],1,"It is a 50 percent or greater probability."],
+["Why does a measured value matter more than a general description?",["It looks professional","Rating criteria are tied to specific findings","Raters dislike narrative","It shortens the form"],1,"Ratings follow specific findings, such as degrees of motion."],
+["A DBQ question does not apply to this veteran. Best practice:",["Leave it blank","Write \"N/A\" or \"not applicable\" with a brief reason when appropriate","Fill in a typical answer","Delete the question"],1,"A blank looks like a miss. A reasoned answer shows you considered it."],
+["Which is a common reason a report is returned?",["Too many measurements","Blank fields and contradictions","Typed instead of handwritten","A long rationale"],1,"Blanks and contradictions are common return reasons."],
+["Where does quality assurance sit in the process?",["After the rater decides","Between the examiner and the rater","Before the exam starts","Only for AI-written reports"],1,"The report moves from examiner to QA to rater."],
+["Under the ownership rule, an AI-assisted DBQ is:",["The AI's report","The examiner's report","A shared report","A draft no one owns"],1,"The examiner signs it, so it is the examiner's report."]]});
+
+M.push({id:2,title:"Detail standards by body system",time:"3 hours",level:"Foundations and advanced",
+own:"Every detail you leave out is a detail you chose to leave out. AI cannot supply what you did not examine.",
+big:"Every DBQ page on this site follows a six-part Detail Standard. The body system adds its own required items.",
+obj:["List the six parts of the Detail Standard: diagnosis, history, objective findings, functional impact, flare-ups and repetitive use, and opinion with rationale.","State the extra details each body system stresses.","Explain why each detail matters to the rater.","Use the checklist for a chosen form before and after the exam."],
+lessons:[
+["The six-part Detail Standard","Diagnosis and date; history and onset; objective findings; functional impact; flare-ups and repetitive use; opinion and rationale. The same six repeat across all forms."],
+["Musculoskeletal","Active and passive range of motion, weight-bearing and non-weight-bearing, repetitive use, pain onset point, stability, strength, atrophy, assistive devices."],
+["Neurological","Affected nerve and side, sensory and motor findings, reflexes, severity."],
+["Respiratory, sleep, cardiovascular","Test values, device use and effect, workload tolerance, blood pressure."],
+["Mental health","Diagnosis, symptom frequency and severity, occupational and social impairment."],
+["Skin, ear, eye, digestive, genitourinary","Size or area, episode frequency, treatment and residual effect."],
+["Why the rater needs it","Each detail ties to a rating criterion or to a question the rater cannot answer without it."]],
+activity:"Pick one form from the examples page, read its Detail Standard, and use it to find the five missing details in a fictional, partly completed report.",
+quiz:[
+["How many parts are in the Detail Standard?",["Four","Five","Six","Eight"],2,"There are six."],
+["Which is a musculoskeletal essential?",["Pulmonary function value","Active and passive range of motion","METs level","DSM-5-TR diagnosis"],1,"Motion testing is the heart of joint and spine forms."],
+["Functional impact describes:",["The lab values","What the veteran cannot do at work and at home","Billing codes","The exam room setup"],1,"It describes real-world limits."],
+["Flare-up documentation should include:",["Frequency, duration, triggers and estimated effect","Only that flare-ups exist","The veteran's opinion of the VA","Nothing"],0,"Raters need frequency, duration and the effect on function."],
+["A neurological DBQ stresses:",["Affected nerve and side with sensory and motor findings","Skin area only","CPAP use","Blood pressure only"],0,"Nerve, side, sensory and motor findings, and severity."],
+["Which is a respiratory or sleep detail?",["Goniometer reading","CPAP use and effect","Scar measurement","Reflex grading"],1,"Device use and its effect are key for sleep apnea."],
+["For a scar, a key measurement is:",["Length and width","Heart rate","Grip strength","Mood score"],0,"Scars are rated by size, so measure length and width."],
+["Why does a rater need the pain onset point in motion testing?",["It is decorative","Functional loss can be rated from where pain limits motion","It replaces the measurement","It is not needed"],1,"Painful motion can limit function before the end of range."],
+["The opinion section of a DBQ should include:",["Only the conclusion","The conclusion, the standard and the reasoning","A different diagnosis","The AI's draft"],1,"A conclusion alone is weak."],
+["Before submitting, the examiner should:",["Check every question is answered or marked with a reason","Leave the checking to the rater","Ask AI to complete blank sections","Copy last week's report"],0,"Completeness is the examiner's job. QA is a second look, not a replacement."]]});
+
+M.push({id:3,title:"Weak versus strong workflow and documentation",time:"2.5 hours",level:"Foundations and advanced",
+own:"A template or AI draft that you sign is your weak report, not theirs.",
+big:"Weak workflow produces weak documentation. Learn the patterns, then fix them.",
+obj:["Name seven weak workflow patterns and the fix for each.","Name six weak documentation patterns and rewrite an example of each.","Compare a weak, better and strong version of the same finding.","Spot sameness across reports and write each finding from the individual exam."],
+lessons:[
+["Weak workflow","Record not reviewed, wrong or missing form, measurements skipped, copy-forward template, no flare-up questions, opinion without reasoning, late completion."],
+["Weak documentation","Vague words, missing numbers, contradictions, unsupported conclusions, unanswered questions, sameness."],
+["Weak, better, strong trios","One finding rewritten three ways, with what changed named each time. The examples page shows weak and strong versions of every field."],
+["Using AI the right way here","Ask AI to flag blanks, vague words and contradictions in your draft. Do not ask it to write findings you did not observe."],
+["Individual reports","Include the specific details that came from this veteran: the task they struggle with, the side, the time of day, the measured value."]],
+activity:"Spot the weak items in a fictional report. Tick each row that a reviewer would flag.",
+spot:{intro:"Fictional report lines. Tick every weak line.",items:[
+["Right knee flexion 0 to 95 degrees active, pain begins at 80. After three repetitions, 90 degrees.",false,"Numbers, a pain point and a repetition result. Strong."],
+["Left shoulder limited by pain.",true,"No degrees, no pain point, no repetition result."],
+["Gait normal. Veteran arrived using a cane.",true,"Contradiction. Either the gait is normal or a cane is used. Reconcile them."],
+["Flare-ups: unable to say without speculation.",true,"No reason is given. Say specifically why an estimate is not possible, or give one."],
+["Cannot stand longer than 20 minutes or lift more than 15 pounds. Stands to cook only in short stretches.",false,"Time, weight and a daily task. Strong functional impact."],
+["It is at least as likely as not that the condition is related to service.",true,"A conclusion with no reasoning. Add the facts and logic."],
+["Identical opening paragraph used in two different veterans' reports.",true,"Sameness. Write each report from the individual exam."]]},
+quiz:[
+["\"Limited motion with some pain\" is weak mainly because:",["It is too long","It has no numbers or detail","It uses medical words","It names a side"],1,"No degrees, no pain point, no side."],
+["Skipping the record review before the exam is:",["A weak workflow pattern","Acceptable for follow-ups","A time saver with no downside","Required"],0,"You cannot test what the record suggests if you have not read it."],
+["Which fix applies to a copy-forward template?",["Add more boilerplate","Write each finding from this exam only","Use a longer template","Ask AI to reword it"],1,"Each finding comes from this veteran's exam."],
+["A report says normal gait in one section and cane use in another. This is:",["A contradiction","A strong detail","Acceptable","Sameness"],0,"Contradictions are a common return reason."],
+["An opinion with only \"at least as likely as not\" is weak because:",["It is too short to fit","It has no reasoning linking evidence to the conclusion","It uses the wrong standard","It lacks a diagnosis"],1,"State the evidence and reasoning."],
+["Which is the strongest version?",["Knee hurts on movement","Limited flexion","Active flexion 0 to 95 degrees, pain begins at 80 degrees, 90 degrees after three repetitions","Knee limited by pain"],2,"It gives numbers, pain onset and repetition."],
+["Two reports for different veterans have identical paragraphs. This suggests:",["Efficiency","Possible sameness that weakens individual findings","Strong consistency","A formatting issue"],1,"Reports should reflect individual exams."],
+["Best use of AI on a weak draft:",["Have it add measurements","Have it flag blanks, vague words and contradictions for you to fix","Have it write the opinion","Have it copy a model report"],1,"Flagging is safe. Inventing is not."],
+["\"See above\" with nothing above is:",["An unanswered question","A strong reference","A diagnosis","A measurement"],0,"An empty reference leaves the question unanswered."],
+["A finding in the report came from an AI draft and you did not observe it. You should:",["Keep it","Remove it or confirm it from your own exam","Mark it as AI-generated and leave it","Ask the veteran to verify"],1,"If you did not observe it, it does not belong in your report."]]});
+M.push({id:4,title:"Range of motion and the goniometer",time:"3 hours with hands-on practice",level:"Foundations and advanced",
+own:"The degrees you write are the degrees you measured. No tool, AI or template may supply a number you did not take.",
+big:"A goniometer measures the angle of a joint. Correct placement, repeated testing and clear recording turn a vague finding into a rateable one.",
+obj:["Explain why range of motion, pain on motion and repetitive use matter to a rating.","Place a goniometer correctly: fulcrum, stationary arm, moving arm.","Measure active and passive motion, with and without weight-bearing, and repeat three times.","Record values, pain onset and flare-up information in the standard format.","Recognize common technique errors and correct them."],
+lessons:[
+["Why it matters","Rating criteria compare measured degrees with normal values. Functional loss from pain, weakness, fatigue and flare-ups counts too, so documentation reaches beyond one number."],
+["Technique","Start at neutral zero. Put the fulcrum over the joint's axis of motion. Line the stationary arm along the bone above the joint and the moving arm along the bone below it. Move the joint through its full motion and read the angle at the end of motion, to the nearest degree."],
+["Order of testing","Active first, then passive, then three repetitions, recording the value after the third. Note where pain begins."],
+["Normal values","Use the course reference table, checked against the current rating schedule. Examples: knee flexion 0 to 140, shoulder flexion and abduction 0 to 180, elbow flexion 0 to 145, hip flexion 0 to 125, ankle dorsiflexion 0 to 20 and plantar flexion 0 to 45."],
+["The spine","The back and neck use a dual inclinometer technique, a separate short lesson."],
+["Recording","Active values, passive values, pain onset, repetitive-use result, weight-bearing note, and your estimate of flare-up effect."],
+["Common errors","Wrong landmark, arm drift, patient compensating with another joint, reading the wrong scale, stopping at pain without noting it."]],
+activity:"Practice with a partner: measure elbow and knee, then fill the recording template. Use the practice tool below to see how placement changes the reading.",
+tool:"goni",
+quiz:[
+["Where is the goniometer's fulcrum placed?",["Over the joint's axis of motion","At the end of the distal bone","At the skin crease farthest from the joint","On the examiner's hand"],0,"The fulcrum sits over the joint axis."],
+["The stationary arm lines up with:",["The bone below the joint","The bone above the joint","The floor","The moving arm"],1,"Stationary arm: proximal bone. Moving arm: distal bone."],
+["The starting position for most joints is:",["Maximum flexion","Neutral zero","The patient's comfort position","Passive stretch"],1,"Neutral zero is the reference."],
+["Active motion is when:",["The examiner moves the joint","The patient moves the joint","A device moves it","It is measured under anesthesia"],1,"Active means the patient moves it."],
+["How many repetitions are usually recorded for repetitive-use testing?",["One","Two","Three","Ten"],2,"Three repetitions, recording after the third."],
+["Which should be noted in addition to the degrees?",["Where pain begins","The patient's occupation only","The goniometer brand","Nothing else"],0,"The point where pain begins matters for functional loss."],
+["Normal knee flexion in the rating schedule is about:",["0 to 90 degrees","0 to 140 degrees","0 to 180 degrees","0 to 45 degrees"],1,"0 to 140 degrees."],
+["Which instrument is typically used for the back and neck?",["Goniometer only","Dual inclinometer","Tape measure","Reflex hammer"],1,"Spine motion is commonly measured with an inclinometer."],
+["A learner reads 95 degrees but did not measure passive motion. The correct entry for passive motion is:",["A typical value","The same as active","Not measured, with a reason","140 degrees"],2,"Never supply a number you did not take."],
+["Under the ownership rule, which is acceptable?",["Asking AI to supply likely degrees","Recording only degrees you measured","Copying a prior report's values","Rounding to the nearest ten"],1,"Only your measurements belong in your report."]]});
+
+M.push({id:5,title:"Applied AI record search lab",time:"3 hours",level:"Advanced practice for all",
+own:"The viewer in this lab is a fictional simulation. In real work, what you enter and what you cite are yours.",
+big:"The AI finds and points. You verify and decide.",
+obj:["Run prompts to find first mention, in-service events, continuity, prior findings, conflicts and missing documents.","Verify each AI finding against the source page and label it verified or unverified.","Catch a wrong date, an invented quote and a missed entry.","Turn verified findings into a short, cited history written in your own words.","Keep a use log."],
+lessons:[
+["Watch the walkthrough","Use the animated viewer below. It types a prompt, builds the answer row by row, and highlights the source page."],
+["The six core prompts","First mention, in-service event, continuity by year, prior findings, conflicts, and missing pieces."],
+["Reading the answer","Look at date, document, page and quote. If any is missing, the finding is unverified."],
+["Gaps are not proof","\"Not found\" is a lead to check, not a finding."],
+["From finding to sentence","Write the history yourself from verified items and cite the page."]],
+activity:"Run the animated walkthrough, then mark each answer row verified or unverified.",
+tool:"viewer",
+quiz:[
+["Which prompt finds the earliest mention?",["\"Summarize the record\"","\"List every entry mentioning the condition, oldest first, with date, document, page and exact quote\"","\"Is the claim valid?\"","\"Write the opinion\""],1,"It names the task, order and output form."],
+["A finding has a date and quote but no page. It is:",["Verified","Unverified until you locate the page","Strong evidence","Acceptable to cite"],1,"No page means you cannot check it yet."],
+["\"No records found\" from the AI means:",["The record contains none","A lead to check, not proof of absence","The condition is not present","You may stop searching"],1,"Search yourself before concluding anything is absent."],
+["The AI's quote does not match the page. You should:",["Cite the AI's version","Use the page's exact words and note the AI error","Paraphrase both","Drop the page"],1,"The source page controls."],
+["Which prompt checks for conflicts?",["\"List statements that disagree about onset date, side or severity\"","\"List all dates\"","\"Write a summary\"","\"Find the diagnosis\""],0,"It asks directly for disagreements."],
+["A good history section is:",["Pasted from the AI","Written by you from verified items, with pages cited","A copy of a prior report","Free of citations"],1,"Your words, verified facts, cited."],
+["Continuity by year helps you see:",["The veteran's income","Gaps and repeated complaints over time","Billing codes","Staffing"],1,"Continuity shows gaps and patterns."],
+["What belongs in the use log?",["Date, tool, purpose, what was verified","The veteran's identity","The record text","Nothing"],0,"No identifiers, just what happened."],
+["Which is an acceptable guardrail?",["\"Be creative\"","\"If you cannot find it, say so; do not guess\"","\"Fill gaps from typical cases\"","\"Write confidently\""],1,"A guardrail limits invention."],
+["If an unverified AI date appears in your report, who is responsible?",["The AI","The vendor","You","The rater"],2,"If you put it in, it belongs to you."]]});
+
+M.push({id:6,title:"Opinions, rationale and the capstone report",time:"3 hours",level:"Advanced",
+own:"The opinion is your professional judgment. AI may check your reasoning for gaps; it may not form the opinion.",
+big:"A strong opinion has four parts: conclusion, standard, evidence and reasoning.",
+obj:["Write an opinion with a clear conclusion, the standard used, the evidence relied on and the reasoning that connects them.","Address contrary evidence and say why it did or did not change the conclusion.","Explain when an opinion cannot be given without speculation, and say so with reasons.","Complete a full practice report that meets the Detail Standard."],
+lessons:[
+["Four-part rationale","Conclusion, standard, evidence, reasoning. Example: \"It is at least as likely as not that the right knee arthritis is related to the 2008 training injury. The veteran reported the injury in 2008, treatment notes from 2009 document knee pain, and the X-ray shows medial joint narrowing consistent with prior trauma.\""],
+["Contrary evidence","Name it and explain. For example, a normal knee exam at separation does not rule out later arthritis."],
+["Limits","When records or findings are insufficient, state what is missing and what would resolve it. Do not guess."],
+["Using AI to review your reasoning","Ask it to list gaps and unsupported steps in your draft. Decide yourself which to fix."],
+["Final check","Answer every question or give a reason, remove contradictions and copied wording, and confirm every number came from your own measurements."]],
+activity:"Capstone: complete a full practice report for a fictional veteran on the Examples page, then check it against the Detail Standard and the QA checklist in Module 7.",
+quiz:[
+["Which is part of a strong rationale?",["Conclusion only","Conclusion, standard, evidence and reasoning","Veteran's wishes","Rater's expected result"],1,"Four parts."],
+["If evidence conflicts with your opinion, you should:",["Ignore it","Name it and explain why it did or did not change your conclusion","Delete it","Ask AI to remove it"],1,"Address contrary evidence openly."],
+["When the record is too thin for an opinion, you should:",["Speculate","State what is missing and why an opinion cannot be given","Write \"at least as likely as not\" anyway","Leave the section blank"],1,"Say what is missing. Do not guess."],
+["May AI write your opinion?",["Yes, if you edit it","No, the opinion is your judgment","Yes, if the veteran agrees","Only for short opinions"],1,"The opinion belongs to you."],
+["A good use of AI here is:",["Listing gaps in your reasoning for you to consider","Drafting the conclusion","Adding supporting citations it invents","Removing contradictory evidence"],0,"A gap check is a safe use."],
+["\"At least as likely as not\" should be followed by:",["A period","The reasoning that supports it","A new diagnosis","The veteran's signature"],1,"Add the reasoning."],
+["Before submitting, the final check includes:",["Every number is from your own measurements","Using last month's wording","Rounding all values","Trusting the checker alone"],0,"Own measurements only."],
+["A report passes the checker but has an unsupported conclusion. What now?",["Submit it","Fix the conclusion, since a checker cannot judge clinical reasoning","Ask the checker to approve it","Remove the section"],1,"A checker finds structure problems, not weak reasoning."],
+["Which belongs in the capstone use log?",["Date, tool, purpose, what you verified","The record text","The fictional veteran's address","Nothing"],0,"Keep the log short and free of identifiers."],
+["The ownership rule at the end of the course means:",["AI is accountable for errors","You are accountable for what you enter, what you cite and what you sign","The course is accountable","The rater is accountable"],1,"You own your report."]]});
+
+M.push({id:7,title:"Quality assurance: the check between you and the rater",time:"2.5 hours",level:"Foundations and advanced",
+own:"A QA reviewer may catch your error. That does not make it any less yours.",
+big:"After you submit, a quality assurance reviewer checks the report, often with their own AI, before the rater sees it. Your AI and the QA reviewer's AI are separate second looks, and both can miss things.",
+obj:["Describe where QA sits: examiner, then QA, then rater.","List what QA checks: completeness, consistency, support, individuality and agreement with the record.","Explain what AI tends to miss and why a second, independent check helps.","Respond to a QA return by correcting from your own exam, never by inventing detail.","Run the QA checklist on your own report before you submit."],
+lessons:[
+["Where QA sits","Examiner completes the report. QA reviews it. The rater uses it to decide the claim. Program details vary by contractor and VA process, so learn your own."],
+["What QA checks","Unanswered questions. Numbers that do not add up. Left and right switched. Dates or codes that do not match the record. Findings that conflict between sections. Opinions with no reasoning. Template phrases and sameness. Leftover placeholders. Identifying information that should not be there."],
+["What AI misses","Laterality flips, plausible but invented specifics, logic across sections (for example, a repetition result better than the first measurement with no explanation), a missing section, and copied wording. AI is fluent, so errors read well."],
+["QA's own AI","QA may run prompts such as \"List fields where numbers conflict between sections\" or \"Flag conclusions with no supporting finding.\" The reviewer verifies each flag against the report and the record. A second AI is a second look, not a guarantee."],
+["Responding to a return","A QA return asks you to clarify or correct. Answer from your own exam and notes. If you did not observe it, say so. Follow your program's process for addenda, and never change findings to satisfy a reviewer."],
+["Self-QA before you submit","Run the checklist yourself: every question answered, every number yours, sides consistent, sections agree, reasoning present, wording individual, no placeholders or identifiers."]],
+activity:"Be the QA reviewer. Below are lines from a report that an examiner's AI already approved. Tick every line QA should send back.",
+spot:{intro:"Fictional report lines. Tick every line that QA should return.",items:[
+["Diagnosis: right knee degenerative arthritis, M17.11, 03/2022. History: left knee injury in 2008.",true,"Laterality conflict. The diagnosis says right, the history says left."],
+["Active flexion 0 to 95 degrees. After three repetitions, flexion 0 to 110 degrees, no explanation.",true,"The repetition result is better than the first measurement with no explanation. Check the measurement."],
+["Flare-ups about twice a month, lasting 2 to 3 days. During flares cannot climb stairs; estimated flexion 0 to 70 degrees.",false,"Frequency, duration, effect and an estimate. Complete."],
+["Gait: normal. Assistive device: wheelchair for all mobility.",true,"Contradiction between gait and device."],
+["Opinion: [PASTE OPINION HERE]",true,"Leftover placeholder. The section is not written."],
+["Opinion: it is at least as likely as not that the knee arthritis is related to the 2008 injury. Reasons: injury documented 2008, knee pain notes 2009, joint narrowing on X-ray 03/2022.",false,"Conclusion, standard and reasoning with record support."],
+["Functional impact paragraph is word-for-word the same as another report from the same clinic.",true,"Sameness. QA should send it back for an individual description."],
+["Veteran's full name and file number appear in the free-text remarks field.",true,"Identifying information in a field where it should not be. QA flags it for removal under your program's process."]]},
+quiz:[
+["Where does QA sit in the process?",["After the rater decides","Between the examiner and the rater","Before the exam","Only for AI-written reports"],1,"Examiner, then QA, then rater."],
+["QA catches an error in your report. Who owns the error?",["QA","The AI","You, the examiner","The rater"],2,"Catching an error does not transfer ownership."],
+["Which is a typical AI miss that QA looks for?",["A report that is too short to read","Left and right switched","A correctly cited page","A measured value"],1,"Laterality flips are common and read fluently."],
+["Why can two AI checks still miss a problem?",["AI never makes errors","Both can share the same blind spots, so the source record still has to be checked","AI cannot read forms","QA does not use AI"],1,"A second AI is a second look, not proof."],
+["QA asks for a measurement you did not take. You should:",["Estimate one","Say it was not measured, with a reason","Copy one from a prior report","Ask AI to supply it"],1,"Never supply a number you did not take."],
+["QA returns a report for a contradiction between gait and assistive device. The right response is:",["Delete the device entry","Check your exam notes and correct the entry that was wrong","Add a sentence blaming the template","Resubmit unchanged"],1,"Correct from your own exam."],
+["Which belongs on a self-QA checklist?",["Every number is mine, sides are consistent, sections agree","Wording copied from a model report","Rounded values only","AI-generated reasoning"],0,"Check completeness, ownership of numbers and consistency."],
+["A leftover \"[PASTE HERE]\" is found by QA. This shows:",["A good template","An unfinished section that was not caught before submission","A minor formatting issue","That AI wrote the report well"],1,"Placeholders mean a section was not completed or checked."],
+["QA's AI flags a conclusion as unsupported. QA should:",["Delete it","Verify the flag against the report and record, then return it if confirmed","Rewrite it","Ignore it"],1,"Verify before acting."],
+["A good response to a QA return includes:",["Adding details to satisfy the reviewer, even if not observed","Correcting from your exam and notes, and following your program's addendum process","Withdrawing the report","Asking AI to answer for you"],1,"Truthful correction from your own exam."]]});
+
+(function(){
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+let LS={};try{LS=JSON.parse(localStorage.getItem("dbqc1")||"{}")}catch(e){}
+LS.scores=LS.scores||{};LS.spots=LS.spots||{};
+const save=()=>{try{localStorage.setItem("dbqc1",JSON.stringify(LS))}catch(e){}};
+function toast(t){const e=$("#toast");e.textContent=t;e.classList.add("on");clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove("on"),2200)}
+function copy(t){(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>toast("Copied"),()=>toast("Select the text to copy"))}
+
+/* ---------- navigation ---------- */
+const VIEWS=[["over","Overview"],["course","Course"],["ex","Examples"],["qa","QA tools"]];
+$("#tabs").innerHTML=VIEWS.map(v=>`<button class="tab" role="tab" data-go="${v[0]}" aria-selected="false">${v[1]}</button>`).join("");
+function go(v){$$(".view").forEach(s=>s.classList.toggle("on",s.id==="v-"+v));$$("#tabs .tab").forEach(t=>t.setAttribute("aria-selected",t.dataset.go===v));scrollTo({top:0,behavior:reduce?"auto":"smooth"});try{history.replaceState(null,"","#"+v)}catch(e){}}
+document.addEventListener("click",e=>{const b=e.target.closest("[data-go]");if(b&&b.tagName!=="A"){go(b.dataset.go)}});
+
+/* ---------- progress ---------- */
+const passed=id=>(LS.scores[id]||0)>=8;
+const nPassed=()=>M.filter(m=>passed(m.id)).length;
+function renderProg(){
+  const n=nPassed(),pct=Math.round(n/M.length*100);
+  let h=`<div class="row" style="justify-content:space-between"><h3>Your progress</h3><span class="pill ${n===M.length?"ok":"guided"}">${n} of ${M.length} modules passed</span></div><div class="bar"><i style="width:${pct}%"></i></div><p class="fine">Pass mark is 8 of 10 on each quiz. Progress is saved in this browser only. Sign-in and saved scores come later.</p>`;
+  if(n===M.length){h+=`<div class="stack"><b>All modules passed. Enter your name for a completion summary.</b><div class="row"><input class="inp" id="cname" style="max-width:320px" placeholder="Your name" value="${esc(LS.name||"")}"><button class="btn primary" id="cmake">Show summary</button></div><div id="cert"></div></div>`}
+  else h+=`<p class="small muted">Complete all eight modules to unlock a completion summary. It is a training record, not CE credit.</p>`;
+  $("#prog").innerHTML=h;
+  const mk=$("#cmake");if(mk)mk.onclick=()=>{const nm=$("#cname").value.trim()||"Learner";LS.name=nm;save();
+    $("#cert").innerHTML=`<div class="cert"><span class="eyebrow">Certificate of completion (prototype)</span><h2>${esc(nm)}</h2><p>has completed the DBQ Examiner Course, all eight modules at 80 percent or higher.</p><p class="fine">${new Date().toLocaleDateString()} &middot; Training record only. Not CE credit. Not legal or medical advice.</p></div>`};
+}
+
+/* ---------- course ---------- */
+let cur=0;
+function renderList(){
+  $("#mlist").innerHTML=M.map(m=>{const locked=m.id>0&&!passed(0)&&!LS.preview;const sc=LS.scores[m.id];
+    return `<button class="mi" data-m="${m.id}" ${locked?"disabled":""} aria-current="${m.id===cur}"><span class="no">${passed(m.id)?"&#10003;":m.id}</span><span class="tt">${esc(m.title)}<small>${locked?"Locked until Module 0 is passed":(sc!=null?"Best score "+sc+"/10":m.time)}</small></span></button>`}).join("")+`<label class="chk" style="margin-top:6px"><input type="checkbox" id="prev" ${LS.preview?"checked":""}> Educator preview: unlock all modules</label>`;
+  $("#prev").onchange=e=>{LS.preview=e.target.checked;save();renderList()};
+}
+$("#mlist").addEventListener("click",e=>{const b=e.target.closest("[data-m]");if(b&&!b.disabled){cur=+b.dataset.m;renderList();renderMod();if(innerWidth<900)$("#mod").scrollIntoView({behavior:reduce?"auto":"smooth"})}});
+function spotHTML(m){
+  const s=m.spot;return `<div class="stack"><h3>Activity</h3><p class="muted">${esc(m.activity)}</p><p class="small"><b>${esc(s.intro)}</b></p><div class="spot" id="spot">${s.items.map((it,i)=>`<label class="sp" data-i="${i}"><input type="checkbox"><span>${esc(it[0])}<span class="why" hidden></span></span></label>`).join("")}</div><div class="row"><button class="btn primary" id="spchk">Check my answers</button><span class="small muted" id="spres"></span></div></div>`}
+function bindSpot(m){
+  const s=m.spot;if(!s)return;
+  $("#spchk").onclick=()=>{let ok=0;$$("#spot .sp").forEach((el,i)=>{const it=s.items[i],on=el.querySelector("input").checked,right=on===it[1];if(right)ok++;el.classList.remove("ok","no");el.classList.add(right?"ok":"no");const w=el.querySelector(".why");w.hidden=false;w.textContent=(it[1]?"This is a problem. ":"This line is fine. ")+it[2]});
+    $("#spres").textContent=`${ok} of ${s.items.length} correct`;LS.spots[m.id]=ok;save()};
+}
+function quizHTML(m){
+  return `<div class="stack"><h3>Quiz: 10 questions</h3><p class="muted small">Pass mark is 8 of 10. Answers and reasons appear after you submit.</p><form class="qz" id="qz">${m.quiz.map((q,i)=>`<fieldset class="qq" data-q="${i}" style="border:1px solid var(--line)"><legend class="q" style="padding:0 6px">${i+1}. ${esc(q[0])}</legend>${q[1].map((o,j)=>`<label class="opt"><input type="radio" name="q${i}" value="${j}"><span>${esc(o)}</span></label>`).join("")}<div class="why" hidden></div></fieldset>`).join("")}<div class="row"><button class="btn primary lg" type="submit">Submit quiz</button></div></form><div id="qres"></div></div>`}
+function bindQuiz(m){
+  $("#qz").onsubmit=e=>{e.preventDefault();let sc=0,left=0;
+    m.quiz.forEach((q,i)=>{const box=$(`[data-q="${i}"]`),sel=$(`input[name="q${i}"]:checked`,box);
+      if(!sel){left++;return}
+      const v=+sel.value,right=v===q[2];if(right)sc++;
+      box.classList.toggle("right",right);box.classList.toggle("wrong",!right);
+      $$(".opt",box).forEach((o,j)=>{o.classList.remove("ans","bad");if(j===q[2])o.classList.add("ans");else if(j===v)o.classList.add("bad")});
+      const w=$(".why",box);w.hidden=false;w.textContent=(right?"Correct. ":"Not quite. ")+q[3]});
+    if(left){$("#qres").innerHTML=`<div class="score"><span>Answer all 10 questions first. ${left} left.</span></div>`;return}
+    const pass=sc>=8;const prev=LS.scores[m.id]||0;if(sc>prev){LS.scores[m.id]=sc;save()}
+    const next=M[m.id+1];
+    $("#qres").innerHTML=`<div class="score"><b>${sc} / 10</b><span class="pill ${pass?"ok":"bad"}">${pass?"Passed":"Not yet. Review the reasons above and retake."}</span><button class="btn sm" id="retake" type="button">Retake</button>${pass&&next?`<button class="btn sm primary" id="nextm" type="button">Next module</button>`:""}</div>`;
+    renderList();renderProg();
+    $("#retake").onclick=()=>renderMod();
+    const nb=$("#nextm");if(nb)nb.onclick=()=>{cur=next.id;renderList();renderMod();scrollTo({top:0})};
+  };
+}
+function renderMod(){
+  const m=M[cur];
+  let h=`<div class="meta"><span class="pill guided">Module ${m.id}</span><span class="pill">${esc(m.time)}</span><span class="pill">${esc(m.level)}</span></div><h2>${esc(m.title)}</h2>
+  <div class="own"><div><b>Ownership reminder</b><p>${esc(m.own)}</p></div></div>
+  <p class="lede" style="max-width:none">${esc(m.big)}</p>
+  <div class="stack"><h3>Objectives</h3><ul class="obj">${m.obj.map(o=>`<li>${esc(o)}</li>`).join("")}</ul></div>
+  <div class="stack"><h3>Lessons</h3>${m.lessons.map((l,i)=>`<details class="les" ${i===0?"open":""}><summary>${i+1}. ${esc(l[0])}</summary><p>${esc(l[1])}</p></details>`).join("")}</div>`;
+  if(m.spot)h+=spotHTML(m);
+  else h+=`<div class="stack"><h3>Activity</h3><p class="muted">${esc(m.activity)}</p></div>`;
+  if(m.tool==="goni")h+=`<div id="toolbox"></div>`;
+  if(m.tool==="viewer")h+=`<div id="toolbox"></div>`;
+  h+=quizHTML(m);
+  $("#mod").innerHTML=h;
+  bindSpot(m);bindQuiz(m);
+  if(m.tool==="goni")goni($("#toolbox"));
+  if(m.tool==="viewer")viewer($("#toolbox"));
+}
+
+/* ---------- goniometer practice ---------- */
+function goni(box){
+  const R=[["Knee flexion (active)",95],["Elbow flexion (active)",120],["Shoulder abduction (active)",150],["Hip flexion (active)",100],["Ankle plantar flexion (active)",35]];
+  let i=0,rec=[],val=0;
+  const cx=130,cy=120;
+  function draw(){
+    const t=R[i][1],tr=t*Math.PI/180,ar=val*Math.PI/180,L=100;
+    box.innerHTML=`<div class="tool"><h3>Goniometer practice</h3><p class="muted small">Neutral zero is a straight limb. The center of the goniometer (fulcrum) sits over the joint axis. The stationary arm (blue) follows the line of the bone above the joint. Turn the moving arm (red) until it lies along the bone below the joint, then read the angle. Round ${i+1} of ${R.length}: <b>${esc(R[i][0])}</b>.</p>
+    <svg viewBox="0 0 360 240" role="img" aria-label="Limb and goniometer"><line x1="${cx-110}" y1="${cy}" x2="${cx}" y2="${cy}" stroke="#7b8190" stroke-width="16" stroke-linecap="round"/><line x1="${cx}" y1="${cy}" x2="${cx+L*Math.cos(tr)}" y2="${cy+L*Math.sin(tr)}" stroke="#9aa1b1" stroke-width="16" stroke-linecap="round"/><circle cx="${cx}" cy="${cy}" r="11" fill="#f5f5f7" stroke="#5b6270" stroke-width="3"/><line x1="${cx}" y1="${cy}" x2="${cx+150}" y2="${cy}" stroke="#0a3d91" stroke-width="4" stroke-dasharray="1 0"/><line x1="${cx}" y1="${cy}" x2="${cx+150*Math.cos(ar)}" y2="${cy+150*Math.sin(ar)}" stroke="#b3112a" stroke-width="4"/><circle cx="${cx}" cy="${cy}" r="5" fill="#071c45"/><text x="12" y="28" font-size="13" fill="#5f5f66">Bone above joint</text></svg>
+    <div class="ctl"><label for="gs">Moving arm</label><input id="gs" type="range" min="0" max="180" value="${val}"><span class="big" id="gv">${val}&deg;</span></div>
+    <div class="row"><button class="btn primary" id="grec">Record this reading</button><span class="small" id="gfb"></span></div>
+    <div id="gtab"></div></div>`;
+    $("#gs").oninput=e=>{val=+e.target.value;$("#gv").innerHTML=val+"&deg;";
+      const ar2=val*Math.PI/180;const l=$$("svg line",box);l[3].setAttribute("x2",cx+150*Math.cos(ar2));l[3].setAttribute("y2",cy+150*Math.sin(ar2))};
+    $("#grec").onclick=()=>{const err=Math.abs(val-t);rec.push([R[i][0],val,t,err]);
+      $("#gfb").textContent=err<=5?`Within ${err} degrees of the true angle. Good placement.`:`Off by ${err} degrees. Recheck that the red arm lies along the lower bone and read at the end of motion.`;
+      $("#grec").disabled=true;
+      setTimeout(()=>{if(i<R.length-1){i++;val=0;draw();table()}else{box.innerHTML=final()}},reduce?0:1100);table()};
+    table();
+  }
+  function table(){const g=$("#gtab");if(!g)return;g.innerHTML=rec.length?`<table style="width:100%;border-collapse:collapse;font-size:.88rem"><tr><th align="left">Motion</th><th align="left">You recorded</th></tr>${rec.map(r=>`<tr><td>${esc(r[0])}</td><td>0 to ${r[1]} degrees ${r[3]<=5?"&#10003;":""}</td></tr>`).join("")}</table>`:""}
+  function final(){const ok=rec.filter(r=>r[3]<=5).length;return `<div class="tool"><h3>Practice complete</h3><p><b>${ok} of ${R.length}</b> readings within 5 degrees.</p><table style="width:100%;border-collapse:collapse;font-size:.9rem"><tr><th align="left">Motion</th><th align="left">You</th><th align="left">Actual</th></tr>${rec.map(r=>`<tr><td>${esc(r[0])}</td><td>${r[1]}</td><td>${r[2]}</td></tr>`).join("")}</table><p class="small muted">Record active values, passive values, where pain begins, and the result after three repetitions. Write only degrees you measured.</p><button class="btn" id="gagain">Practice again</button></div>`}
+  box.addEventListener("click",e=>{if(e.target.id==="gagain"){i=0;rec=[];val=0;draw()}});
+  draw();
+}
+
+/* ---------- animated record viewer ---------- */
+function viewer(box){
+  const PARTS=[["Task","List every entry mentioning right knee pain, oldest first.","t1"],["Scope","Service treatment records, 2010 to 2014.","t2"],["Output form","Return a table with date, document, page and exact quote.","t3"],["Guardrail","If you cannot find it, say so. Do not guess.","t4"]];
+  const ROWS=[
+   {d:"03/14/2012",doc:"Treatment note",p:41,q:"Right knee pain after a run. Ibuprofen given.",src:"p. 41  |  03/14/2012  |  Treatment note\n\"Right knee pain after a run. Ibuprofen given.\"",good:true,why:"Date, page and quote all match the source page."},
+   {d:"06/05/2012",doc:"Orthopedic consult",p:77,q:"Right knee instability since the 2012 run.",src:"p. 77  |  02/09/2013  |  Orthopedic consult\n\"Right knee instability since the 2012 run.\"",good:false,why:"The quote matches but the date does not. The page says 02/09/2013, not 06/05/2012."},
+   {d:"11/30/2014",doc:"Separation exam",p:112,q:"Right knee: ongoing pain with stairs.",src:"p. 112  |  11/30/2014  |  Separation exam\n\"Right knee: normal.\"",good:false,why:"The quote is invented. The page says \"Right knee: normal.\""}];
+  const MISSED="p. 233 | 06/20/2014 | \"Reports right knee giving way on stairs.\" The AI did not list this entry.";
+  let marks={},opened={};
+  box.innerHTML=`<div class="tool"><h3>Animated record viewer (fictional record)</h3><p class="muted small">A scripted walkthrough with no real AI. Press Play to watch a prompt typed and answered. Then open each cited page, mark each row verified or unverified, and reveal what the AI got wrong.</p>
+  <div class="vw"><div><b class="small">Record: 300 pages</b><div class="pgs" id="pgs"></div></div><div class="stack" style="gap:12px;min-width:0"><div class="pbox" id="pbox" aria-live="polite">Press Play to start.</div><div class="row"><button class="btn primary" id="vplay">Play</button><button class="btn ghost" id="vreset">Reset</button></div><div class="stack" style="gap:10px" id="rows"></div><div id="vfin"></div></div></div></div>`;
+  const pgs=$("#pgs");const hits=[41,77,112,233];
+  let h="";for(let n=1;n<=60;n++){h+=`<span class="pg" data-n="${n}">${n}</span>`}pgs.innerHTML=h+`<span class="pg" style="width:auto;padding:0 6px">&hellip; 300</span>`;
+  const sleep=ms=>new Promise(r=>setTimeout(r,reduce?0:ms));
+  let running=false,tok=0;
+  function reset(){tok++;running=false;marks={};opened={};$("#pbox").textContent="Press Play to start.";$("#rows").innerHTML="";$("#vfin").innerHTML="";$("#vplay").disabled=false}
+  $("#vreset").onclick=reset;
+  $("#vplay").onclick=async()=>{reset();const my=tok;$("#vplay").disabled=true;
+    const pb=$("#pbox");pb.innerHTML="";
+    for(const p of PARTS){const sp=document.createElement("span");sp.className="part "+p[2];pb.appendChild(sp);pb.appendChild(document.createTextNode(" "));
+      for(const ch of p[1]){if(my!==tok)return;sp.textContent+=ch;await sleep(14)}
+      sp.title=p[0];await sleep(260)}
+    pb.insertAdjacentHTML("beforeend",`<div class="small" style="margin-top:8px;font-family:var(--font)"><span class="pill guided">Task</span> <span class="pill warn">Scope</span> <span class="pill ok">Output form</span> <span class="pill bad">Guardrail</span></div>`);
+    await sleep(500);
+    for(let i=0;i<ROWS.length;i++){if(my!==tok)return;const r=ROWS[i];
+      const d=document.createElement("div");d.className="arow";d.dataset.i=i;
+      d.innerHTML=`<div><b>${r.d}</b> &middot; ${esc(r.doc)} &middot; p. ${r.p}<br>&ldquo;${esc(r.q)}&rdquo;<div class="src" hidden></div></div><div class="stack" style="gap:6px"><button class="btn sm" data-open="${i}">Open page</button><button class="btn sm" data-mk="${i}:1">Verified</button><button class="btn sm" data-mk="${i}:0">Unverified</button></div>`;
+      $("#rows").appendChild(d);const pg=$(`.pg[data-n="${r.p}"]`);if(pg)pg.classList.add("hit");await sleep(700)}
+    $("#vfin").innerHTML=`<p class="small muted">Open each page, compare it with the AI's row, then mark it. When all three are marked, press Reveal.</p><button class="btn primary" id="vrev">Reveal</button>`;
+    $("#vplay").disabled=false;
+  };
+  box.addEventListener("click",e=>{
+    const o=e.target.closest("[data-open]");if(o){const i=+o.dataset.open,row=$(`.arow[data-i="${i}"] .src`);row.hidden=false;row.textContent=ROWS[i].src;opened[i]=1;return}
+    const m=e.target.closest("[data-mk]");if(m){const [i,v]=m.dataset.mk.split(":");if(!opened[i]){toast("Open the page first. A page number is a pointer, not proof.");return}marks[i]=+v;
+      $$(`.arow[data-i="${i}"] [data-mk]`).forEach(b=>b.style.outline="");m.style.outline="3px solid var(--accent)";return}
+    if(e.target.id==="vrev"){if(Object.keys(marks).length<ROWS.length){toast("Mark all three rows first.");return}
+      let ok=0;const out=ROWS.map((r,i)=>{const right=(marks[i]===1)===r.good;if(right)ok++;return `<div class="find ${right?"lo":"hi"}"><span>Row ${i+1}: you marked ${marks[i]?"verified":"unverified"}. ${r.good?"It was correct.":"It was wrong."} ${esc(r.why)}</span></div>`}).join("");
+      $("#vfin").innerHTML=`<div class="stack" style="gap:8px"><b>${ok} of ${ROWS.length} marked correctly.</b>${out}<div class="find md"><span><b>Missed entry:</b> ${esc(MISSED)} Gaps in an AI answer are leads to check. Search the record yourself.</span></div><p class="small muted">Use log: date, tool, purpose, what you verified. Whatever you submit is yours.</p></div>`}
+  });
+}
+
+/* ---------- examples ---------- */
+function qaFor(r){
+  r=r||{};const c=[],m=[];
+  if(r.icd){c.push("ICD-10 code fits the diagnosis");m.push("AI may add a plausible code or date that is not in the record.")}
+  if(r.date){c.push("Dates match the record")}
+  if(r.num||r.deg){c.push("Numbers present, with units");m.push("AI may supply a measurement nobody took.")}
+  if(r.pain){c.push("Pain onset point stated")}
+  if(r.reps){c.push("Three-repetition result stated")}
+  if(r.because){c.push("Any \"cannot estimate\" has a specific reason");m.push("AI may write a smooth flare-up estimate with no basis.")}
+  if(r.kw){c.push(r.kwm||"Required element named")}
+  if(r.words){c.push("Detailed enough to be individual, not a template")}
+  if(!m.length)m.push("AI may sound complete while saying nothing specific to this veteran.");
+  c.push("Agrees with the other sections");
+  return {c:[...new Set(c)],m:m[0]};
+}
+const CATS=["All body systems",...[...new Set(EXS.map(e=>e.cat))]];
+$("#exc").innerHTML=CATS.map(c=>`<option>${esc(c)}</option>`).join("");
+function renderEx(){
+  const q=$("#exq").value.toLowerCase(),c=$("#exc").value;
+  const list=EXS.filter(e=>(c===CATS[0]||e.cat===c)&&(!q||(e.name+" "+e.cat).toLowerCase().includes(q)));
+  $("#excount").textContent=`${list.length} of ${EXS.length} examples`;
+  $("#exlist").className="stack"+($("#exw").checked?"":" hidew");
+  $("#exlist").innerHTML=list.map(e=>`<details class="exc"><summary><div><span class="pill guided">Example ${e.n}</span> <span class="pill">${esc(e.cat)}</span><h3 style="margin-top:6px">${esc(e.name)}</h3></div><span class="small muted">${e.fields.length} fields</span></summary><div class="exb"><p class="small muted">Fictional veteran. Exam year 2026. Every value below is made up for teaching. Read the strong version first, then see what it replaced.</p>${e.fields.map(f=>{const q=qaFor(f.rules);return `<div class="fx"><h4><span>${esc(f.label)}</span><span class="pill">${esc(f.sec||"")}</span></h4>${f.hint?`<p class="h">${esc(f.hint)}</p>`:""}<div class="good"><b>Strong</b>${esc(f.good)}</div><div class="weak"><b>Weak</b>${esc(f.weak)}</div><div class="qa-lens" aria-label="What QA checks">${q.c.map(x=>`<span class="pill">QA: ${esc(x)}</span>`).join("")}</div><p class="miss">Where AI slips: ${esc(q.m)}</p></div>`}).join("")}<div class="row"><button class="btn sm" data-copy="${e.n}">Copy strong version as text</button></div></div></details>`).join("")||`<p class="muted">No examples match.</p>`;
+}
+$("#exq").oninput=renderEx;$("#exc").onchange=renderEx;$("#exw").onchange=renderEx;
+$("#exlist").addEventListener("click",e=>{const b=e.target.closest("[data-copy]");if(!b)return;const ex=EXS.find(x=>x.n==+b.dataset.copy);copy(ex.name+"\n\n"+ex.fields.map(f=>f.label+"\n"+f.good).join("\n\n"))});
+
+/* ---------- QA scan ---------- */
+const QALIST=["Every question is answered, or has a reason it is not.","Every number is one the examiner measured, with units.","Left and right are consistent in every section.","Sections agree: gait, devices, function and findings do not conflict.","Dates and codes match the record.","Flare-ups have frequency, duration, effect and an estimate or a specific reason.","The opinion has a conclusion, the standard, evidence and reasoning.","The wording is individual, not copied from another report.","No placeholders, leftover instructions or identifying information.","The examiner can explain every statement. If you put it in, it belongs to you."];
+$("#qalist").innerHTML=QALIST.map(x=>`<li>${esc(x)}</li>`).join("");
+const SAMPLE="Diagnosis: right knee degenerative arthritis, M17.11, diagnosed 03/2022. History: injured the left knee in 2008, pain since. Range of motion: some limitation with pain. After three repetitions, flexion improved to 110 degrees. Flare-ups: unable to say. Gait: normal. Assistive device: uses a cane for all walking. Opinion: [PASTE OPINION HERE] It is at least as likely as not that this is related to service. Functional impact: affects work.";
+$("#qasamp").onclick=()=>{$("#qain").value=SAMPLE};
+$("#qarun").onclick=()=>{
+  const t=$("#qain").value,out=[];const add=(lv,msg)=>out.push(`<div class="find ${lv}"><span>${msg}</span></div>`);
+  if(!t.trim()){$("#qaout").innerHTML=`<p class="muted small">Paste a practice report first.</p>`;return}
+  if(/\[[^\]]*(paste|insert|tbd|todo|name|date)[^\]]*\]|\bTBD\b|lorem ipsum|\bXXX+\b/i.test(t))add("hi","Placeholder or leftover instruction found. A section was not completed.");
+  if(/\b\d{3}-\d{2}-\d{4}\b|\bssn\b|\bdob\b|date of birth|\bfile (no|number)\b/i.test(t))add("hi","Possible identifying information. Remove it under your program's process.");
+  if(/\bright\b/i.test(t)&&/\bleft\b/i.test(t))add("md","Both right and left appear. Confirm each statement names the correct side and that sections agree.");
+  if(/gait[^.]{0,30}normal/i.test(t)&&/(cane|walker|wheelchair|crutch)/i.test(t))add("hi","Possible contradiction: normal gait with an assistive device. Reconcile them.");
+  const vague=t.match(/\b(some|limited|limitation|mild|moderate|normal|stable|reduced|affects work|good|poor)\b/gi);
+  if(vague)add("md",`Vague wording: ${[...new Set(vague.map(x=>x.toLowerCase()))].join(", ")}. Replace with a measurement, a time, a distance or a weight where you can.`);
+  if(/range of motion/i.test(t)&&!/\d+\s*(degrees|°)/i.test(t))add("hi","Range of motion is mentioned without any measurement in degrees.");
+  if(/repetition/i.test(t)&&!/(three|\b3\b)/i.test(t))add("md","Repetitions are mentioned but the count is not stated.");
+  const rep=t.match(/(\d+)\s*to\s*(\d+)\s*degrees[^.]*?repetition[^.]*?(\d+)\s*degrees/i);
+  if(/improved|better|increased/i.test(t)&&/repetition/i.test(t))add("hi","Motion is said to improve after repetition. That is unusual. Check the measurements and explain it.");
+  if(/unable to (determine|say|estimate)/i.test(t)&&!/unable to (determine|say|estimate)[^.]{0,100}(because|due to|since|as the)/i.test(t))add("hi","\"Unable to say\" with no reason. Give a specific reason or an estimate.");
+  const om=t.search(/at least as likely as not/i);
+  if(om>=0&&!/(because|reasons?:|based on|documented|the record shows|supported by)/i.test(t.slice(om,om+300)))add("hi","Opinion standard stated with no reasoning or evidence.");
+  const nov=t.match(/\b\d{1,3}\b(?!\s*(degrees|°|cm|mm|pounds|lbs|minutes|hours|%|percent|mets|mg|times|days|weeks|months|years|blocks|feet|ft|\/|,\s*\d{4}|\d))/gi);
+  if(nov&&nov.length>3)add("lo","Several numbers appear without clear units. Check that each has its unit.");
+  if(!out.length)add("lo","No problems found by this simple scan. A real QA reviewer would still check the record, the numbers and the reasoning.");
+  $("#qaout").innerHTML=out.join("")+`<p class="fine">This is a teaching scan. Your own review and a real QA process are still required.</p>`;
+};
+
+/* ---------- init ---------- */
+renderProg();renderList();renderMod();renderEx();
+const h=(location.hash||"").slice(1);go(["over","course","ex","qa"].includes(h)?h:"over");
+})();
+
+</script>
+</body>
+</html>
