@@ -1,1 +1,12 @@
-
+{
+  "rewrites": [
+    {
+      "source": "/dbq-studio",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/dbq-studio/:path*",
+      "destination": "/:path*"
+    }
+  ]
+}
