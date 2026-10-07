@@ -179,6 +179,25 @@ ul.plain{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px}
 .wf{border-radius:16px;padding:14px;background:var(--bg2);display:flex;flex-direction:column;gap:10px;min-width:0}
 .tag{font-size:.7rem;font-weight:650;text-transform:uppercase;letter-spacing:.12em;color:var(--red)}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important}}
+
+/* hero photo card */
+.herocard{position:relative;isolation:isolate;overflow:hidden;border-radius:32px;margin-inline:auto;max-width:1120px;padding:clamp(56px,11vw,128px) clamp(22px,6vw,72px) clamp(44px,8vw,88px);color:#fff;box-shadow:0 30px 80px -30px rgba(7,28,69,.55),0 0 0 1px rgba(255,255,255,.06) inset;background:var(--navy)}
+.herocard .hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:62% 40%;z-index:-3;transform:scale(1.02)}
+.herocard .hero-ov{position:absolute;inset:0;z-index:-2;background:radial-gradient(120% 90% at 85% 0%,rgba(179,17,42,.28),transparent 55%),radial-gradient(110% 100% at 10% 100%,rgba(10,61,145,.55),transparent 60%),linear-gradient(180deg,rgba(7,28,69,.70) 0%,rgba(7,28,69,.84) 100%)}
+.herocard .hero-ov::after{content:"";position:absolute;inset:0;backdrop-filter:saturate(120%) blur(2px);-webkit-backdrop-filter:saturate(120%) blur(2px);-webkit-mask-image:linear-gradient(180deg,transparent 40%,#000);mask-image:linear-gradient(180deg,transparent 40%,#000)}
+.herocard .hero{max-width:760px;position:relative}
+.herocard h1{color:#fff;text-shadow:0 2px 24px rgba(0,0,0,.25)}
+.herocard .grad{background:linear-gradient(95deg,#ffffff 5%,#ffb3be 95%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.herocard .eyebrow{color:#fff;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);padding:7px 14px;border-radius:999px;-webkit-backdrop-filter:blur(14px) saturate(160%);backdrop-filter:blur(14px) saturate(160%)}
+.herocard .lede{color:rgba(255,255,255,.86)}
+.herocard .fine{color:rgba(255,255,255,.72)}
+.herocard .stripe{background:linear-gradient(90deg,#ff5d73 0 34%,rgba(255,255,255,.4) 34% 38%,#fff 38% 100%)}
+.herocard .btn.primary{background:#fff;color:var(--navy);border-color:transparent}
+.herocard .btn.ghost{background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.35);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+.herocard .credit{position:absolute;right:18px;bottom:12px;font-size:.7rem;color:rgba(255,255,255,.6)}
+.herocard .credit a{color:inherit}
+@media (prefers-reduced-motion:no-preference){.herocard .hero-img{animation:heroin 1.4s cubic-bezier(.2,.8,.2,1) both}@keyframes heroin{from{opacity:0;transform:scale(1.08)}to{opacity:1;transform:scale(1.02)}}}
+@media (max-width:640px){.herocard{border-radius:24px}.herocard .hero-img{object-position:68% 30%}}
 </style>
 </head>
 <body>
@@ -195,7 +214,10 @@ ul.plain{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px}
 
 <!-- HOME -->
 <section class="view on" id="v-start">
-  <div class="hero">
+  <div class="herocard">
+    <img class="hero-img" src="/dbq-studio/hero-examiner.jpg" alt="A clinician in a white lab coat seated beside an older veteran during an examination" width="1600" height="1067" fetchpriority="high" decoding="async">
+    <div class="hero-ov" aria-hidden="true"></div>
+    <div class="hero">
     <div class="stripe" aria-hidden="true"></div>
     <span class="eyebrow">A training studio for clinicians</span>
     <h1>Write a DBQ that <span class="grad">holds up.</span></h1>
@@ -205,6 +227,8 @@ ul.plain{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px}
       <button class="btn ghost lg" data-go="library">Browse all forms</button>
     </div>
     <p class="fine"><span id="nForms">68</span> guided forms &middot; <span id="nCats">20</span> body systems &middot; every example is synthetic</p>
+  </div>
+    <span class="credit">Photo: <a href="https://unsplash.com/photos/doctor-talks-with-an-elderly-patient-on-a-couch-BUNNEclz-yQ" target="_blank" rel="noopener">Vitaly Gariev / Unsplash</a></span>
   </div>
 
   <div class="preview" aria-label="Preview of the builder">
