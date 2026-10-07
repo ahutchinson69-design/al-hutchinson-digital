@@ -198,6 +198,38 @@ ul.plain{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px}
 .herocard .credit a{color:inherit}
 @media (prefers-reduced-motion:no-preference){.herocard .hero-img{animation:heroin 1.4s cubic-bezier(.2,.8,.2,1) both}@keyframes heroin{from{opacity:0;transform:scale(1.08)}to{opacity:1;transform:scale(1.02)}}}
 @media (max-width:640px){.herocard{border-radius:24px}.herocard .hero-img{object-position:68% 30%}}
+
+/* ===== Apple button specification (pill, 17px, #0071e3) ===== */
+.btn{font-family:inherit;font-size:1.0625rem;font-weight:400;letter-spacing:-.022em;line-height:1.17648;min-height:44px;padding:0 21px;border-radius:980px;white-space:nowrap;transition:background-color .2s ease,color .2s ease,border-color .2s ease,transform .25s var(--spring)}
+.btn.sm{font-size:.875rem;min-height:34px;padding:0 15px;letter-spacing:-.016em}
+.btn.lg{font-size:1.0625rem;min-height:48px;padding:0 24px}
+.btn.primary{background:#0071e3;border:1px solid #0071e3;color:#fff}
+.btn.primary:hover{background:#0077ed;border-color:#0077ed;filter:none}
+.btn.primary:active{background:#006edb;border-color:#006edb;transform:none}
+.btn.ghost{background:transparent;border:1px solid #0071e3;color:#0066cc}
+.btn.ghost:hover{background:#0071e3;color:#fff;border-color:#0071e3}
+.btn.ghost:active{background:#006edb;color:#fff}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .btn.ghost{color:#2997ff;border-color:#2997ff}:root:not([data-theme="light"]) .btn.ghost:hover{background:#0071e3;color:#fff;border-color:#0071e3}}
+:root[data-theme="dark"] .btn.ghost{color:#2997ff;border-color:#2997ff}:root[data-theme="dark"] .btn.ghost:hover{background:#0071e3;color:#fff;border-color:#0071e3}
+.btn:focus-visible{outline:2px solid #0071e3;outline-offset:2px}
+.btn:active{transform:scale(.98)}
+/* hero: landscape, left-aligned copy, matched colors */
+.herocard{display:block;min-height:0;aspect-ratio:2/1;max-height:640px;min-height:480px;padding:clamp(36px,5vw,64px) clamp(24px,5vw,64px);display:flex;flex-direction:column;justify-content:center;background:#071c45}
+.herocard .hero-img{left:auto;right:0;width:76%;object-position:40% 28%;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 34%);mask-image:linear-gradient(90deg,transparent 0,#000 34%)}
+.herocard .hero-ov{background:linear-gradient(90deg,rgba(7,28,69,.97) 0%,rgba(7,28,69,.90) 34%,rgba(7,28,69,.50) 62%,rgba(7,28,69,.30) 100%)}
+.herocard .hero-ov::after{display:none}
+.herocard .hero{align-items:flex-start;text-align:left;max-width:520px;margin:0;gap:18px}
+.herocard .hero .row.center{justify-content:flex-start}
+.herocard h1{font-size:clamp(2.4rem,5.2vw,4.1rem);letter-spacing:-.04em;color:#fff}
+.herocard .grad{background:linear-gradient(95deg,#7db4ff 0%,#ffffff 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.herocard .eyebrow{background:rgba(125,180,255,.16);border-color:rgba(125,180,255,.4);color:#cfe3ff}
+.herocard .lede{color:rgba(255,255,255,.88);max-width:480px}
+.herocard .fine{color:rgba(255,255,255,.7)}
+.herocard .btn.primary{background:#0071e3;color:#fff;border-color:#0071e3}
+.herocard .btn.primary:hover{background:#0077ed;border-color:#0077ed}
+.herocard .btn.ghost{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.7);-webkit-backdrop-filter:none;backdrop-filter:none}
+.herocard .btn.ghost:hover{background:#fff;color:#071c45;border-color:#fff}
+@media (max-width:760px){.herocard{aspect-ratio:auto;min-height:620px;justify-content:flex-end}.herocard .hero-img{width:100%;height:62%;-webkit-mask-image:linear-gradient(180deg,#000 55%,transparent);mask-image:linear-gradient(180deg,#000 55%,transparent)}.herocard .hero-ov{background:linear-gradient(180deg,rgba(7,28,69,.15) 0%,rgba(7,28,69,.55) 35%,rgba(7,28,69,.97) 68%)}.herocard .hero{align-items:center;text-align:center;max-width:none}.herocard .hero .row.center{justify-content:center}}
 </style>
 </head>
 <body>
