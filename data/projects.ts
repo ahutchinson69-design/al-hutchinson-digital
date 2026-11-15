@@ -463,9 +463,9 @@ export const projects: Project[] = [
     categoryLabel: "Book",
     status: "Published",
     featured: true,
-    // No cover file has been supplied yet. Add it under /public/images/projects/
-    // and set `image` and `imageAlt`; until then the generated graphic is shown.
-    image: null,
+    image: "/images/projects/family-caregivers-toolkit.jpg",
+    imageAlt:
+      "The book cover: “Family Caregiver’s Toolkit: Navigating the Path of In-Home Elder Care” by Al Hutchinson, MSN, RN, APRN, in soft green with a photograph of two people’s clasped hands.",
     contentStatus: "final",
     liveHeading: "Get the book",
     liveUrl:
