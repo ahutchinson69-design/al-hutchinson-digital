@@ -1,5 +1,5 @@
 /**
- * Home — ten sections, in order.
+ * Home — eleven sections, in order.
  * Every section is a server component except the hero, which animates on load.
  */
 
@@ -10,8 +10,9 @@ import { FeaturedProjects } from "@/components/home/FeaturedProjects";
 import { HealthcareAIFeature } from "@/components/home/HealthcareAIFeature";
 import { CareerTimeline } from "@/components/home/CareerTimeline";
 import { CurrentlyExploring } from "@/components/home/CurrentlyExploring";
-import { InsightsPreview } from "@/components/home/InsightsPreview";
+import { BlogPreview } from "@/components/home/BlogPreview";
 import { MediaFeature } from "@/components/home/MediaFeature";
+import { BookingSection } from "@/components/home/BookingSection";
 import { CallToAction } from "@/components/CallToAction";
 
 export default function HomePage() {
@@ -24,7 +25,8 @@ export default function HomePage() {
       <HealthcareAIFeature />
       <CareerTimeline />
       <CurrentlyExploring />
-      <InsightsPreview />
+      <BlogPreview />
+      <BookingSection />
       <MediaFeature />
       <CallToAction />
     </>

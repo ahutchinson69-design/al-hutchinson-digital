@@ -231,7 +231,7 @@ export default function TeachingPage() {
         eyebrow="Teaching"
         heading="Need practical AI training for your team?"
         body="If your staff are already using these tools without a framework for judging the output, that gap is worth closing."
-        secondary={{ label: "Read Insights", href: "/insights" }}
+        secondary={{ label: "Read the Blog", href: "/blog" }}
       />
     </>
   );

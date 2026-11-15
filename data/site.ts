@@ -47,8 +47,12 @@ export const site = {
   tagline:
     "Building practical connections between healthcare, artificial intelligence, education, and creativity.",
 
-  /** Default meta description. */
+  /** Default meta description. Kept under ~160 characters so search results show it whole. */
   description:
+    "Al Hutchinson, MSN, RN, AGPCNP-C: nurse practitioner, veteran and healthcare educator building practical AI tools, teaching and writing for healthcare teams.",
+
+  /** Longer one-line biography, for places with room for it (llms.txt). */
+  bio:
     "Alonda “Al” Hutchinson, MSN, RN, AGPCNP-C — board-certified Adult-Gerontology Primary Care Nurse Practitioner, Fleet Marine Force veteran, retired critical care paramedic, healthcare educator, and DNP candidate working on practical AI for healthcare.",
 
   /**
@@ -59,8 +63,12 @@ export const site = {
    * appear in a domain name — only letters, digits and hyphens are legal. The
    * registrable equivalent is alhutchinsondigital.com. Update this line if you
    * buy a different one.
+   *
+   * The site is served from the www host (the bare domain redirects to it), so
+   * this must be the www address: canonical tags and the sitemap should name
+   * the address that actually answers, not one that redirects.
    */
-  url: "https://alhutchinsondigital.com",
+  url: "https://www.alhutchinsondigital.com",
 
   /** Monitored contact address. */
   email: "AlhutchinsonAPRN@outlook.com",
@@ -104,7 +112,7 @@ export const primaryNav = [
   { label: "Projects", href: "/projects" },
   { label: "Healthcare AI", href: "/healthcare-ai" },
   { label: "Teaching", href: "/teaching" },
-  { label: "Insights", href: "/insights" },
+  { label: "Blog", href: "/blog" },
   { label: "Contact", href: "/contact" },
 ] as const;
 
@@ -128,13 +136,14 @@ export const footerNav = [
     heading: "Work",
     links: [
       { label: "Teaching", href: "/teaching" },
-      { label: "Insights", href: "/insights" },
+      { label: "Blog", href: "/blog" },
       { label: "Media", href: "/media" },
     ],
   },
   {
     heading: "Connect",
     links: [
+      { label: "Book a session", href: "/book" },
       { label: "Contact", href: "/contact" },
       { label: "Privacy", href: "/privacy" },
       { label: "Accessibility", href: "/accessibility" },

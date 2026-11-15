@@ -91,8 +91,8 @@ export function Header() {
           <div className="flex items-center gap-2">
             {/* Display lives on the wrapper: Button's base sets inline-flex. */}
             <span className="hidden sm:inline-flex">
-              <Button href="/projects" size="sm" withArrow>
-                View My Work
+              <Button href="/book" size="sm" withArrow>
+                Book a Session
               </Button>
             </span>
 

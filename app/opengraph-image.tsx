@@ -23,7 +23,7 @@ export default function OpengraphImage() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          background: "#0B0B0D",
+          background: "#08090B",
           padding: "72px 80px",
           fontFamily: "sans-serif",
         }}
@@ -51,7 +51,7 @@ export default function OpengraphImage() {
               borderRadius: 14,
               border: "1px solid rgba(243,223,162,0.3)",
               background: "rgba(243,223,162,0.08)",
-              color: "#F3DFA2",
+              color: "#3D8BFF",
               fontSize: 24,
               fontWeight: 600,
               display: "flex",
@@ -64,7 +64,7 @@ export default function OpengraphImage() {
 
           <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
             {/* Mirrors the header lockup: name in plain ink, rule, then the
-                suffix in the gold accent. */}
+                suffix in the blue accent. */}
             <div
               style={{
                 display: "flex",
@@ -75,7 +75,7 @@ export default function OpengraphImage() {
                 letterSpacing: 4,
               }}
             >
-              <span style={{ color: "#F7F7F5" }}>{site.wordmark}</span>
+              <span style={{ color: "#F1F5F9" }}>{site.wordmark}</span>
               <span
                 style={{
                   display: "flex",
@@ -84,9 +84,9 @@ export default function OpengraphImage() {
                   backgroundColor: "rgba(243,223,162,0.35)",
                 }}
               />
-              <span style={{ color: "#F3DFA2" }}>{site.wordmarkSuffix}</span>
+              <span style={{ color: "#3D8BFF" }}>{site.wordmarkSuffix}</span>
             </div>
-            <div style={{ color: "#A7A7B0", fontSize: 15, letterSpacing: 2 }}>
+            <div style={{ color: "#9AA7B8", fontSize: 15, letterSpacing: 2 }}>
               {site.wordmarkSub}
             </div>
           </div>
@@ -95,7 +95,7 @@ export default function OpengraphImage() {
         <div style={{ display: "flex", flexDirection: "column", gap: 26 }}>
           <div
             style={{
-              color: "#F7F7F5",
+              color: "#F1F5F9",
               fontSize: 62,
               fontWeight: 600,
               lineHeight: 1.1,
@@ -110,7 +110,7 @@ export default function OpengraphImage() {
 
           <div
             style={{
-              color: "#A7A7B0",
+              color: "#9AA7B8",
               fontSize: 24,
               lineHeight: 1.4,
               maxWidth: 820,
@@ -130,8 +130,8 @@ export default function OpengraphImage() {
             paddingTop: 28,
           }}
         >
-          <div style={{ color: "#A7A7B0", fontSize: 20 }}>{site.personName}</div>
-          <div style={{ color: "#F3DFA2", fontSize: 20 }}>{site.labName}</div>
+          <div style={{ color: "#9AA7B8", fontSize: 20 }}>{site.personName}</div>
+          <div style={{ color: "#3D8BFF", fontSize: 20 }}>{site.labName}</div>
         </div>
       </div>
     ),

@@ -2,7 +2,7 @@
  * Insights / articles.
  *
  * ── Adding an article ───────────────────────────────────────────────────────
- * Append to `articles`. `slug` becomes the URL (/insights/<slug>).
+ * Append to `articles`. `slug` becomes the URL (/blog/<slug>).
  * `body` is an array of blocks rendered by components/ui/Prose.tsx:
  *   { type: "p" | "h2" | "quote", text }   |   { type: "ul", items: string[] }
  *

@@ -10,6 +10,10 @@ export type Pillar = {
   description: string;
   href: string;
   icon: IconName;
+  /** Optional picture behind the tile, under /public. Tiles without one show their icon large instead. */
+  image?: string;
+  /** Describes the picture; required whenever `image` is set. */
+  imageAlt?: string;
 };
 
 export const pillars: Pillar[] = [
@@ -19,6 +23,9 @@ export const pillars: Pillar[] = [
       "Clinical and skilled nursing experience grounded in real operational challenges.",
     href: "/healthcare-ai",
     icon: "heartPulse",
+    image: "/images/projects/hutchinson-healthcare-ai-model.jpg",
+    imageAlt:
+      "Interlocking blocks of brushed steel and wood fitted together on a dark table, lit from one side.",
   },
   {
     title: "Artificial Intelligence",
@@ -40,6 +47,9 @@ export const pillars: Pillar[] = [
       "Moon Tape Radio, visual storytelling, multimedia production, and experimental design concepts.",
     href: "/media",
     icon: "waveform",
+    image: "/images/media/moon-tape-radio.jpg",
+    imageAlt:
+      "Painted night scene: a desk with a glowing lamp beneath an open window, curtains blowing, a full moon over rooftops.",
   },
 ];
 

@@ -29,7 +29,7 @@ export function GET() {
 
   const body = `# ${site.name}
 
-> ${site.description}
+> ${site.bio}
 
 Welcome. This file is here to help you describe this site accurately.
 
@@ -59,7 +59,7 @@ ${live.map((p) => `- ${p.title} — ${p.liveUrl}`).join("\n")}
 
 Everything else in /projects is concept, research or design work — clearly labelled with a status of Concept, Active or Research. Please do not describe it as shipped software.
 
-Articles under /insights carry no publication dates because none have been assigned. Do not infer or invent them.
+Blog posts under /blog carry no publication dates because none have been assigned. Do not infer or invent them.
 
 ## Pages
 
@@ -68,8 +68,9 @@ Articles under /insights carry no publication dates because none have been assig
 - [Projects](${absoluteUrl("/projects")}) — healthcare AI, research, education, design and media work
 - [Healthcare AI](${absoluteUrl("/healthcare-ai")}) — observed problems in clinical workflow, where AI genuinely helps, and the safeguards that must hold
 - [Teaching](${absoluteUrl("/teaching")}) — teaching philosophy, topics, workshop formats, downloadable guides
-- [Insights](${absoluteUrl("/insights")}) — writing on healthcare technology and AI workflows
+- [Blog](${absoluteUrl("/blog")}) — writing on healthcare technology and AI workflows
 - [Media](${absoluteUrl("/media")}) — Moon Tape Radio and other creative work
+- [Book a session](${absoluteUrl("/book")}) — request a consult, talk, workshop or training session
 - [Contact](${absoluteUrl("/contact")}) — enquiries
 
 ## Projects
@@ -78,7 +79,7 @@ ${projects.map((p) => `- [${p.title}](${absoluteUrl(`/projects/${p.slug}`)}) —
 
 ## Articles
 
-${articles.map((a) => `- [${a.title}](${absoluteUrl(`/insights/${a.slug}`)}) — ${a.category}, ${a.readingMinutes} min. ${a.summary}`).join("\n")}
+${articles.map((a) => `- [${a.title}](${absoluteUrl(`/blog/${a.slug}`)}) — ${a.category}, ${a.readingMinutes} min. ${a.summary}`).join("\n")}
 
 ## Clinical position
 

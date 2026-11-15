@@ -130,7 +130,7 @@ export default async function ProjectDetailPage({
               ) : null}
 
               {project.solution?.length ? (
-                <Section title="Proposed approach">
+                <Section title={project.solutionHeading ?? "Proposed approach"}>
                   <BulletList items={project.solution} />
                 </Section>
               ) : null}
@@ -174,7 +174,7 @@ export default async function ProjectDetailPage({
             {/* ── Sidebar ─────────────────────────────────────────────── */}
             <aside className="flex flex-col gap-8 lg:sticky lg:top-28 lg:self-start">
               {project.liveUrl ? (
-                <SidebarBlock title="Live">
+                <SidebarBlock title={project.liveHeading ?? "Live"}>
                   <Button
                     href={project.liveUrl}
                     size="sm"
@@ -185,6 +185,19 @@ export default async function ProjectDetailPage({
                     <ExternalLink aria-hidden="true" className="size-4" />
                     <span className="sr-only">(opens in a new tab)</span>
                   </Button>
+                  {project.secondaryUrl ? (
+                    <Button
+                      href={project.secondaryUrl}
+                      variant="secondary"
+                      size="sm"
+                      external
+                      className="w-fit"
+                    >
+                      {project.secondaryLabel ?? "Another edition"}
+                      <ExternalLink aria-hidden="true" className="size-4" />
+                      <span className="sr-only">(opens in a new tab)</span>
+                    </Button>
+                  ) : null}
                 </SidebarBlock>
               ) : null}
 

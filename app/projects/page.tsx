@@ -34,7 +34,7 @@ export default function ProjectsPage() {
       <CallToAction
         heading="Working on something similar?"
         body="If any of this overlaps with a problem you are facing, I would be glad to compare notes."
-        secondary={{ label: "Read Insights", href: "/insights" }}
+        secondary={{ label: "Read the Blog", href: "/blog" }}
       />
     </>
   );

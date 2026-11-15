@@ -5,7 +5,7 @@ import { PlaceholderNotice } from "@/components/ui/PlaceholderNotice";
 
 export const metadata = pageMetadata({
   title: "Privacy",
-  description: `Privacy information for ${site.name}.`,
+  description: `How ${site.name} handles the information you send through the contact and booking forms, and what the site does and does not collect.`,
   path: "/privacy",
 });
 
@@ -22,25 +22,27 @@ export default function PrivacyPage() {
         <div className="mx-auto flex max-w-2xl flex-col gap-8">
           <PlaceholderNotice>
             This is a working outline, not a finished privacy policy. Replace it
-            with a reviewed policy before the site handles any real submissions —
-            particularly if the contact form is connected to a backend or any
-            analytics are added.
+            with a reviewed policy. The contact and booking forms send what you
+            enter by email, as described below; update this page if analytics or
+            any other data handling are added.
           </PlaceholderNotice>
 
           <Section title="What is collected">
             <p>
-              As currently built, this site is entirely static. It runs no
-              analytics, sets no cookies, and stores nothing about visitors.
+              This site runs no analytics and sets no cookies. It stores nothing
+              about visitors. The only information it handles is what you choose
+              to send through the contact and booking forms.
             </p>
           </Section>
 
-          <Section title="The contact form">
+          <Section title="The contact and booking forms">
             <p>
-              The contact form is not connected to a backend. Details entered into
-              it are validated in your browser and are never transmitted or
-              stored anywhere. If a backend is added later, this section must be
-              updated to describe where submissions go, who can read them, and how
-              long they are kept.
+              When you send either form, the details you entered (your name,
+              email address, organization if given, and your message or
+              requested times) are sent to my inbox as an email through Resend,
+              an email delivery service. The site itself keeps no copy. I use
+              those details only to reply to you. Please do not include patient
+              information or anything confidential.
             </p>
           </Section>
 

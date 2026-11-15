@@ -27,14 +27,14 @@ export async function generateMetadata({
     return pageMetadata({
       title: "Article not found",
       description: "This article could not be found.",
-      path: `/insights/${slug}`,
+      path: `/blog/${slug}`,
     });
   }
 
   return pageMetadata({
     title: article.title,
     description: article.summary,
-    path: `/insights/${article.slug}`,
+    path: `/blog/${article.slug}`,
     type: "article",
   });
 }
@@ -59,14 +59,14 @@ export default async function ArticlePage({
 
           <div className="shell relative pt-28 pb-12 sm:pt-32 md:pt-40 md:pb-16">
             <Link
-              href="/insights"
+              href="/blog"
               className="group inline-flex items-center gap-2 text-sm text-ink-muted transition-colors hover:text-accent"
             >
               <ArrowLeft
                 aria-hidden="true"
                 className="size-4 transition-transform duration-300 motion-safe:group-hover:-translate-x-1"
               />
-              All insights
+              All posts
             </Link>
 
             <div className="mt-8 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-ink-muted">
@@ -111,7 +111,7 @@ export default async function ArticlePage({
           <section className="border-t border-hairline bg-canvas-2">
             <div className="shell section-y">
               <h2 className="text-2xl font-semibold sm:text-3xl">
-                More insights
+                More posts
               </h2>
 
               <div className="mt-10 grid gap-5 md:grid-cols-2">
@@ -128,7 +128,7 @@ export default async function ArticlePage({
         eyebrow="Discuss this"
         heading="Disagree, or seen it differently?"
         body="If you work in one of these environments and your experience does not match what is written here, I would like to know."
-        secondary={{ label: "More Insights", href: "/insights" }}
+        secondary={{ label: "More Posts", href: "/blog" }}
       />
 
       <script
@@ -143,8 +143,8 @@ export default async function ArticlePage({
           __html: JSON.stringify(
             breadcrumbJsonLd([
               { name: "Home", path: "/" },
-              { name: "Insights", path: "/insights" },
-              { name: article.title, path: `/insights/${article.slug}` },
+              { name: "Blog", path: "/blog" },
+              { name: article.title, path: `/blog/${article.slug}` },
             ]),
           ),
         }}
