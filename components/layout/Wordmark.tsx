@@ -36,7 +36,7 @@ export function Wordmark({
       <span className="flex flex-col leading-none">
         {/*
           "AL HUTCHINSON | DIGITAL". The name is set in the plain ink and the
-          suffix in the gold accent, so the two halves read as distinct without
+          suffix in the blue accent, so the two halves read as distinct without
           either one shouting. The rule between them is a real element rather
           than a typed pipe character — its height and colour are controllable
           and screen readers do not announce it.

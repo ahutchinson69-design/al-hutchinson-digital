@@ -56,8 +56,8 @@ export function PortraitPlaceholder({
       >
         <defs>
           <radialGradient id="portrait-halo" cx="50%" cy="42%" r="46%">
-            <stop offset="0%" stopColor="#f3dfa2" stopOpacity="0.16" />
-            <stop offset="100%" stopColor="#f3dfa2" stopOpacity="0" />
+            <stop offset="0%" stopColor="#3d8bff" stopOpacity="0.16" />
+            <stop offset="100%" stopColor="#3d8bff" stopOpacity="0" />
           </radialGradient>
         </defs>
 
@@ -71,7 +71,7 @@ export function PortraitPlaceholder({
             cy="212"
             r={r}
             fill="none"
-            stroke="#f3dfa2"
+            stroke="#3d8bff"
             strokeOpacity={0.1 + i * 0.05}
             strokeWidth="1"
           />
@@ -82,7 +82,7 @@ export function PortraitPlaceholder({
           y="212"
           textAnchor="middle"
           dominantBaseline="central"
-          fill="#f3dfa2"
+          fill="#3d8bff"
           fillOpacity="0.9"
           fontSize="72"
           fontWeight="600"
@@ -96,7 +96,7 @@ export function PortraitPlaceholder({
           x="200"
           y="392"
           textAnchor="middle"
-          fill="#a7a7b0"
+          fill="#9aa7b8"
           fontSize="13"
           letterSpacing="3"
           fontFamily="var(--font-geist-sans), system-ui, sans-serif"

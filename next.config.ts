@@ -21,6 +21,17 @@ const nextConfig: NextConfig = {
    * public/intro/. Static files are served at their exact path, so this maps
    * the tidy /intro URL onto the actual file.
    */
+  /**
+   * The blog used to live at /insights. Old links and search results keep
+   * working: they are sent permanently to the same post under /blog.
+   */
+  async redirects() {
+    return [
+      { source: "/insights", destination: "/blog", permanent: true },
+      { source: "/insights/:slug", destination: "/blog/:slug", permanent: true },
+    ];
+  },
+
   async rewrites() {
     return [
       { source: "/intro", destination: "/intro/index.html" },

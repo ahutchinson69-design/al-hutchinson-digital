@@ -34,7 +34,7 @@ export function ArticleCard({
 
         <h3 className="text-lg leading-snug font-semibold text-ink sm:text-xl">
           <Link
-            href={`/insights/${article.slug}`}
+            href={`/blog/${article.slug}`}
             className="after:absolute after:-inset-[0.375rem] after:rounded-[2rem] after:content-['']"
           >
             {article.title}

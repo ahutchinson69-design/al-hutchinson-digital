@@ -5,7 +5,7 @@ import { PlaceholderNotice } from "@/components/ui/PlaceholderNotice";
 
 export const metadata = pageMetadata({
   title: "Accessibility",
-  description: `Accessibility statement for ${site.name}.`,
+  description: `Accessibility statement for ${site.name}: how the site is built for keyboard, screen reader and low-vision use, and how to report a problem.`,
   path: "/accessibility",
 });
 

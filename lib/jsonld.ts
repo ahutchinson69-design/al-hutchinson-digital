@@ -53,7 +53,7 @@ export function articleJsonLd(article: Article) {
     "@type": "Article",
     headline: article.title,
     description: article.summary,
-    url: absoluteUrl(`/insights/${article.slug}`),
+    url: absoluteUrl(`/blog/${article.slug}`),
     articleSection: article.category,
     author: { "@id": `${site.url}/#person` },
     ...(article.publishedAt ? { datePublished: article.publishedAt } : {}),

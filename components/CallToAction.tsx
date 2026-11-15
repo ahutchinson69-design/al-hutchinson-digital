@@ -12,8 +12,8 @@ export function CallToAction({
   eyebrow = "Get in touch",
   heading = "Let's build something useful.",
   body = "I am interested in healthcare innovation, AI-assisted workflows, education, research, creative technology, and meaningful professional collaborations.",
-  primary = { label: "Start a Conversation", href: "/contact" },
-  secondary = { label: "View Projects", href: "/projects" },
+  primary = { label: "Book a Session", href: "/book" },
+  secondary = { label: "Start a Conversation", href: "/contact" },
 }: {
   eyebrow?: string;
   heading?: string;

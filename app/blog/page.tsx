@@ -9,17 +9,17 @@ import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 
 export const metadata = pageMetadata({
-  title: "Insights",
+  title: "Blog",
   description:
     "Plain-language writing on healthcare technology, AI workflows, professional education, and what actually changes when intelligent systems reach a working environment.",
-  path: "/insights",
+  path: "/blog",
 });
 
 export default function InsightsPage() {
   return (
     <>
       <PageHero
-        eyebrow="Insights"
+        eyebrow="Blog"
         heading="Writing and analysis."
         lead="Notes on healthcare technology, AI workflows, and the difference between what a tool promises and what it changes."
       />
@@ -43,7 +43,7 @@ export default function InsightsPage() {
 
               <h2 className="text-2xl leading-tight font-semibold sm:text-3xl lg:text-4xl">
                 <Link
-                  href={`/insights/${featuredArticle.slug}`}
+                  href={`/blog/${featuredArticle.slug}`}
                   className="transition-colors after:absolute after:inset-0 group-hover:text-accent"
                 >
                   {featuredArticle.title}
