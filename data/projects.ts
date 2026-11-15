@@ -55,12 +55,19 @@ export type Project = {
   liveUrl?: string;
   /** Label for the live link, e.g. "Open the prototype". */
   liveLabel?: string;
+  /** Sidebar heading above the link(s). Defaults to "Live"; a book uses "Get the book". */
+  liveHeading?: string;
+  /** A second place to find it, e.g. the Kindle edition of a book. */
+  secondaryUrl?: string;
+  secondaryLabel?: string;
 
   /* ── Detail page ──────────────────────────────────────────────────────── */
   contentStatus: "placeholder" | "draft" | "final";
   overview?: string;
   problem?: string[];
   solution?: string[];
+  /** Heading above `solution`. Defaults to "Proposed approach"; a finished work can name it differently. */
+  solutionHeading?: string;
   process?: { title: string; description: string }[];
   tools?: string[];
   lessons?: string[];
@@ -447,6 +454,39 @@ export const projects: Project[] = [
       "Add worked examples covering several healthcare roles.",
     ],
     related: ["snf-ai-documentation-system"],
+  },
+  {
+    slug: "family-caregivers-toolkit",
+    title: "Family Caregiver’s Toolkit",
+    category: "Healthcare",
+    additionalCategories: ["Education"],
+    categoryLabel: "Book",
+    status: "Published",
+    featured: true,
+    // No cover file has been supplied yet. Add it under /public/images/projects/
+    // and set `image` and `imageAlt`; until then the generated graphic is shown.
+    image: null,
+    contentStatus: "final",
+    liveHeading: "Get the book",
+    liveUrl:
+      "https://www.amazon.com/Family-Caregivers-Toolkit-Navigating-Home/dp/B0F9TXXZZK",
+    liveLabel: "Paperback on Amazon",
+    secondaryUrl:
+      "https://www.amazon.com/Family-Caregivers-Toolkit-Navigating-Home-ebook/dp/B0F9S4BP5G",
+    secondaryLabel: "Kindle edition",
+    summary:
+      "Navigating the Path of In-Home Elder Care — a step-by-step guide for adult children, spouses and friends caring for an older adult at home. Published May 2025 in paperback and Kindle.",
+    overview:
+      "Family Caregiver’s Toolkit: Navigating the Path of In-Home Elder Care is a book for the people who find themselves providing care at home, whether for a short recovery or for the long term. It walks through building a care plan that fits one family’s situation, and it treats the caregiver’s own wellbeing as part of the plan. The paperback is 161 pages; both editions were published in May 2025.",
+    solutionHeading: "What the book covers",
+    solution: [
+      "A practical, step-by-step plan for care at home.",
+      "Plain guidance on insurance and benefits.",
+      "Nutrition and daily routines that hold up in real life.",
+      "A home environment that supports emotional and mental health.",
+      "Ways for caregivers to look after themselves while caring for someone else.",
+    ],
+    related: ["snf-ai-documentation-system", "ai-career-resume-education"],
   },
   {
     slug: "moon-tape-radio",

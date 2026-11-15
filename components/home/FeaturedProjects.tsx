@@ -14,8 +14,9 @@ const spans = [
   "lg:col-span-2",
   "lg:col-span-2",
   "lg:col-span-4",
-  "lg:col-span-3",
-  "lg:col-span-3",
+  "lg:col-span-2",
+  "lg:col-span-2",
+  "lg:col-span-2",
 ];
 
 export function FeaturedProjects() {
@@ -33,7 +34,7 @@ export function FeaturedProjects() {
           </Button>
         </Reveal>
 
-        {/* Asymmetric 6-column bento: 3+3, 2+2+2, 2+4, 3+3 (nine projects) */}
+        {/* Asymmetric 6-column bento: 3+3, 2+2+2, 2+4, 2+2+2 (ten projects) */}
         <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-6">
           {featuredProjects.map((project, index) => (
             <Reveal
